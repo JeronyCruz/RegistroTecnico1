@@ -27,8 +27,13 @@ namespace RegistroTecnico1.Service
 
         public async Task<bool> Modificar(Tecnicos tecnicos)
         {
-            _context.Update(tecnicos);
-            return await _context.SaveChangesAsync() > 0;
+            var existingTecnico = await _context.Tecnicos.FindAsync(tecnicos.tecnicoId);
+            if (existingTecnico != null)
+            {
+                _context.Entry(existingTecnico).CurrentValues.SetValues(tecnicos);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return false;
         }
 
         public async Task<bool> Guardar(Tecnicos tecnicos)

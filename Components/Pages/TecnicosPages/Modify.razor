@@ -5,28 +5,31 @@
 
 <h3>Modificar</h3>
 
-@*Body*@
-
 <div class="Contenedor_Modificar">
-    <div class="Inputs-text">
-        <label>Tecnico Id:</label>
-        <input type="text" @bind-value="@tecnicos.tecnicoId"></input>
-    </div>
+    <EditForm Model="@tecnicos" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-    <div class="Inputs-text">
-        <label>Nombre:</label>
-        <input type="text" @bind-value="@tecnicos.nombreTecnico"></input>
-    </div>
+        <div class="Inputs-text">
+            <label>Tecnico Id:</label>
+            <input type="text" @bind="tecnicos.tecnicoId" readonly />
+        </div>
 
-    <div class="Inputs-text">
-        <label>Sueldo Hora:</label>
-        <input type="text" @bind-value="@tecnicos.sueldoHora"></input>
-    </div>
+        <div class="Inputs-text">
+            <label>Nombre:</label>
+            <InputText @bind-Value="tecnicos.nombreTecnico" />
+        </div>
 
-    <div class="botones">
-        <button type="submit" @onclick="Volver">Volver</button>
-        <button type="submit" @onclick="Guardar">Guardar</button>
-    </div>
+        <div class="Inputs-text">
+            <label>Sueldo Hora:</label>
+            <InputNumber @bind-Value="tecnicos.sueldoHora" />
+        </div>
+
+        <div class="botones">
+            <button type="button" @onclick="Volver">Volver</button>
+            <button type="submit">Guardar</button>
+        </div>
+    </EditForm>
 </div>
 
 @code {
@@ -36,18 +39,32 @@
 
     protected override async Task OnInitializedAsync()
     {
-        tecnicos = await tecnicoService.Buscar(tecnicoId);
+        try
+        {
+            tecnicos = await tecnicoService.Buscar(tecnicoId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar técnico: {ex.Message}");
+        }
     }
 
     public async Task Guardar()
     {
-        await tecnicoService.Guardar(tecnicos);
-        navigation.NavigateTo("/Tecnicos/Index");
+        try
+        {
+            await tecnicoService.Guardar(tecnicos);
+            navigation.NavigateTo("/Tecnicos/Index");
+        }
+        catch (Exception ex)
+        {
+           
+            Console.WriteLine($"Error al guardar: {ex.Message}");
+        }
     }
 
     public void Volver()
     {
         navigation.NavigateTo("/Tecnicos/Index");
     }
-
 }
