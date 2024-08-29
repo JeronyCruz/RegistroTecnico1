@@ -41,8 +41,14 @@ namespace RegistroTecnico1.Service
 
         public async Task<bool> Eliminar(int id)
         {
-            var tecnicos = await _context.Tecnicos.FirstOrDefaultAsync(P => P.tecnicoId == id);
-            return await _context.SaveChangesAsync() > 0;
+            var tecnico = await _context.Tecnicos.FindAsync(id);
+            if (tecnico != null)
+            {
+                _context.Tecnicos.Remove(tecnico);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<Tecnicos?> Buscar(int id)

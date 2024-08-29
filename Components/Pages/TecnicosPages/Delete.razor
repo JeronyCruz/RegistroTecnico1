@@ -3,15 +3,24 @@
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
-<h3>Eliminar</h3>
+<h3>Eliminar Tecnicos</h3>
 @*Body*@
 <div class="Contenedor_Eliminar">
     <div class="list-details">
         <ul>
-            <li>TecnicoId</li>
+            <li>TecnicoId: @tecnicos.tecnicoId</li>
+            <li>Nombre del tecnico: @tecnicos.nombreTecnico</li>
+            <li>Sueldo por Hora: @tecnicos.sueldoHora</li>
         </ul>
     </div>
+    <div class="botones">
+        <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"></button>
+        <button type="submit" @onclick="eliminar">Eliminar</button>
+    </div>
 
+    <div>
+        <label>Estas Seguro de que desea eliminar a este tecnico?</label>
+    </div>
 </div>
 
 
@@ -27,8 +36,18 @@
 
     public async Task eliminar()
     {
-        await tecnicoService.Eliminar(tecnicos.tecnicoId);
-        navigation.NavigateTo("/Tecnicos/Index");
+        var eliminar = await tecnicoService.Eliminar(tecnicos.tecnicoId);
+
+        if (eliminar)
+        {
+            Console.WriteLine("El técnico fue eliminado correctamente.");
+            navigation.NavigateTo("/Tecnicos/Index");
+        }
+        else
+        {
+            Console.WriteLine("No se pudo eliminar el técnico.");
+            // Aquí podrías mostrar un mensaje de error en la interfaz si lo deseas.
+        }
     }
 
     public void Volver()
