@@ -2,8 +2,37 @@
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
-<h3>Delete</h3>
+
+<h3>Eliminar</h3>
+@*Body*@
+<div class="Contenedor_Eliminar">
+    <div class="list-details">
+        <ul>
+            <li>TecnicoId</li>
+        </ul>
+    </div>
+
+</div>
+
 
 @code {
+    [Parameter]
+    public int tecnicoId { get; set; }
+    Tecnicos tecnicos = new Tecnicos();
 
+    protected override async Task OnInitializedAsync()
+    {
+        tecnicos = await tecnicoService.Buscar(tecnicoId);
+    }
+
+    public async Task eliminar()
+    {
+        await tecnicoService.Eliminar(tecnicos.tecnicoId);
+        navigation.NavigateTo("/Tecnicos/Index");
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Tecnicos/Index");
+    }
 }
