@@ -1,5 +1,42 @@
-﻿<h3>Details</h3>
+﻿@page "/Tecnicos/Details/{tecnicoId:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigation
+
+@*Header*@
+<h3>Detalles</h3>
+
+@*Body*@
+<div class="Contenedor_detalles">
+    <h3> Detalles del Tecnico</h3>
+
+    <div class="List-des">
+        <ul>
+            <il>TecnicoId: @tecnicos.tecnicoId</il>
+            <il>Nombre del tecnico: @tecnicos.nombreTecnico</il>
+            <il>Sueldo por hora: @tecnicos.sueldoHora</il>
+        </ul>
+    </div>
+
+    <div class="btn-details">
+        <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"></button>
+    </div>
+</div>
+
 
 @code {
+    [Parameter]
+    public int tecnicoId { get; set; }
+    Tecnicos tecnicos { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        tecnicos = await tecnicoService.Buscar(tecnicoId);
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Tecnicos/Index");
+    }
 
 }
