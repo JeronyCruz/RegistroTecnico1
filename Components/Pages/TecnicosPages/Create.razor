@@ -5,47 +5,64 @@
 
 <link rel="stylesheet" href="StyleCreate.css" />
 
-<h2>Crear Nuevo Tecnico</h2>
+<h2>Crear Nuevo Técnico</h2>
 
-<div class="ContenedorAgregar">
-    <h3>Nuevo Tecnico</h3>
+<EditForm EditContext="@editContext" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <div class="inputsAgregar">
-        <label>ID</label>
-        <input type="text" placeholder="ID" @bind-value="tecnicos.tecnicoId" />
-    </div>
+    <div class="ContenedorAgregar">
+        <h3>Nuevo Técnico</h3>
 
-    <div class="inputsAgregar">
-        <label>Nombre</label>
-        <input type="text" placeholder="Nombre" @bind-value="tecnicos.nombreTecnico" />
-    </div>
+        <div class="inputsAgregar">
+            <label>ID</label>
+            <InputNumber @bind-Value="tecnicos.tecnicoId" />
+        </div>
 
-    <div class="inputsAgregar">
-        <label>Sueldo por Hora</label>
-        <input type="text" placeholder="Sueldo Hora" @bind-value="tecnicos.sueldoHora"></input>
+        <div class="inputsAgregar">
+            <label>Nombre</label>
+            <InputText @bind-Value="tecnicos.nombreTecnico" />
+        </div>
+
+        <div class="inputsAgregar">
+            <label>Sueldo por Hora</label>
+            <InputNumber @bind-Value="tecnicos.sueldoHora" />
+        </div>
+
+        <div class="BotonesAgregar">
+            <button type="button" @onclick="Volver">Volver</button>
+            <button type="submit">Guardar</button>
+        </div>
     </div>
-    <div class="BotonesAgregar">
-        <button type="submit" @onclick="Volver">Volver</button>
-        <button type="submit" @onclick="Guardar">Guardar</button>
-    </div>
-</div>
+</EditForm>
+
 @code {
     public Tecnicos tecnicos { get; set; } = new Tecnicos();
+    private EditContext editContext;
     string Mensaje { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(tecnicos);
+    }
 
     public async Task Guardar()
     {
-        // Verificar si el técnico ya existe
-        if (!await tecnicoService.Existe(tecnicos.tecnicoId))
+        if (editContext.Validate()) // Aqui Validamos 
         {
-            // Guardar el nuevo técnico
-            await tecnicoService.Insertar(tecnicos);
-            tecnicos = new Tecnicos(); // Resetear el modelo
-            navigation.NavigateTo("/Tecnicos/Index"); // Redirigir a la lista de técnicos
-        }
-        else
-        {
-            // Mensaje de error si el técnico ya existe (puedes mostrar una notificación o alerta)
+            
+            if (!await tecnicoService.Existe(tecnicos.tecnicoId))
+            {
+                
+                await tecnicoService.Insertar(tecnicos);
+                tecnicos = new Tecnicos(); 
+                navigation.NavigateTo("/Tecnicos/Index"); 
+            }
+            else
+            {
+                // Mensaje de error si el técnico ya existe
+                Mensaje = "El técnico ya existe.";
+            }
         }
     }
 
