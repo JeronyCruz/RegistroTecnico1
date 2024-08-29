@@ -1,0 +1,45 @@
+﻿@page "/Tecnicos/Create"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigation
+
+<link rel="stylesheet" href="StyleCreate.css" />
+
+<h2>Crear Tecnico</h2>
+
+<div class="ContenedorAgregar">
+    <h3>Nuevo Tecnico</h3>
+
+    <div class="inputsAgregar">
+        <label>ID</label>
+        <input type="text" placeholder="ID" @bind-value="tecnicos.tecnicoId" />
+    </div>
+
+    <div class="inputsAgregar">
+        <label>Nombre</label>
+        <input type="text" placeholder="Nombre" @bind-value="tecnicos.nombreTecnico" />
+    </div>
+
+    <div class="inputsAgregar">
+        <label>Sueldo por Hora</label>
+        <input type="text" placeholder="Sueldo Hora" @bind-value="tecnicos.sueldoHora"></input>
+    </div>
+    <div class="BotonesAgregar">
+        <button type="submit" @onclick="Volver">Volver</button>
+        <button type="submit" @onclick="Guardar">Guardar</button>
+    </div>
+</div>
+@code {
+    public Tecnicos tecnicos { get; set; } = new Tecnicos();
+    string Mensaje { get; set; } = string.Empty;
+
+    public async Task Guardar()
+    {
+        await tecnicoService.Guardar(tecnicos);
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Tecnicos/Index");
+    }
+}
