@@ -35,7 +35,18 @@
 
     public async Task Guardar()
     {
-        await tecnicoService.Guardar(tecnicos);
+        // Verificar si el técnico ya existe
+        if (!await tecnicoService.Existe(tecnicos.tecnicoId))
+        {
+            // Guardar el nuevo técnico
+            await tecnicoService.Insertar(tecnicos);
+            tecnicos = new Tecnicos(); // Resetear el modelo
+            navigation.NavigateTo("/Tecnicos/Index"); // Redirigir a la lista de técnicos
+        }
+        else
+        {
+            // Mensaje de error si el técnico ya existe (puedes mostrar una notificación o alerta)
+        }
     }
 
     public void Volver()

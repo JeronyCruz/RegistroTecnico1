@@ -1,5 +1,49 @@
-﻿<h3>Index</h3>
+﻿@page "/Tecnicos/Index"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoService
+
+<PageTitle> Registro de Tecnicos</PageTitle>
+
+<h3>Registro de tecnicos</h3>
+@*Body*@
+<div class="card-body">
+    <table class="t">
+        <thead class="th">
+            <tr>
+                <th>ID</th>
+                <th>Nombres</th>
+                <th>Sueldo Hora</th>
+                <th>Detalles</th>
+                <th>Modificar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tecnico in tecnicos)
+            {
+                <tr>
+                    <td class="text-center"> @tecnico.tecnicoId</td>
+                    <td class="text-center"> @tecnico.nombreTecnico</td>
+                    <td class="text-center"> @tecnico.sueldoHora $</td>
+                    <td class="text-center">
+                        <a href="/Index/Create/@tecnico.tecnicoId" class=" bi bi-eye"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Index/Create" class=" bi bi-pencil-square"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 
 @code {
+    public List<Tecnicos> tecnicos = new List<Tecnicos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        tecnicos = await tecnicoService.Listar(a => true);
+    }
 
 }
