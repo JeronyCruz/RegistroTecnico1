@@ -59,9 +59,9 @@ namespace RegistroTecnico1.Service
 
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
         {
-            return _context.Tecnicos.AsNoTracking()
+            return await _context.Tecnicos.AsNoTracking()
                 .Where(criterio)
-                .ToList();
+                .ToListAsync();
         }
 
     }

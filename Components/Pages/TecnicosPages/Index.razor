@@ -2,9 +2,24 @@
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
 
-<PageTitle> Registro de Tecnicos</PageTitle>
+<PageTitle> Registro de Tecnico</PageTitle>
 
 <h3>Registro de tecnicos</h3>
+@* Filtro y Búsqueda *@
+<div class="filtro-busqueda">
+    <label for="filtrarPor">Filtrar por:</label>
+    <select id="filtrarPor" @bind="filtroSeleccionado">
+        <option value="ID">ID</option>
+        <option value="Nombre">Nombre</option>
+        <option value="Sueldo">Sueldo</option>
+    </select>
+
+    <label for="busqueda">Búsqueda</label>
+    <input id="busqueda" type="text" @bind="criterioBusqueda" placeholder="Buscar..." />
+
+    <button @onclick="BuscarTecnicos" class="btn btn-primary">Buscar</button>
+</div>
+
 @*Body*@
 <div class="card-body">
     <table class="t">
@@ -38,15 +53,47 @@
             }
         </tbody>
     </table>
+
+    <div class="row">
+        <div class="col text-end">
+            <a href="/Tecnicos/Create" class="bi bi-plus-circle">Crear</a>
+        </div>
+    </div>
 </div>
 
 
 @code {
     public List<Tecnicos> tecnicos = new List<Tecnicos>();
+    private string filtroSeleccionado = "ID";
+    private string criterioBusqueda = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         tecnicos = await tecnicoService.Listar(a => true);
+    }
+
+    private async Task BuscarTecnicos()
+    {
+        switch (filtroSeleccionado)
+        {
+            case "ID":
+                if (int.TryParse(criterioBusqueda, out int id))
+                {
+                    tecnicos = await tecnicoService.Listar(a => a.tecnicoId == id);
+                }
+                break;
+
+            case "Nombre":
+                tecnicos = await tecnicoService.Listar(a => a.nombreTecnico.Contains(criterioBusqueda, StringComparison.OrdinalIgnoreCase));
+                break;
+
+            case "Sueldo":
+                if (float.TryParse(criterioBusqueda, out float sueldo))
+                {
+                    tecnicos = await tecnicoService.Listar(a => a.sueldoHora == sueldo);
+                }
+                break;
+        }
     }
 
 }
