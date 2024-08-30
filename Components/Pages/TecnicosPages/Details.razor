@@ -3,15 +3,14 @@
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
-@*Header*@
-<h3>Detalles</h3>
+<link rel="stylesheet" href="StyleDetails.css" />
 
 @*Body*@
 <div class="Contenedor_detalles">
     <h3> Detalles del Tecnico</h3>
 
     <div class="List-des">
-        <ul>
+        <ul class="name">
             <li>TecnicoId: @tecnicos.tecnicoId</li>
             <li>Nombre del tecnico: @tecnicos.nombreTecnico</li>
             <li>Sueldo por hora: @tecnicos.sueldoHora</li>
