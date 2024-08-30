@@ -69,5 +69,10 @@ namespace RegistroTecnico1.Service
                 .ToListAsync();
         }
 
+        public async Task<bool> NombreExiste(string nombreTecnico)
+        {
+            return await _context.Tecnicos.AnyAsync(t => t.nombreTecnico == nombreTecnico);
+        }
+
     }
 }
