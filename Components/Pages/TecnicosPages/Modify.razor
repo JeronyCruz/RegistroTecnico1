@@ -18,6 +18,7 @@
         <div class="Inputs-text">
             <label>Nombre:</label>
             <InputText @bind-Value="tecnicos.nombreTecnico" />
+            <ValidationMessage For="(()=> tecnicos.nombreTecnico)"></ValidationMessage>
         </div>
 
         <div class="Inputs-text">
