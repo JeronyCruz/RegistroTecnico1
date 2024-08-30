@@ -83,11 +83,11 @@
 
 .nav-scrollable {
     position: fixed;
-    top: 60px; /* Espacio debajo del navbar */
+    top: 60px; 
     left: 0;
-    width: 250px; /* Ancho fijo para el menú lateral */
+    width: 250px;
     height: 100%;
-    background: linear-gradient(to bottom, #2c3e50, #4c6996); /* Gradiente para el menú lateral */
+    background: linear-gradient(to bottom, #2c3e50, #4c6996); 
     padding: 15px 0;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 999;
