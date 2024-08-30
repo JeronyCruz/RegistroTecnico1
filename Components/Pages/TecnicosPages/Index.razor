@@ -10,7 +10,6 @@
     <label for="filtrarPor">Filtrar por:</label>
     <select id="filtrarPor" @bind="filtroSeleccionado">
         <option value="ID">ID</option>
-        <option value="Nombre">Nombre</option>
         <option value="Sueldo">Sueldo</option>
     </select>
 
@@ -41,13 +40,13 @@
                     <td class="text-center"> @tecnico.nombreTecnico</td>
                     <td class="text-center"> @tecnico.sueldoHora $</td>
                     <td class="text-center">
-                        <a href="/Tecnicos/Details/@tecnico.tecnicoId" class=" bi bi-eye"></a>
+                        <a href="/Tecnicos/Details/@tecnico.tecnicoId" class="bi bi-eye-fill"></a>
                     </td>
                     <td class="text-center">
                         <a href="/Tecnicos/Modify/@tecnico.tecnicoId" class=" bi bi-pencil-square"></a>
                     </td>
                     <td class="text-center">
-                        <a href="/Tecnicos/Delete/@tecnico.tecnicoId" class=" bi bi-trash3-fill"></a>
+                        <a href="/Tecnicos/Delete/@tecnico.tecnicoId" class=" bi bi-trash-fill"></a>
                     </td>
                 </tr>
             }

@@ -1,2 +1,135 @@
-﻿body {
+﻿/* Estilo del cuerpo */
+body {
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
 }
+
+/* Estilo de la tarjeta */
+.card-body {
+    width: 80%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #ff0000; /* Borde rojo */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+/* Estilo de la tabla */
+table.t {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 2px solid #ff0000; /* Borde rojo en la tabla */
+}
+
+table.t, th, td {
+    border: 1px solid #dddddd;
+    padding: 12px;
+    text-align: left;
+}
+
+thead.th {
+    background-color: #f2f2f2;
+}
+
+th {
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Centrado de texto */
+.text-center {
+    text-align: center;
+}
+
+/* Distribución en filas */
+.row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Botón primario */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+/* Iconos */
+.bi-eye, .bi-pencil-square, .bi-trash3-fill {
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+    .bi-eye:hover, .bi-pencil-square:hover, .bi-trash3-fill:hover {
+        color: #0056b3;
+    }
+
+.filtro-busqueda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: red; /* Color rojo para el texto */
+}
+
+    .filtro-busqueda label {
+        font-weight: bold;
+    }
+
+    .filtro-busqueda select,
+    .filtro-busqueda input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .filtro-busqueda .btn-primary {
+        background-color: #dc3545; /* Botón con color rojo */
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+        .filtro-busqueda .btn-primary:hover {
+            background-color: #c82333; /* Color rojo más oscuro al pasar el mouse */
+        }
+
+h3 {
+    position: relative;
+    padding-bottom: 10px; /* Espacio entre el texto y la línea */
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+    h3::after {
+        content: '';
+        display: block;
+        width: 80%; /* Ancho de la línea (puedes ajustar el porcentaje según lo necesites) */
+        height: 2px; /* Grosor de la línea */
+        background-color: #333; /* Color de la línea */
+        margin: 10px auto 0; /* Centrar la línea horizontalmente */
+    }
