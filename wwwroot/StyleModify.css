@@ -50,7 +50,6 @@
 }
 
     .botones button {
-        background-color: #4CAF50;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -59,6 +58,8 @@
         font-size: 16px;
         flex: 1;
         margin-right: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
         .botones button:last-child {
@@ -66,13 +67,21 @@
         }
 
         .botones button:hover {
-            background-color: #45a049;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
         }
 
         .botones button:first-child {
-            background-color: #f44336;
+            background-color: #007bff; /* Azul */
         }
 
             .botones button:first-child:hover {
-                background-color: #e53935;
+                background-color: #0056b3; /* Azul más oscuro */
+            }
+
+        .botones button:last-child {
+            background-color: #6f42c1; /* Morado */
+        }
+
+            .botones button:last-child:hover {
+                background-color: #5a2d81; /* Morado más oscuro */
             }
