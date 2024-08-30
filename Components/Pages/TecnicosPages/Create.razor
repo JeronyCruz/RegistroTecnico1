@@ -17,12 +17,15 @@
         <div class="inputsAgregar">
             <label>ID</label>
             <InputNumber @bind-Value="tecnicos.tecnicoId" />
+            @if (!string.IsNullOrEmpty(Mensaje) && Mensaje == "El ID del técnico ya está en uso.")
+            {
+                <label class="error-label">@Mensaje</label>
+            }
         </div>
 
         <div class="inputsAgregar">
             <label>Nombre</label>
             <InputText @bind-Value="tecnicos.nombreTecnico" />
-            <!-- Label para mostrar el mensaje de error en caso de que el nombre ya exista -->
             @if (!string.IsNullOrEmpty(Mensaje) && Mensaje == "El nombre del técnico ya está en uso.")
             {
                 <label class="error-label">@Mensaje</label>
