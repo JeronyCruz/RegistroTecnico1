@@ -1,2 +1,78 @@
 ﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
+
+.Contenedor_Modificar {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    margin: 20px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+    .Contenedor_Modificar h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+.Inputs-text {
+    margin-bottom: 15px;
+}
+
+    .Inputs-text label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .Inputs-text input[type="text"],
+    .Inputs-text input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+    .botones button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        flex: 1;
+        margin-right: 10px;
+    }
+
+        .botones button:last-child {
+            margin-right: 0;
+        }
+
+        .botones button:hover {
+            background-color: #45a049;
+        }
+
+        .botones button:first-child {
+            background-color: #f44336;
+        }
+
+            .botones button:first-child:hover {
+                background-color: #e53935;
+            }
