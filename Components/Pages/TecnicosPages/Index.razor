@@ -10,6 +10,7 @@
     <label for="filtrarPor">Filtrar por:</label>
     <select id="filtrarPor" @bind="filtroSeleccionado">
         <option value="ID">ID</option>
+        <option value="Nombre">Nombre</option>
         <option value="Sueldo">Sueldo</option>
     </select>
 
@@ -85,7 +86,7 @@
                 break;
 
             case "Nombre":
-                tecnicos = await tecnicoService.Listar(a => a.nombreTecnico.Contains(criterioBusqueda, StringComparison.OrdinalIgnoreCase));
+                tecnicos = await tecnicoService.Listar(e => e.nombreTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
                 break;
 
             case "Sueldo":
