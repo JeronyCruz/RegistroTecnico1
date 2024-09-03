@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistroTecnico1.Models;
 
-namespace RegistroTecnico1.DAL
-{
+namespace RegistroTecnico1.DAL;
     public class Context : DbContext
     {
         public Context(DbContextOptions<Context> options)
@@ -10,4 +9,4 @@ namespace RegistroTecnico1.DAL
 
         public DbSet<Tecnicos> Tecnicos { get; set; }
     }
-}
+

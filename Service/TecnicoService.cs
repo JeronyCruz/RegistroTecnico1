@@ -3,8 +3,7 @@ using RegistroTecnico1.DAL;
 using RegistroTecnico1.Models;
 using System.Linq.Expressions;
 
-namespace RegistroTecnico1.Service
-{
+namespace RegistroTecnico1.Service;
     public class TecnicoService
     {
         private readonly Context _context;
@@ -77,4 +76,3 @@ namespace RegistroTecnico1.Service
         }
 
     }
-}

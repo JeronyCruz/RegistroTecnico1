@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RegistroTecnico1.Models
-{
+namespace RegistroTecnico1.Models;
     public class Tecnicos
     {
         [Key]
@@ -16,4 +15,3 @@ namespace RegistroTecnico1.Models
 
         public float sueldoHora { get; set; }
     }
-}
