@@ -14,18 +14,18 @@ namespace RegistroTecnico1.Service
             _context = context;
         }
 
-        public async Task<bool> Existe(int id)
+        private async Task<bool> Existe(int id)
         {
             return await _context.Tecnicos.AnyAsync(p => p.tecnicoId == id);
         }
 
-        public async Task<bool> Insertar(Tecnicos tecnicos)
+        private async Task<bool> Insertar(Tecnicos tecnicos)
         {
             _context.Tecnicos.Add(tecnicos);
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Modificar(Tecnicos tecnicos)
+        private async Task<bool> Modificar(Tecnicos tecnicos)
         {
             var existingTecnico = await _context.Tecnicos.FindAsync(tecnicos.tecnicoId);
             if (existingTecnico != null)
