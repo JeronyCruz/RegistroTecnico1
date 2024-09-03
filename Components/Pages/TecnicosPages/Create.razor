@@ -6,7 +6,7 @@
 
 <h2>Crear Nuevo T&eacute;cnicos</h2>
 
-<EditForm EditContext="@editContext" OnValidSubmit="Guardar">
+<EditForm Model="@tecnicos" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -41,20 +41,11 @@
 
 @code {
     public Tecnicos tecnicos { get; set; } = new Tecnicos();
-    private EditContext editContext;
     string Mensaje { get; set; } = string.Empty;
-
-    protected override void OnInitialized()
-    {
-        editContext = new EditContext(tecnicos);
-    }
 
     public async Task Guardar()
     {
-        if (editContext.Validate()) // Aquí validamos
-        {
             bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.nombreTecnico);
-            bool idExiste = await tecnicoService.Guardar(tecnicos);
 
             if (nombreExiste)
             {
@@ -66,7 +57,7 @@
                 tecnicos = new Tecnicos();
                 navigation.NavigateTo("/Tecnicos/Index");
             }
-        }
+        
     }
 
     public void Volver()
