@@ -15,11 +15,7 @@
 
         <div class="inputsAgregar">
             <label>ID</label>
-            <InputNumber @bind-Value="tecnicos.tecnicoId" />
-            @if (!string.IsNullOrEmpty(Mensaje) && Mensaje == "El ID del técnico ya está en uso.")
-            {
-                <label class="error-label">@Mensaje</label>
-            }
+            <InputNumber @bind-Value="tecnicos.tecnicoId" readonly/>
         </div>
 
         <div class="inputsAgregar">
@@ -57,20 +53,16 @@
     {
         if (editContext.Validate()) // Aquí validamos
         {
-            bool idExiste = await tecnicoService.Existe(tecnicos.tecnicoId);
             bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.nombreTecnico);
+            bool idExiste = await tecnicoService.Guardar(tecnicos);
 
-            if (idExiste)
-            {
-                Mensaje = "El ID del técnico ya está en uso.";
-            }
-            else if (nombreExiste)
+            if (nombreExiste)
             {
                 Mensaje = "El nombre del técnico ya está en uso.";
             }
             else
             {
-                await tecnicoService.Insertar(tecnicos);
+                await tecnicoService.Guardar(tecnicos);
                 tecnicos = new Tecnicos();
                 navigation.NavigateTo("/Tecnicos/Index");
             }
