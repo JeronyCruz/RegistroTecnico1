@@ -14,7 +14,7 @@ namespace RegistroTecnico1.Service
             _context = context;
         }
 
-        private async Task<bool> Existe(int id)
+        public async Task<bool> Existe(int id)
         {
             return await _context.Tecnicos.AnyAsync(p => p.tecnicoId == id);
         }
@@ -71,7 +71,9 @@ namespace RegistroTecnico1.Service
 
         public async Task<bool> NombreExiste(string nombreTecnico)
         {
-            return await _context.Tecnicos.AnyAsync(t => t.nombreTecnico == nombreTecnico);
+            var nombreTecnicoNormalizado = nombreTecnico.Trim().ToLower();
+            return await _context.Tecnicos
+                .AnyAsync(t => t.nombreTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
         }
 
     }
