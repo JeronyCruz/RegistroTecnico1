@@ -21,7 +21,7 @@
         <div class="inputsAgregar">
             <label>Nombre</label>
             <InputText @bind-Value="tecnicos.nombreTecnico" />
-            @if (!string.IsNullOrEmpty(Mensaje) && Mensaje == "El nombre del técnico ya está en uso.")
+            @if (!string.IsNullOrEmpty(Mensaje))
             {
                 <label class="error-label">@Mensaje</label>
             }
@@ -45,19 +45,21 @@
 
     public async Task Guardar()
     {
-            bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.nombreTecnico);
-
-            if (nombreExiste)
-            {
-                Mensaje = "El nombre del técnico ya está en uso.";
-            }
-            else
-            {
-                await tecnicoService.Guardar(tecnicos);
-                tecnicos = new Tecnicos();
-                navigation.NavigateTo("/Tecnicos/Index");
-            }
         
+        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.nombreTecnico);
+
+        if (nombreExiste)
+        {
+            
+            Mensaje = "El nombre del técnico ya está en uso.";
+        }
+        else
+        {
+            
+            await tecnicoService.Guardar(tecnicos);
+            tecnicos = new Tecnicos();  
+            navigation.NavigateTo("/Tecnicos/Index");  
+        }
     }
 
     public void Volver()
