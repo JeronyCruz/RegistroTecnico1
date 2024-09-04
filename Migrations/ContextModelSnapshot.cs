@@ -22,7 +22,7 @@ namespace RegistroTecnico1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("NombreTecnico")
+                    b.Property<string>("NombresTecnico")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
