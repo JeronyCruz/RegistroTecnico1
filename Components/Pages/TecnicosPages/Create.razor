@@ -20,7 +20,7 @@
 
         <div class="inputsAgregar">
             <label>Nombre</label>
-            <InputText @bind-Value="tecnicos.NombreTecnico" />
+            <InputText @bind-Value="tecnicos.NombresTecnico" />
             @if (!string.IsNullOrEmpty(Mensaje))
             {
                 <label class="error-label">@Mensaje</label>
@@ -46,7 +46,7 @@
     public async Task Guardar()
     {
         
-        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.NombreTecnico);
+        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.NombresTecnico);
 
         if (nombreExiste)
         {

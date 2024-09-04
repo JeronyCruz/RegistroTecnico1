@@ -38,7 +38,7 @@
             {
                 <tr>
                     <td class="text-center"> @tecnico.TecnicoId</td>
-                    <td class="text-center"> @tecnico.NombreTecnico</td>
+                    <td class="text-center"> @tecnico.NombresTecnico</td>
                     <td class="text-center"> @tecnico.SueldoHora $</td>
                     <td class="text-center">
                         <a href="/Tecnicos/Details/@tecnico.TecnicoId" class="bi bi-eye-fill"></a>
@@ -86,7 +86,7 @@
                 break;
 
             case "Nombre":
-                tecnicos = await tecnicoService.Listar(e => e.NombreTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
+                tecnicos = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
                 break;
 
             case "Sueldo":

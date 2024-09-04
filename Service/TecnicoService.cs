@@ -72,7 +72,7 @@ namespace RegistroTecnico1.Service;
         {
             var nombreTecnicoNormalizado = nombreTecnico.Trim().ToLower();
             return await _context.Tecnicos
-                .AnyAsync(t => t.NombreTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
+                .AnyAsync(t => t.NombresTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
         }
 
     }

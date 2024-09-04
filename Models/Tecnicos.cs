@@ -8,7 +8,7 @@ namespace RegistroTecnico1.Models;
 
         [Required(ErrorMessage = "Por favor ingrese el nombre del Tecnico")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Solo se permiten letras")]
-        public string NombreTecnico { get; set; }
+        public string NombresTecnico { get; set; }
 
         [Required(ErrorMessage = "Por favor ingrese el sueldo del tecnico")]
         [RegularExpression(@"^\d+(\.\d+)?$", ErrorMessage = "Solo se permiten números enteros o decimales")]
