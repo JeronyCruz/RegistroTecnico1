@@ -12,18 +12,18 @@
 
         <div class="Inputs-text">
             <label>Técnico Id:</label>
-            <input type="text" @bind="tecnicos.tecnicoId" readonly />
+            <input type="text" @bind="tecnicos.TecnicoId" readonly />
         </div>
 
         <div class="Inputs-text">
             <label>Nombre:</label>
-            <InputText @bind-Value="tecnicos.nombreTecnico" />
-            <ValidationMessage For="(()=> tecnicos.nombreTecnico)"></ValidationMessage>
+            <InputText @bind-Value="tecnicos.NombreTecnico" />
+            <ValidationMessage For="(()=> tecnicos.NombreTecnico)"></ValidationMessage>
         </div>
 
         <div class="Inputs-text">
             <label>Sueldo Hora:</label>
-            <InputNumber @bind-Value="tecnicos.sueldoHora" />
+            <InputNumber @bind-Value="tecnicos.SueldoHora" />
         </div>
 
         <div class="botones">

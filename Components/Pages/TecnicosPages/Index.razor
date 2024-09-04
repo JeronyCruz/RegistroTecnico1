@@ -37,17 +37,17 @@
             @foreach (var tecnico in tecnicos)
             {
                 <tr>
-                    <td class="text-center"> @tecnico.tecnicoId</td>
-                    <td class="text-center"> @tecnico.nombreTecnico</td>
-                    <td class="text-center"> @tecnico.sueldoHora $</td>
+                    <td class="text-center"> @tecnico.TecnicoId</td>
+                    <td class="text-center"> @tecnico.NombreTecnico</td>
+                    <td class="text-center"> @tecnico.SueldoHora $</td>
                     <td class="text-center">
-                        <a href="/Tecnicos/Details/@tecnico.tecnicoId" class="bi bi-eye-fill"></a>
+                        <a href="/Tecnicos/Details/@tecnico.TecnicoId" class="bi bi-eye-fill"></a>
                     </td>
                     <td class="text-center">
-                        <a href="/Tecnicos/Edit/@tecnico.tecnicoId" class=" bi bi-pencil-square"></a>
+                        <a href="/Tecnicos/Edit/@tecnico.TecnicoId" class=" bi bi-pencil-square"></a>
                     </td>
                     <td class="text-center">
-                        <a href="/Tecnicos/Delete/@tecnico.tecnicoId" class=" bi bi-trash-fill"></a>
+                        <a href="/Tecnicos/Delete/@tecnico.TecnicoId" class=" bi bi-trash-fill"></a>
                     </td>
                 </tr>
             }
@@ -81,18 +81,18 @@
             case "ID":
                 if (int.TryParse(criterioBusqueda, out int id))
                 {
-                    tecnicos = await tecnicoService.Listar(a => a.tecnicoId == id);
+                    tecnicos = await tecnicoService.Listar(a => a.TecnicoId == id);
                 }
                 break;
 
             case "Nombre":
-                tecnicos = await tecnicoService.Listar(e => e.nombreTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
+                tecnicos = await tecnicoService.Listar(e => e.NombreTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
                 break;
 
             case "Sueldo":
                 if (float.TryParse(criterioBusqueda, out float sueldo))
                 {
-                    tecnicos = await tecnicoService.Listar(a => a.sueldoHora == sueldo);
+                    tecnicos = await tecnicoService.Listar(a => a.SueldoHora == sueldo);
                 }
                 break;
         }

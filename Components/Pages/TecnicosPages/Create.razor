@@ -15,12 +15,12 @@
 
         <div class="inputsAgregar">
             <label>ID</label>
-            <InputNumber @bind-Value="tecnicos.tecnicoId" readonly/>
+            <InputNumber @bind-Value="tecnicos.TecnicoId" readonly/>
         </div>
 
         <div class="inputsAgregar">
             <label>Nombre</label>
-            <InputText @bind-Value="tecnicos.nombreTecnico" />
+            <InputText @bind-Value="tecnicos.NombreTecnico" />
             @if (!string.IsNullOrEmpty(Mensaje))
             {
                 <label class="error-label">@Mensaje</label>
@@ -29,7 +29,7 @@
 
         <div class="inputsAgregar">
             <label>Sueldo por Hora</label>
-            <InputNumber @bind-Value="tecnicos.sueldoHora" />
+            <InputNumber @bind-Value="tecnicos.SueldoHora" />
         </div>
 
         <div class="BotonesAgregar">
@@ -46,7 +46,7 @@
     public async Task Guardar()
     {
         
-        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.nombreTecnico);
+        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.NombreTecnico);
 
         if (nombreExiste)
         {

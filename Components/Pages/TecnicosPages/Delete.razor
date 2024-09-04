@@ -8,9 +8,9 @@
 <div class="Contenedor_Eliminar">
     <div class="list-details">
         <ul>
-            <li>Técnico Id: @tecnicos.tecnicoId</li>
-            <li>Nombre del técnico: @tecnicos.nombreTecnico</li>
-            <li>Sueldo por Hora: @tecnicos.sueldoHora</li>
+            <li>Técnico Id: @tecnicos.TecnicoId</li>
+            <li>Nombre del técnico: @tecnicos.NombreTecnico</li>
+            <li>Sueldo por Hora: @tecnicos.SueldoHora</li>
         </ul>
     </div>
     <div class="botones">
@@ -36,7 +36,7 @@
 
     public async Task eliminar()
     {
-        var eliminar = await tecnicoService.Eliminar(tecnicos.tecnicoId);
+        var eliminar = await tecnicoService.Eliminar(tecnicos.TecnicoId);
 
         if (eliminar)
         {

@@ -15,7 +15,7 @@ namespace RegistroTecnico1.Service;
 
         public async Task<bool> Existe(int id)
         {
-            return await _context.Tecnicos.AnyAsync(p => p.tecnicoId == id);
+            return await _context.Tecnicos.AnyAsync(p => p.TecnicoId == id);
         }
 
         private async Task<bool> Insertar(Tecnicos tecnicos)
@@ -26,7 +26,7 @@ namespace RegistroTecnico1.Service;
 
         private async Task<bool> Modificar(Tecnicos tecnicos)
         {
-            var existingTecnico = await _context.Tecnicos.FindAsync(tecnicos.tecnicoId);
+            var existingTecnico = await _context.Tecnicos.FindAsync(tecnicos.TecnicoId);
             if (existingTecnico != null)
             {
                 _context.Entry(existingTecnico).CurrentValues.SetValues(tecnicos);
@@ -37,7 +37,7 @@ namespace RegistroTecnico1.Service;
 
         public async Task<bool> Guardar(Tecnicos tecnicos)
         {
-            if (!await Existe(tecnicos.tecnicoId))
+            if (!await Existe(tecnicos.TecnicoId))
                 return await Insertar(tecnicos);
             else
                 return await Modificar(tecnicos);
@@ -58,7 +58,7 @@ namespace RegistroTecnico1.Service;
         public async Task<Tecnicos?> Buscar(int id)
         {
             return await _context.Tecnicos.AsNoTracking().
-                FirstOrDefaultAsync(p => p.tecnicoId == id);
+                FirstOrDefaultAsync(p => p.TecnicoId == id);
         }
 
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
@@ -72,7 +72,7 @@ namespace RegistroTecnico1.Service;
         {
             var nombreTecnicoNormalizado = nombreTecnico.Trim().ToLower();
             return await _context.Tecnicos
-                .AnyAsync(t => t.nombreTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
+                .AnyAsync(t => t.NombreTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
         }
 
     }
