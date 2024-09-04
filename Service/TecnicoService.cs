@@ -4,16 +4,11 @@ using RegistroTecnico1.Models;
 using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
-    public class TecnicoService
-    {
-        private readonly Context _context;
+    public class TecnicoService(Context context)
+{
+        private readonly Context _context = context;
 
-        public TecnicoService(Context context)
-        {
-            _context = context;
-        }
-
-        public async Task<bool> Existe(int id)
+    public async Task<bool> Existe(int id)
         {
             return await _context.Tecnicos.AnyAsync(p => p.TecnicoId == id);
         }
