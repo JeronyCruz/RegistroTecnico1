@@ -11,9 +11,9 @@
 
     <div class="List-des">
         <ul class="name">
-            <li>Técnico Id: @tecnicos.TecnicoId</li>
-            <li>Nombre del técnico: @tecnicos.NombresTecnico</li>
-            <li>Sueldo por hora: @tecnicos.SueldoHora</li>
+            <li>Técnico Id: @Tecnico.TecnicoId</li>
+            <li>Nombre del técnico: @Tecnico.NombresTecnico</li>
+            <li>Sueldo por hora: @Tecnico.SueldoHora</li>
         </ul>
     </div>
 
@@ -25,12 +25,12 @@
 
 @code {
     [Parameter]
-    public int tecnicoId { get; set; }
-    Tecnicos tecnicos { get; set; }
+    public int TecnicoId { get; set; }
+    Tecnicos Tecnico { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        tecnicos = await tecnicoService.Buscar(tecnicoId);
+        Tecnico = await tecnicoService.Buscar(TecnicoId);
     }
 
     public void Volver()

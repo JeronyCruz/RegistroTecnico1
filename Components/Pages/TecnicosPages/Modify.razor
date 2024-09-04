@@ -6,24 +6,24 @@
 <h3>Modificar</h3>
 
 <div class="Contenedor_Modificar">
-    <EditForm Model="@tecnicos" OnValidSubmit="Guardar">
+    <EditForm Model="@Tecnico" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="Inputs-text">
             <label>Técnico Id:</label>
-            <input type="text" @bind="tecnicos.TecnicoId" readonly />
+            <input type="text" @bind="Tecnico.TecnicoId" readonly />
         </div>
 
         <div class="Inputs-text">
             <label>Nombre:</label>
-            <InputText @bind-Value="tecnicos.NombresTecnico" />
-            <ValidationMessage For="(()=> tecnicos.NombresTecnico)"></ValidationMessage>
+            <InputText @bind-Value="Tecnico.NombresTecnico" />
+            <ValidationMessage For="(()=> Tecnico.NombresTecnico)"></ValidationMessage>
         </div>
 
         <div class="Inputs-text">
             <label>Sueldo Hora:</label>
-            <InputNumber @bind-Value="tecnicos.SueldoHora" />
+            <InputNumber @bind-Value="Tecnico.SueldoHora" />
         </div>
 
         <div class="botones">
@@ -35,14 +35,14 @@
 
 @code {
     [Parameter]
-    public int tecnicoId { get; set; }
-    Tecnicos tecnicos{ get; set; } = new Tecnicos();
+    public int TecnicoId { get; set; }
+    Tecnicos Tecnico{ get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            tecnicos = await tecnicoService.Buscar(tecnicoId);
+            Tecnico = await tecnicoService.Buscar(TecnicoId);
         }
         catch (Exception ex)
         {
@@ -54,7 +54,7 @@
     {
         try
         {
-            await tecnicoService.Guardar(tecnicos);
+            await tecnicoService.Guardar(Tecnico);
             navigation.NavigateTo("/Tecnicos/Index");
         }
         catch (Exception ex)

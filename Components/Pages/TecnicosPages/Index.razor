@@ -8,14 +8,14 @@
 @* Filtro y Búsqueda *@
 <div class="filtro-busqueda">
     <label for="filtrarPor">Filtrar por:</label>
-    <select id="filtrarPor" @bind="filtroSeleccionado">
+    <select id="filtrarPor" @bind="FiltroSeleccionado">
         <option value="ID">ID</option>
         <option value="Nombre">Nombre</option>
         <option value="Sueldo">Sueldo</option>
     </select>
 
     <label for="busqueda">Búsqueda</label>
-    <input id="busqueda" type="text" @bind="criterioBusqueda" placeholder="Buscar..." />
+    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
 
     <button @onclick="BuscarTecnicos" class="btn btn-primary">Buscar</button>
 </div>
@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var tecnico in tecnicos)
+            @foreach (var tecnico in Tecnico)
             {
                 <tr>
                     <td class="text-center"> @tecnico.TecnicoId</td>
@@ -65,34 +65,34 @@
 
 
 @code {
-    public List<Tecnicos> tecnicos = new List<Tecnicos>();
-    private string filtroSeleccionado = "ID";
-    private string criterioBusqueda = string.Empty;
+    public List<Tecnicos> Tecnico = new List<Tecnicos>();
+    private string FiltroSeleccionado = "ID";
+    private string CriterioBusqueda = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        tecnicos = await tecnicoService.Listar(a => true);
+        Tecnico = await tecnicoService.Listar(a => true);
     }
 
     private async Task BuscarTecnicos()
     {
-        switch (filtroSeleccionado)
+        switch (FiltroSeleccionado)
         {
             case "ID":
-                if (int.TryParse(criterioBusqueda, out int id))
+                if (int.TryParse(CriterioBusqueda, out int id))
                 {
-                    tecnicos = await tecnicoService.Listar(a => a.TecnicoId == id);
+                    Tecnico = await tecnicoService.Listar(a => a.TecnicoId == id);
                 }
                 break;
 
             case "Nombre":
-                tecnicos = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(criterioBusqueda.ToLower())); ;
+                Tecnico = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(CriterioBusqueda.ToLower())); ;
                 break;
 
             case "Sueldo":
-                if (float.TryParse(criterioBusqueda, out float sueldo))
+                if (float.TryParse(CriterioBusqueda, out float sueldo))
                 {
-                    tecnicos = await tecnicoService.Listar(a => a.SueldoHora == sueldo);
+                    Tecnico = await tecnicoService.Listar(a => a.SueldoHora == sueldo);
                 }
                 break;
         }

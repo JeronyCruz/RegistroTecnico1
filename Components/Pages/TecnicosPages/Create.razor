@@ -6,7 +6,7 @@
 
 <h2>Crear Nuevo T&eacute;cnicos</h2>
 
-<EditForm Model="@tecnicos" OnValidSubmit="Guardar">
+<EditForm Model="@Tecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -15,12 +15,12 @@
 
         <div class="inputsAgregar">
             <label>ID</label>
-            <InputNumber @bind-Value="tecnicos.TecnicoId" readonly/>
+            <InputNumber @bind-Value="Tecnico.TecnicoId" readonly/>
         </div>
 
         <div class="inputsAgregar">
             <label>Nombre</label>
-            <InputText @bind-Value="tecnicos.NombresTecnico" />
+            <InputText @bind-Value="Tecnico.NombresTecnico" />
             @if (!string.IsNullOrEmpty(Mensaje))
             {
                 <label class="error-label">@Mensaje</label>
@@ -29,7 +29,7 @@
 
         <div class="inputsAgregar">
             <label>Sueldo por Hora</label>
-            <InputNumber @bind-Value="tecnicos.SueldoHora" />
+            <InputNumber @bind-Value="Tecnico.SueldoHora" />
         </div>
 
         <div class="BotonesAgregar">
@@ -40,13 +40,13 @@
 </EditForm>
 
 @code {
-    public Tecnicos tecnicos { get; set; } = new Tecnicos();
+    public Tecnicos Tecnico { get; set; } = new Tecnicos();
     string Mensaje { get; set; } = string.Empty;
 
     public async Task Guardar()
     {
         
-        bool nombreExiste = await tecnicoService.NombreExiste(tecnicos.NombresTecnico);
+        bool nombreExiste = await tecnicoService.NombreExiste(Tecnico.NombresTecnico);
 
         if (nombreExiste)
         {
@@ -56,8 +56,8 @@
         else
         {
             
-            await tecnicoService.Guardar(tecnicos);
-            tecnicos = new Tecnicos();  
+            await tecnicoService.Guardar(Tecnico);
+            Tecnico = new Tecnicos();  
             navigation.NavigateTo("/Tecnicos/Index");  
         }
     }

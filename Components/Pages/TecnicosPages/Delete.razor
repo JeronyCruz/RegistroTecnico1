@@ -8,14 +8,14 @@
 <div class="Contenedor_Eliminar">
     <div class="list-details">
         <ul>
-            <li>Técnico Id: @tecnicos.TecnicoId</li>
-            <li>Nombre del técnico: @tecnicos.NombresTecnico</li>
-            <li>Sueldo por Hora: @tecnicos.SueldoHora</li>
+            <li>Técnico Id: @Tecnico.TecnicoId</li>
+            <li>Nombre del técnico: @Tecnico.NombresTecnico</li>
+            <li>Sueldo por Hora: @Tecnico.SueldoHora</li>
         </ul>
     </div>
     <div class="botones">
         <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"></button>
-        <button type="submit" @onclick="eliminar">Eliminar</button>
+        <button type="submit" @onclick="Eliminar">Eliminar</button>
     </div>
 
     <div>
@@ -26,17 +26,17 @@
 
 @code {
     [Parameter]
-    public int tecnicoId { get; set; }
-    Tecnicos tecnicos = new Tecnicos();
+    public int TecnicoId { get; set; }
+    Tecnicos Tecnico = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
     {
-        tecnicos = await tecnicoService.Buscar(tecnicoId);
+        Tecnico = await tecnicoService.Buscar(TecnicoId);
     }
 
-    public async Task eliminar()
+    public async Task Eliminar()
     {
-        var eliminar = await tecnicoService.Eliminar(tecnicos.TecnicoId);
+        var eliminar = await tecnicoService.Eliminar(Tecnico.TecnicoId);
 
         if (eliminar)
         {
