@@ -1,6 +1,7 @@
 ﻿@page "/Tecnicos/Create"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
+@inject TiposTecnicosService tiposTecnicosService
 @inject NavigationManager navigation
 <link rel="stylesheet" href="StyleCreate.css" />
 
@@ -15,7 +16,7 @@
 
         <div class="inputsAgregar">
             <label>ID</label>
-            <InputNumber @bind-Value="Tecnico.TecnicoId" readonly/>
+            <InputNumber @bind-Value="Tecnico.TecnicoId" readonly />
         </div>
 
         <div class="inputsAgregar">
@@ -32,6 +33,17 @@
             <InputNumber @bind-Value="Tecnico.SueldoHora" />
         </div>
 
+        <div class="inputsAgregar">
+            <label>Sueldo por Hora</label>
+            <InputSelect class="form-select" @bind-Value="Tecnico.Descripcion">
+                <option ="" selected disabled>Elija una Opci&oacute;n</option>
+                @foreach (var tipoTecnico in TiposTecnico)
+                {
+                    <option value="@tipoTecnico.Descripcion">@tipoTecnico.Descripcion</option>
+                }
+            </InputSelect>
+        </div>
+
         <div class="BotonesAgregar">
             <button type="button" @onclick="Volver">Volver</button>
             <button type="submit">Guardar</button>
@@ -41,24 +53,30 @@
 
 @code {
     public Tecnicos Tecnico { get; set; } = new Tecnicos();
+    public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
     string Mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        TiposTecnico = await tiposTecnicosService.Listar(j => j.Id > 0);
+    }
 
     public async Task Guardar()
     {
-        
+
         bool nombreExiste = await tecnicoService.NombreExiste(Tecnico.NombresTecnico);
 
         if (nombreExiste)
         {
-            
+
             Mensaje = "El nombre del técnico ya está en uso.";
         }
         else
         {
-            
+
             await tecnicoService.Guardar(Tecnico);
-            Tecnico = new Tecnicos();  
-            navigation.NavigateTo("/Tecnicos/Index");  
+            Tecnico = new Tecnicos();
+            navigation.NavigateTo("/Tecnicos/Index");
         }
     }
 
