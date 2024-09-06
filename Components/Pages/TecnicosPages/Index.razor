@@ -11,7 +11,6 @@
     <select id="filtrarPor" @bind="FiltroSeleccionado">
         <option value="ID">ID</option>
         <option value="Nombre">Nombre</option>
-        <option value="Sueldo">Sueldo</option>
     </select>
 
     <label for="busqueda">Búsqueda</label>
@@ -27,6 +26,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nombres</th>
+                <th>Descripci&oacute;n</th>
                 <th>Sueldo Hora</th>
                 <th>Detalles</th>
                 <th>Modificar</th>
@@ -39,6 +39,7 @@
                 <tr>
                     <td class="text-center"> @tecnico.TecnicoId</td>
                     <td class="text-center"> @tecnico.NombresTecnico</td>
+                    <td class="text-center"> @tecnico.Descripcion</td>
                     <td class="text-center"> @tecnico.SueldoHora $</td>
                     <td class="text-center">
                         <a href="/Tecnicos/Details/@tecnico.TecnicoId" class="bi bi-eye-fill"></a>
@@ -89,12 +90,6 @@
                 Tecnico = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(CriterioBusqueda.ToLower())); ;
                 break;
 
-            case "Sueldo":
-                if (float.TryParse(CriterioBusqueda, out float sueldo))
-                {
-                    Tecnico = await tecnicoService.Listar(a => a.SueldoHora == sueldo);
-                }
-                break;
         }
     }
 
