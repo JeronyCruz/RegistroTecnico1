@@ -8,5 +8,6 @@ namespace RegistroTecnico1.DAL;
         : base(options) { }
 
         public DbSet<Tecnicos> Tecnicos { get; set; }
-    }
+        public DbSet<TiposTecnicos> TiposTecnicos { get; set; }
+}
 
