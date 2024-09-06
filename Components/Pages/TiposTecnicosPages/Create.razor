@@ -4,7 +4,7 @@
 @inject NavigationManager navigation
 <link rel="stylesheet" href="StyleCreate.css" />
 
-<PageTitle> Crear T&eacute;cnicos</PageTitle>
+<PageTitle> Crear Tipos T&eacute;cnicos</PageTitle>
 
 <h2>Crear Nuevo Tipo T&eacute;cnicos</h2>
 
@@ -30,8 +30,12 @@
         </div>
 
         <div class="BotonesAgregar">
-            <button type="button" @onclick="Volver">Volver</button>
-            <button type="submit">Guardar</button>
+            <button type="button" @onclick="Volver">
+                <i class="bi bi-arrow-return-left"></i> Volver
+            </button>
+            <button type="submit">
+                <i class="bi bi-plus-circle-dotted"></i> Guardar
+            </button>
         </div>
     </div>
 </EditForm>
