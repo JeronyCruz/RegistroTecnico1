@@ -18,6 +18,10 @@
         <div class="Inputs-text">
             <label>Nombre:</label>
             <InputText @bind-Value="Tecnico.NombresTecnico" />
+            @if (!string.IsNullOrEmpty(Mensaje))
+            {
+                <label class="error-label">@Mensaje</label>
+            }
             <ValidationMessage For="(()=> Tecnico.NombresTecnico)"></ValidationMessage>
         </div>
 
@@ -36,7 +40,8 @@
 @code {
     [Parameter]
     public int TecnicoId { get; set; }
-    Tecnicos Tecnico{ get; set; } = new Tecnicos();
+    string Mensaje { get; set; } = string.Empty;
+    Tecnicos Tecnico { get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,15 +57,19 @@
 
     public async Task Guardar()
     {
-        try
+        bool nombreExiste = await tecnicoService.NombreExiste(Tecnico.NombresTecnico);
+
+        if (nombreExiste)
         {
-            await tecnicoService.Guardar(Tecnico);
-            navigation.NavigateTo("/Tecnicos/Index");
+
+            Mensaje = "El nombre del técnico ya está en uso.";
         }
-        catch (Exception ex)
+        else
         {
-           
-            Console.WriteLine($"Error al guardar: {ex.Message}");
+
+            await tecnicoService.Guardar(Tecnico);
+            Tecnico = new Tecnicos();
+            navigation.NavigateTo("/Tecnicos/Index");
         }
     }
 
