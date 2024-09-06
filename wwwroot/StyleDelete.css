@@ -18,7 +18,7 @@
 .list-details {
     height: 350px;
     width: 300px;
-    background-color: #101010;
+    background-color: #ffffff; /* Cambiar a blanco */
     border-radius: 15px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5), 0px 0px 20px rgba(255, 0, 0, 0.8);
     border: 5px solid rgba(255, 0, 0, 0.7);
@@ -37,12 +37,12 @@
     }
 
     .list-details ul {
-        color: white;
+        color: black; /* Cambiar a negro */
         z-index: 2;
         background-color: transparent;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         text-align: center;
-        text-shadow: 2px 2px 2px black;
+        text-shadow: none; /* Eliminar sombra del texto para mejorar la legibilidad en fondo blanco */
         padding: 20px;
         list-style: none;
         margin: 0;
@@ -73,9 +73,9 @@
         }
 
 .Contenedor_Eliminar label {
-    color: white;
+    color: black; /* Cambiar a negro */
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-shadow: 2px 2px 2px black;
+    text-shadow: none; /* Eliminar sombra del texto para mejorar la legibilidad en fondo blanco */
     margin-top: 20px;
     font-size: 18px;
 }

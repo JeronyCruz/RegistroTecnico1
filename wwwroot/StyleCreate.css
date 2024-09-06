@@ -76,3 +76,7 @@
             .BotonesAgregar button:first-child:hover {
                 background-color: #e53935;
             }
+
+        .BotonesAgregar button i {
+            margin-right: 8px;
+        }
