@@ -15,12 +15,12 @@
 
     <div class="ContenedorAgregar">
         <h3>Nuevo T&eacute;cnico</h3>
-
+        @*ID*@
         <div class="inputsAgregar">
             <label>ID</label>
             <InputNumber @bind-Value="Tecnico.TecnicoId" readonly />
         </div>
-
+        @*Nombre*@
         <div class="inputsAgregar">
             <label>Nombre</label>
             <InputText @bind-Value="Tecnico.NombresTecnico" />
@@ -29,12 +29,12 @@
                 <label class="error-label">@Mensaje</label>
             }
         </div>
-
+        @*Sueldo Hora*@
         <div class="inputsAgregar">
             <label>Sueldo por Hora</label>
             <InputNumber @bind-Value="Tecnico.SueldoHora" />
         </div>
-
+        @*Descripcion Tecnico*@
         <div class="inputsAgregar">
             <label>Descripci&oacute;n del T&eacute;cnico</label>
             <InputSelect class="form-select" @bind-Value="Tecnico.Descripcion">
@@ -45,7 +45,7 @@
                 }
             </InputSelect>
         </div>
-
+        @*Botones*@
         <div class="BotonesAgregar">
             <button type="button" @onclick="Volver">
                 <i class="bi bi-arrow-return-left"></i> Volver
