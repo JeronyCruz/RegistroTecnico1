@@ -16,6 +16,25 @@ namespace RegistroTecnico1.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
+            modelBuilder.Entity("RegistroTecnico1.Models.Clientes", b =>
+                {
+                    b.Property<int>("ClienteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WhatsApp")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClienteId");
+
+                    b.ToTable("Clientes");
+                });
+
             modelBuilder.Entity("RegistroTecnico1.Models.Tecnicos", b =>
                 {
                     b.Property<int>("TecnicoId")
