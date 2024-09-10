@@ -12,12 +12,12 @@
     <EditForm Model="@Tecnico" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <ValidationSummary />
-
+        @*ID*@
         <div class="Inputs-text">
             <label>T&eacute;cnico Id:</label>
             <input type="text" @bind="Tecnico.TecnicoId" readonly />
         </div>
-
+        @*Nombre*@
         <div class="Inputs-text">
             <label>Nombre:</label>
             <InputText @bind-Value="Tecnico.NombresTecnico" />
@@ -27,12 +27,12 @@
             }
             <ValidationMessage For="(()=> Tecnico.NombresTecnico)"></ValidationMessage>
         </div>
-
+        @*Sueldo Hora*@
         <div class="Inputs-text">
             <label>Sueldo Hora:</label>
             <InputNumber @bind-Value="Tecnico.SueldoHora" />
         </div>
-
+        @*Descripcion*@
         <div class="inputsAgregar">
             <label>Descripci&oacute;n del T&eacute;cnico</label>
             <InputSelect class="form-select" @bind-Value="Tecnico.Descripcion">
@@ -43,7 +43,7 @@
                 }
             </InputSelect>
         </div>
-
+        @*Botones*@
         <div class="botones">
             <button type="button" @onclick="Volver" class="bi bi-arrow-90deg-left"> Volver</button>
             <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
