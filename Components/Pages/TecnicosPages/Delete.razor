@@ -10,6 +10,7 @@
 @*Body*@
 <div class="Contenedor_Eliminar">
     <div class="list-details">
+        @*Detalles del Tecnico*@
         <ul>
             <li>T&eacute;cnico Id: @Tecnico.TecnicoId</li>
             <li>Nombre del t&eacute;cnico: @Tecnico.NombresTecnico</li>
@@ -17,6 +18,7 @@
             <li>Descripci&oacute;n del T&eacute;cnico: @Tecnico.Descripcion</li>
         </ul>
     </div>
+    @*Botones*@
     <div class="botones">
         <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"> Volver</button>
         <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
