@@ -14,12 +14,12 @@
 
     <div class="ContenedorAgregar">
         <h3>Nuevo tipo T&eacute;cnico</h3>
-
+        @*ID*@
         <div class="inputsAgregar">
             <label>Tipo T&eacute;cnico Id</label>
             <InputNumber @bind-Value="TiposTecnico.Id" readonly />
         </div>
-
+        @*Descripcion*@
         <div class="inputsAgregar">
             <label>Descripci&oacute;n</label>
             <InputText @bind-Value="TiposTecnico.Descripcion" />
@@ -28,7 +28,7 @@
                 <label class="error-label">@Mensaje</label>
             }
         </div>
-
+        @*Botones*@
         <div class="BotonesAgregar">
             <button type="button" @onclick="Volver">
                 <i class="bi bi-arrow-return-left"></i> Volver
