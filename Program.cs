@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RegistroTecnico1.Components;
 using RegistroTecnico1.DAL;
+using RegistroTecnico1.Models;
 using RegistroTecnico1.Service;
 
 namespace RegistroTecnico1
@@ -20,6 +21,9 @@ namespace RegistroTecnico1
 
             //Inyeccion del TipoServicio(service)
             builder.Services.AddScoped<TiposTecnicosService>();
+
+            //Inyeccion del Cliente(service)
+            builder.Services.AddScoped<Clientes>();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()
