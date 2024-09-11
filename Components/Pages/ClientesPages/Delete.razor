@@ -1,0 +1,61 @@
+﻿@page "/Clientes/Delete/{ClienteId:int}"
+@rendermode InteractiveServer
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+
+<PageTitle> Eliminar Clientes</PageTitle>
+
+
+@*Body*@
+<div class="Contenedor_Eliminar">
+    <div class="list-details">
+        @*Detalles del Cliente*@
+        <ul>
+            <li>Cliente Id: @Clientes.ClienteId</li>
+            <li>Nombre del Cliente: @Clientes.Nombres</li>
+            <li>WhatsApp del Cliente: @Clientes.WhatsApp</li>
+        </ul>
+    </div>
+    @*Botones*@
+    <div class="botones">
+        <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"> Volver</button>
+        <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
+    </div>
+
+    <div>
+        <label>Estas Seguro de que desea eliminar a este t&eacute;cnico?</label>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int ClienteId { get; set; }
+    Clientes Clientes = new Clientes();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Clientes = await clientesService.Buscar(ClienteId);
+    }
+
+    public async Task Eliminar()
+    {
+        var eliminar = await clientesService.Eliminar(Clientes.ClienteId);
+
+        if (eliminar)
+        {
+            Console.WriteLine("El técnico fue eliminado correctamente.");
+            navigation.NavigateTo("/Tecnicos/Index");
+        }
+        else
+        {
+            Console.WriteLine("No se pudo eliminar el técnico.");
+            // Aquí podrías mostrar un mensaje de error en la interfaz si lo deseas.
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Clientes/Index");
+    }
+}
