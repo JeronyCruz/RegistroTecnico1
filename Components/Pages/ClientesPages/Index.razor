@@ -1,0 +1,94 @@
+﻿@page "/Clientes/Index"
+@rendermode InteractiveServer
+@inject ClientesService clienteService
+
+<PageTitle> Registro Clientes</PageTitle>
+
+<h3>Registro de Clientes</h3>
+@* Filtro y Búsqueda *@
+<div class="filtro-busqueda">
+    <label for="filtrarPor">Filtrar por:</label>
+    <select id="filtrarPor" @bind="FiltroSeleccionado">
+        <option value="ID">ID</option>
+        <option value="Nombre">Nombre</option>
+    </select>
+
+    <label for="busqueda">Búsqueda</label>
+    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+
+    <button @onclick="BuscarTecnicos" class="btn btn-primary btn-primary bi bi-search"> Buscar</button>
+</div>
+
+@*Body*@
+<div class="card-body">
+    <table class="t">
+        <thead class="th">
+            <tr>
+                <th>ID</th>
+                <th>Nombres</th>
+                <th>WhatsApp</th>
+                <th>Detalles</th>
+                <th>Modificar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var clientes in Clientes)
+            {
+                <tr>
+                    <td class="text-center"> @clientes.ClienteId</td>
+                    <td class="text-center"> @clientes.Nombres</td>
+                    <td class="text-center"> @clientes.WhatsApp</td>
+                    <td class="text-center">
+                        <a href="/Clientes/Details/@clientes.ClienteId" class="bi bi-eye-fill"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Clientes/Edit/@clientes.ClienteId" class=" bi bi-pencil-square"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Clientes/Delete/@clientes.ClienteId" class=" bi bi-trash-fill"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*Boton*@
+    <div class="row">
+        <div class="col text-end">
+            <a href="/TiposTecnicos/Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Crear
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public List<Clientes> Clientes = new List<Clientes>();
+    private string FiltroSeleccionado = "ID";
+    private string CriterioBusqueda = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Clientes = await clienteService.Listar(a => true);
+    }
+
+    private async Task BuscarTecnicos()
+    {
+        switch (FiltroSeleccionado)
+        {
+            case "ID":
+                if (int.TryParse(CriterioBusqueda, out int id))
+                {
+                    Clientes = await clienteService.Listar(a => a.ClienteId == id);
+                }
+                break;
+
+            case "Nombre":
+                Clientes = await clienteService.Listar(e => e.Nombres.ToLower().Contains(CriterioBusqueda.ToLower())); ;
+                break;
+
+        }
+    }
+
+}
