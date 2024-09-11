@@ -1,0 +1,69 @@
+﻿@page "/Clientes/Create"
+@rendermode InteractiveServer
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+
+<PageTitle>Crear Clientes</PageTitle>
+
+<h2> Crear nuevo Cliente</h2>
+
+<EditForm Model="@Clientes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="ContenedorAgregar">
+        <h3>Crear Cliente</h3>
+        @*ID*@
+        <div class="inputsAgregar">
+            <label>ID</label>
+            <InputNumber @bind-Value="Clientes.ClienteId" readonly/>
+        </div>
+        @*Nombre*@
+        <div class="inputsAgregar">
+            <label>Nombre</label>
+            <InputText @bind-Value="Clientes.Nombres"/>
+            @if (!string.IsNullOrEmpty(Mensaje))
+            {
+                <label class="error-label">@Mensaje</label>
+            }
+        </div>
+        @*WhatsApp*@
+        <div class="inputsAgregar">
+            <label>WhatsApp</label>
+            <InputText @bind-Value="Clientes.WhatsApp"/>
+        </div>
+
+        @*Botones*@
+        <div class="BotonesAgregar">
+            <button type="button" @onclick="Volver">
+                <i class="bi bi-arrow-return-left"></i> Volver
+            </button>
+            <button type="submit">
+                <i class="bi bi-plus-circle-dotted"></i> Guardar
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Clientes Clientes { get; set; } = new Clientes();
+    String Mensaje { get; set; } = string.Empty;
+
+    public async Task Guardar()
+    {
+        bool nombreExiste = await clientesService.NombreExiste(Clientes.Nombres);
+        if (nombreExiste)
+        {
+            Mensaje = "El nombre del Cliente ya existe.";
+        }
+        {
+            await clientesService.Guardar(Clientes);
+            Clientes = new Clientes();
+            navigation.NavigateTo("/Clientes/Index");
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Clientes/Index");
+    }
+}
