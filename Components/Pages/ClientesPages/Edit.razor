@@ -1,0 +1,87 @@
+﻿@page "/Clientes/Edit/{ClienteId:int}"
+@rendermode InteractiveServer
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+
+<PageTitle> Editar Cliente</PageTitle>
+
+<h2>Editar Cliente</h2>
+
+<div class="Contenedor_Modificar">
+    <EditForm Model="@Clientes" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @*ID*@
+        <div class="inputsAgregar">
+            <label>ID</label>
+            <InputNumber @bind-Value="Clientes.ClienteId" readonly/>
+        </div>
+        @*Nombre*@
+        <div class="inputsAgregar">
+            <label>Nombres</label>
+            <InputText @bind-Value="Clientes.Nombres" />
+            @if (!string.IsNullOrEmpty(Mensaje))
+            {
+                <label class="error-label">@Mensaje</label>
+            }
+            <ValidationMessage For="(() => Clientes.Nombres)"></ValidationMessage>
+        </div>
+        @*WhatsApp*@
+        <div class="inputsAgregar">
+            <label>WhatsApp</label>
+            <InputText @bind-Value="Clientes.WhatsApp"></InputText>
+        </div>
+        @*Botones*@
+        <div class="botones">
+            <button type="button" @onclick="Volver">
+                <i class="bi bi-arrow-return-left"></i> Volver
+            </button>
+            <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
+        </div>
+    </EditForm>
+</div>
+    
+
+@code {
+    [Parameter]
+    public int ClienteId { get; set; }
+    public string Mensaje { get; set; } = string.Empty;
+    public Clientes Clientes { get; set; } = new Clientes();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Clientes = await clientesService.Buscar(ClienteId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar Cliente: {ex.Message}");
+        }
+    }
+
+    public async Task Guardar()
+    {
+        var clienteExistente = await clientesService.Buscar(ClienteId);
+
+        if (clienteExistente != null && clienteExistente.Nombres != Clientes.Nombres)
+        {
+            bool nombreExiste = await clientesService.NombreExiste(Clientes.Nombres);
+
+            if (nombreExiste)
+            {
+                Mensaje = "El nombre del técnico ya está en uso.";
+                return;
+            }
+        }
+
+        await clientesService.Guardar(Clientes);
+        Clientes = new Clientes();
+        navigation.NavigateTo("/Clientes/Index");
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Clientes/Index");
+    }
+}
