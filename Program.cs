@@ -23,7 +23,7 @@ namespace RegistroTecnico1
             builder.Services.AddScoped<TiposTecnicosService>();
 
             //Inyeccion del Cliente(service)
-            builder.Services.AddScoped<Clientes>();
+            builder.Services.AddScoped<ClientesService>();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()
