@@ -1,0 +1,50 @@
+﻿@page "/Trabajos/Details/{TecnicoId:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicosService
+@inject TrabajosService trabajosService
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+<link rel="stylesheet" href="StyleDetails.css" />
+
+<PageTitle> Detalles Trabajo</PageTitle>
+
+@*Body*@
+<div class="Contenedor_Eliminar">
+    <h3> Detalles del trabajo</h3>
+
+    <div class="list-details">
+        <ul class="name">
+            @*Detalles del Trabajo*@
+            <li>Trabajo Id: @Trabajo.TrabajoId</li>
+            <li>Fecha: @Trabajo.Fecha</li>
+            <li>ID Cliente: @Trabajo.Cliente?.ClienteId</li>
+            <li>Nombre Cliente: @Trabajo.Cliente?.Nombres</li>
+            <li>ID Tecnico: @Trabajo.Tecnico?.TecnicoId</li>
+            <li>Nombre Tecnico: @Trabajo.Tecnico?.NombresTecnico</li>
+            <li>Descripci&oacute;n @Trabajo.Descripcion</li>
+            <li>Monto: @Trabajo.Monto</li>
+        </ul>
+    </div>
+    @*Botones*@
+    <div class="btn-details">
+        <button type="submit" @onclick="Volver" class="bi bi-arrow-left-circle"> Volver</button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int TecnicoId { get; set; }
+    Trabajos Trabajo { get; set; } = new Trabajos();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Trabajo = await trabajosService.Buscar(TecnicoId);
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Trabajos/Index");
+    }
+
+}
