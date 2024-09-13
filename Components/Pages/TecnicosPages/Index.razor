@@ -39,7 +39,7 @@
                 <tr>
                     <td class="text-center"> @tecnico.TecnicoId</td>
                     <td class="text-center"> @tecnico.NombresTecnico</td>
-                    <td class="text-center"> @tecnico.Descripcion</td>
+                    <td class="text-center"> @tecnico.TipoTecnico?.Descripcion</td>
                     <td class="text-center"> @tecnico.SueldoHora $</td>
                     <td class="text-center">
                         <a href="/Tecnicos/Details/@tecnico.TecnicoId" class="bi bi-eye-fill"></a>
