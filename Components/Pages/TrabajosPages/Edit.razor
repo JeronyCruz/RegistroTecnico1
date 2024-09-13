@@ -9,14 +9,14 @@
 
 <PageTitle>Editar Trabajo</PageTitle>
 
-<h2>@(TrabajoId > 0 ? "Editar Trabajo" : "Crear Nuevo Trabajo")</h2>
+<h2>Editar Trabajo</h2>
 
 <EditForm Model="@Trabajos" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="ContenedorAgregar">
-        <h3>@(TrabajoId > 0 ? "Editar Trabajo" : "Nuevo Trabajo")</h3>
+        <h3>Editar Trabajo</h3>
 
         @* ID *@
         <div class="inputsAgregar">
@@ -76,19 +76,21 @@
             <button type="submit">
                 <i class="bi bi-plus-circle-dotted"></i> Guardar
             </button>
+            <button type="button" @onclick="EnviarWhatsApp">
+                <i class="bi bi-whatsapp"></i> Enviar por WhatsApp
+            </button>
         </div>
     </div>
 </EditForm>
 
 @code {
     [Parameter]
-    public int TrabajoId { get; set; } 
+    public int TrabajoId { get; set; }
     public List<Tecnicos> Tecnicos = new List<Tecnicos>();
     public List<Clientes> Clientes = new List<Clientes>();
-    public Trabajos Trabajos { get; set; } = new Trabajos(); 
+    public Trabajos Trabajos { get; set; } = new Trabajos();
     string Mensaje { get; set; } = string.Empty;
     string SueldoMensaje { get; set; } = string.Empty;
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -123,4 +125,37 @@
     {
         navigation.NavigateTo("/Trabajos/Index");
     }
+
+    public void EnviarWhatsApp()
+    {
+        var cliente = Clientes.FirstOrDefault(c => c.ClienteId == Trabajos.ClienteId);
+
+        if (cliente != null && !string.IsNullOrEmpty(cliente.WhatsApp))
+        {
+            
+            string numeroWhatsApp = cliente.WhatsApp.Replace(" ", "").Replace("-", "");
+
+            
+            if (numeroWhatsApp.StartsWith("809"))
+            {
+                numeroWhatsApp = "1" + numeroWhatsApp;
+            }
+
+            
+            string mensaje = $"Hola {cliente.Nombres}, su trabajo ha sido aceptado. Descripción del trabajo: {Trabajos.Descripcion}. Monto: {Trabajos.Monto}";
+            
+            string mensajeEscapado = Uri.EscapeDataString(mensaje);
+
+           
+            string urlWhatsApp = $"https://wa.me/{numeroWhatsApp}?text={mensajeEscapado}";
+            Task.Delay(100).ContinueWith(t => navigation.NavigateTo(urlWhatsApp, true));
+        }
+        else
+        {
+            Mensaje = "No se encontró el número de teléfono del cliente.";
+        }
+    }
+
+
+
 }
