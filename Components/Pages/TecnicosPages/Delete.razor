@@ -15,7 +15,7 @@
             <li>T&eacute;cnico Id: @Tecnico.TecnicoId</li>
             <li>Nombre del t&eacute;cnico: @Tecnico.NombresTecnico</li>
             <li>Sueldo por Hora: @Tecnico.SueldoHora</li>
-            <li>Descripci&oacute;n del T&eacute;cnico: @Tecnico.Descripcion</li>
+            <li>Descripci&oacute;n del T&eacute;cnico: @Tecnico.TipoTecnico.Descripcion</li>
         </ul>
     </div>
     @*Botones*@
@@ -33,7 +33,7 @@
 @code {
     [Parameter]
     public int TecnicoId { get; set; }
-    Tecnicos Tecnico = new Tecnicos();
+    Tecnicos Tecnico { get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
     {
