@@ -52,13 +52,15 @@ namespace RegistroTecnico1.Service;
 
         public async Task<Tecnicos?> Buscar(int id)
         {
-            return await _context.Tecnicos.AsNoTracking().
+            return await _context.Tecnicos.Include(x => x.TipoTecnico)
+            .AsNoTracking().
                 FirstOrDefaultAsync(p => p.TecnicoId == id);
         }
 
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
         {
-            return await _context.Tecnicos.AsNoTracking()
+            return await _context.Tecnicos.Include(x => x.TipoTecnico)
+            .AsNoTracking()
                 .Where(criterio)
                 .ToListAsync();
         }
