@@ -25,6 +25,9 @@ namespace RegistroTecnico1
             //Inyeccion del Cliente(service)
             builder.Services.AddScoped<ClientesService>();
 
+            //Inyeccion del Trabajo
+            builder.Services.AddScoped<TrabajosService>();
+
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
