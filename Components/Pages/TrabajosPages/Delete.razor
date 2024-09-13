@@ -1,0 +1,70 @@
+﻿@page "/Trabajos/Delete/{TrabajoId:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicosService
+@inject TrabajosService trabajosService
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+<link rel="stylesheet" href="StyleDetails.css" />
+
+
+<PageTitle> Eliminar Trabajo</PageTitle>
+
+
+@*Body*@
+<div class="Contenedor_Eliminar">
+    <div class="list-details">
+        @*Detalles del Trabajo*@
+        <ul>
+            <li>Trabajo Id: @Trabajo.TrabajoId</li>
+            <li>Fecha: @Trabajo.Fecha</li>
+            <li>ID Cliente: @Trabajo.Cliente?.ClienteId</li>
+            <li>Nombre Cliente: @Trabajo.Cliente?.Nombres</li>
+            <li>ID Tecnico: @Trabajo.Tecnico?.TecnicoId</li>
+            <li>Nombre Tecnico: @Trabajo.Tecnico?.NombresTecnico</li>
+            <li>Descripci&oacute;n @Trabajo.Descripcion</li>
+            <li>Monto: @Trabajo.Monto</li>
+        </ul>
+    </div>
+    @*Botones*@
+    <div class="botones">
+        <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"> Volver</button>
+        <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
+    </div>
+
+    <div>
+        <label>Estas Seguro de que desea eliminar a este trabajo?</label>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int TrabajoId { get; set; }
+    Trabajos Trabajo { get; set; } = new Trabajos();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Trabajo = await trabajosService.Buscar(TrabajoId);
+    }
+
+    public async Task Eliminar()
+    {
+        var eliminar = await trabajosService.Eliminar(Trabajo.TrabajoId);
+
+        if (eliminar)
+        {
+            Console.WriteLine("El Trabajo fue eliminado correctamente.");
+            navigation.NavigateTo("/Trabajos/Index");
+        }
+        else
+        {
+            Console.WriteLine("No se pudo eliminar el técnico.");
+            // Aquí podrías mostrar un mensaje de error en la interfaz si lo deseas.
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Trabajos/Index");
+    }
+}
