@@ -54,6 +54,7 @@
         if (nombreExiste)
         {
             Mensaje = "El nombre del Cliente ya existe.";
+            return;
         }
         {
             await clientesService.Guardar(Clientes);
