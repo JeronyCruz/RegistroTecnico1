@@ -7,7 +7,7 @@
 
 <PageTitle> Agregar T&eacute;cnicos</PageTitle>
 
-<h2>Crear Nuevo T&eacute;cnicos</h2>
+<h2>Crear Nuevo T&eacute;cnico</h2>
 
 <EditForm Model="@Tecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
@@ -33,15 +33,18 @@
         <div class="inputsAgregar">
             <label>Sueldo por Hora</label>
             <InputNumber @bind-Value="Tecnico.SueldoHora" />
+            @if (!string.IsNullOrEmpty(SueldoMensaje))
+            {
+                <label class="error-label">@SueldoMensaje</label>
+            }
         </div>
         @*Descripcion Tecnico*@
         <div class="inputsAgregar">
             <label>Descripci&oacute;n del T&eacute;cnico</label>
-            <InputSelect class="form-select" @bind-Value="Tecnico.Descripcion">
-                <option ="" selected disabled>Elija una Opci&oacute;n</option>
+            <InputSelect class="form-select" @bind-Value="Tecnico.Id">
                 @foreach (var tipoTecnico in TiposTecnico)
                 {
-                    <option value="@tipoTecnico.Descripcion">@tipoTecnico.Descripcion</option>
+                    <option value="@tipoTecnico.Id">@tipoTecnico.Descripcion</option>
                 }
             </InputSelect>
         </div>
@@ -61,6 +64,7 @@
     public Tecnicos Tecnico { get; set; } = new Tecnicos();
     public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
     string Mensaje { get; set; } = string.Empty;
+    string SueldoMensaje { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,17 +73,20 @@
 
     public async Task Guardar()
     {
+        if (Tecnico.SueldoHora <= 0)
+        {
+            SueldoMensaje = "El sueldo por hora debe ser mayor a 0.";
+            return;
+        }
 
         bool nombreExiste = await tecnicoService.NombreExiste(Tecnico.NombresTecnico);
 
         if (nombreExiste)
         {
-
             Mensaje = "El nombre del técnico ya está en uso.";
         }
         else
         {
-
             await tecnicoService.Guardar(Tecnico);
             Tecnico = new Tecnicos();
             navigation.NavigateTo("/Tecnicos/Index");
