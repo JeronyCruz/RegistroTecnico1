@@ -31,15 +31,18 @@
         <div class="Inputs-text">
             <label>Sueldo Hora:</label>
             <InputNumber @bind-Value="Tecnico.SueldoHora" />
+            @if (!string.IsNullOrEmpty(SueldoMensaje))
+            {
+                <label class="error-label">@SueldoMensaje</label>
+            }
         </div>
         @*Descripcion*@
         <div class="inputsAgregar">
             <label>Descripci&oacute;n del T&eacute;cnico</label>
-            <InputSelect class="form-select" @bind-Value="Tecnico.Descripcion">
-                <option ="" selected disabled>Elija una Opci&oacute;n</option>
+            <InputSelect class="form-select" @bind-Value="Tecnico.Id">
                 @foreach (var tipoTecnico in TiposTecnico)
                 {
-                    <option value="@tipoTecnico.Descripcion">@tipoTecnico.Descripcion</option>
+                    <option value="@tipoTecnico.Id">@tipoTecnico.Descripcion</option>
                 }
             </InputSelect>
         </div>
@@ -56,6 +59,7 @@
     public int TecnicoId { get; set; }
     public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
     string Mensaje { get; set; } = string.Empty;
+    string SueldoMensaje { get; set; } = string.Empty;
     Tecnicos Tecnico { get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()
@@ -64,7 +68,6 @@
         {
             TiposTecnico = await tiposTecnicosService.Listar(j => j.Id > 0);
             Tecnico = await tecnicoService.Buscar(TecnicoId);
-            
         }
         catch (Exception ex)
         {
@@ -74,6 +77,12 @@
 
     public async Task Guardar()
     {
+        if (Tecnico.SueldoHora <= 0)
+        {
+            SueldoMensaje = "El sueldo por hora debe ser mayor a 0.";
+            return;
+        }
+
         var tecnicoExistente = await tecnicoService.Buscar(TecnicoId);
 
         if (tecnicoExistente != null && tecnicoExistente.NombresTecnico != Tecnico.NombresTecnico)
@@ -91,7 +100,6 @@
         Tecnico = new Tecnicos();
         navigation.NavigateTo("/Tecnicos/Index");
     }
-
 
     public void Volver()
     {
