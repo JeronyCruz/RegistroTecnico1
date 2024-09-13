@@ -1,0 +1,102 @@
+﻿@page "/Trabajos/Index"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicosService
+@inject TrabajosService trabajosService
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+
+<PageTitle> Registro de Trabajos</PageTitle>
+
+<h3>Registro de Trabajo</h3>
+@* Filtro y Búsqueda *@
+<div class="filtro-busqueda">
+    <label for="filtrarPor">Filtrar por:</label>
+    <select id="filtrarPor" @bind="FiltroSeleccionado">
+        <option value="ID">ID</option>
+    </select>
+
+    <label for="busqueda">Búsqueda</label>
+    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+
+    <button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search"> Buscar</button>
+</div>
+
+@*Body*@
+<div class="card-body">
+    <table class="t">
+        <thead class="th">
+            <tr>
+                <th>Trabajo ID</th>
+                <th>Fecha</th>
+                <th>ID Cliente</th>
+                <th>Cliente</th>
+                <th>ID Tecnico</th>
+                <th>Tecnico</th>
+                <th>Descripci&oacute;n</th>
+                <th>Monto</th>
+                <th>Detalles</th>
+                <th>Modificar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trabajo in Trabajo)
+            {
+                <tr>
+                    <td class="text-center"> @trabajo.TrabajoId</td>
+                    <td class="text-center"> @trabajo.Fecha</td>
+                    <td class="text-center"> @trabajo.Cliente?.ClienteId</td>
+                    <td class="text-center"> @trabajo.Cliente?.Nombres</td>
+                    <td class="text-center"> @trabajo.Tecnico?.TecnicoId</td>
+                    <td class="text-center"> @trabajo.Tecnico?.NombresTecnico</td>
+                    <td class="text-center"> @trabajo.Descripcion</td>
+                    <td class="text-center"> @trabajo.Monto</td>
+                    <td class="text-center">
+                        <a href="/Trabajos/Details/@trabajo.TrabajoId" class="bi bi-eye-fill"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Trabajos/Edit/@trabajo.TrabajoId" class=" bi bi-pencil-square"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Trabajos/Delete/@trabajo.TrabajoId" class=" bi bi-trash-fill"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*Boton*@
+    <div class="row">
+        <div class="col text-end">
+            <a href="/Trabajos/Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Crear
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public List<Trabajos> Trabajo = new List<Trabajos>();
+    private string FiltroSeleccionado = "ID";
+    private string CriterioBusqueda = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Trabajo = await trabajosService.Listar(a => true);
+    }
+
+    private async Task BuscarTecnicos()
+    {
+        switch (FiltroSeleccionado)
+        {
+            case "ID":
+                if (int.TryParse(CriterioBusqueda, out int id))
+                {
+                    Trabajo = await trabajosService.Listar(a => a.TrabajoId == id);
+                }
+                break;
+
+        }
+    }
+
+}
