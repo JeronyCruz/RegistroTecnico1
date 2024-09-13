@@ -1,0 +1,126 @@
+﻿@page "/Trabajos/Edit/{TrabajoId:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicosService
+@inject TrabajosService trabajosService
+@inject ClientesService clientesService
+@inject NavigationManager navigation
+
+<link rel="stylesheet" href="StyleCreate.css" />
+
+<PageTitle>Editar Trabajo</PageTitle>
+
+<h2>@(TrabajoId > 0 ? "Editar Trabajo" : "Crear Nuevo Trabajo")</h2>
+
+<EditForm Model="@Trabajos" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="ContenedorAgregar">
+        <h3>@(TrabajoId > 0 ? "Editar Trabajo" : "Nuevo Trabajo")</h3>
+
+        @* ID *@
+        <div class="inputsAgregar">
+            <label>ID</label>
+            <InputNumber @bind-Value="Trabajos.TrabajoId" readonly />
+        </div>
+
+        @* Fecha *@
+        <div class="inputsAgregar">
+            <label>Fecha</label>
+            <InputDate @bind-Value="Trabajos.Fecha">@Trabajos.Fecha</InputDate>
+        </div>
+
+        @* Cliente *@
+        <div class="inputsAgregar">
+            <label>Elija el Cliente</label>
+            <InputSelect class="form-select" @bind-Value="Trabajos.ClienteId">
+                @foreach (var cliente in Clientes)
+                {
+                    <option value="@cliente.ClienteId">@cliente.Nombres</option>
+                }
+            </InputSelect>
+        </div>
+
+        @* Técnico *@
+        <div class="inputsAgregar">
+            <label>Elija el Técnico</label>
+            <InputSelect class="form-select" @bind-Value="Trabajos.TecnicoId">
+                @foreach (var tecnico in Tecnicos)
+                {
+                    <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
+                }
+            </InputSelect>
+        </div>
+
+        @* Descripción *@
+        <div class="inputsAgregar">
+            <label>Descripción del Trabajo</label>
+            <InputText @bind-Value="Trabajos.Descripcion" />
+        </div>
+
+        @* Monto *@
+        <div class="inputsAgregar">
+            <label>Monto del Trabajo</label>
+            <InputNumber @bind-Value="Trabajos.Monto" />
+            @if (!string.IsNullOrEmpty(SueldoMensaje))
+            {
+                <label class="error-label">@SueldoMensaje</label>
+            }
+        </div>
+
+        @* Botones *@
+        <div class="BotonesAgregar">
+            <button type="button" @onclick="Volver">
+                <i class="bi bi-arrow-return-left"></i> Volver
+            </button>
+            <button type="submit">
+                <i class="bi bi-plus-circle-dotted"></i> Guardar
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int TrabajoId { get; set; } 
+    public List<Tecnicos> Tecnicos = new List<Tecnicos>();
+    public List<Clientes> Clientes = new List<Clientes>();
+    public Trabajos Trabajos { get; set; } = new Trabajos(); 
+    string Mensaje { get; set; } = string.Empty;
+    string SueldoMensaje { get; set; } = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tecnicos = await tecnicosService.Listar(j => j.Id > 0);
+        Clientes = await clientesService.Listar(j => j.ClienteId > 0);
+
+        if (TrabajoId > 0)
+        {
+            Trabajos = await trabajosService.Buscar(TrabajoId);
+
+            if (Trabajos == null)
+            {
+                Mensaje = "No se encontró el trabajo.";
+            }
+        }
+    }
+
+    public async Task Guardar()
+    {
+        if (Trabajos.Monto <= 0)
+        {
+            SueldoMensaje = "El sueldo por hora debe ser mayor a 0.";
+            return;
+        }
+
+        await trabajosService.Guardar(Trabajos);
+
+        navigation.NavigateTo("/Trabajos/Index");
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Trabajos/Index");
+    }
+}
