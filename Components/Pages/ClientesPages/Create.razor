@@ -30,6 +30,10 @@
         <div class="inputsAgregar">
             <label>WhatsApp</label>
             <InputText @bind-Value="Clientes.WhatsApp"/>
+            @if (!string.IsNullOrEmpty(MensajeN))
+            {
+                <label class="error-label">@MensajeN</label>
+            }
         </div>
 
         @*Botones*@
@@ -47,13 +51,20 @@
 @code {
     public Clientes Clientes { get; set; } = new Clientes();
     String Mensaje { get; set; } = string.Empty;
+    String MensajeN { get; set; } = string.Empty;
 
     public async Task Guardar()
     {
         bool nombreExiste = await clientesService.NombreExiste(Clientes.Nombres);
+        bool numeroExiste = await clientesService.NumeroExiste(Clientes.WhatsApp);
         if (nombreExiste)
         {
             Mensaje = "El nombre del Cliente ya existe.";
+            return;
+        }
+        if (numeroExiste)
+        {
+            MensajeN = "El numero del Cliente ya esta en uso.";
             return;
         }
         {
