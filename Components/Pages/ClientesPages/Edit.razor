@@ -30,6 +30,10 @@
         <div class="inputsAgregar">
             <label>WhatsApp</label>
             <InputText @bind-Value="Clientes.WhatsApp"></InputText>
+            @if (!string.IsNullOrEmpty(MensajeN))
+            {
+                <label class="error-label">@MensajeN</label>
+            }
         </div>
         @*Botones*@
         <div class="botones">
@@ -47,6 +51,7 @@
     public int ClienteId { get; set; }
     public string Mensaje { get; set; } = string.Empty;
     public Clientes Clientes { get; set; } = new Clientes();
+    String MensajeN { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,7 +72,6 @@
         if (clienteExistente != null && clienteExistente.Nombres != Clientes.Nombres)
         {
             bool nombreExiste = await clientesService.NombreExiste(Clientes.Nombres);
-
             if (nombreExiste)
             {
                 Mensaje = "El nombre del cliente ya está en uso.";
@@ -75,6 +79,13 @@
             }
         }
 
+        
+        bool numeroExiste = await clientesService.NumeroExiste(Clientes.WhatsApp);
+        if (numeroExiste && clienteExistente.WhatsApp != Clientes.WhatsApp) 
+        {
+            MensajeN = "El número de WhatsApp ya está en uso por otro cliente.";
+            return;
+        }
         await clientesService.Guardar(Clientes);
         Clientes = new Clientes();
         navigation.NavigateTo("/Clientes/Index");
