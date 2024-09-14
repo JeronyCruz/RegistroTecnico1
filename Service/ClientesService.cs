@@ -69,4 +69,10 @@ public class ClientesService(Context context)
            return await _context.Clientes.AnyAsync(t => t.Nombres.Trim().ToLower() == nombreClienteNormalizado);
     }
 
+    public async Task<bool> NumeroExiste(string numeroWhatsApp)
+    {
+        var numeroNormalizado = numeroWhatsApp.Trim().ToLower();
+        return await _context.Clientes.AnyAsync(t => t.WhatsApp.Trim().ToLower() == numeroNormalizado);
+    }
+
 }
