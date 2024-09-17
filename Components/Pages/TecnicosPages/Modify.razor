@@ -58,8 +58,8 @@
     [Parameter]
     public int TecnicoId { get; set; }
     public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
-    string Mensaje { get; set; } = string.Empty;
-    string SueldoMensaje { get; set; } = string.Empty;
+    public string Mensaje { get; set; } = string.Empty;
+    public string SueldoMensaje { get; set; } = string.Empty;
     Tecnicos Tecnico { get; set; } = new Tecnicos();
 
     protected override async Task OnInitializedAsync()

@@ -28,7 +28,7 @@
 
     [Parameter]
     public int ClienteId { get; set; }
-    Clientes Clientes { get; set; }
+    public Clientes Clientes { get; set; } = new Clientes();
 
     protected override async Task OnInitializedAsync()
     {

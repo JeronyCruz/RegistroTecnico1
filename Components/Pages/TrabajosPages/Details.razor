@@ -35,7 +35,7 @@
 @code {
     [Parameter]
     public int TecnicoId { get; set; }
-    Trabajos Trabajo { get; set; } = new Trabajos();
+    public Trabajos Trabajo { get; set; } = new Trabajos();
 
     protected override async Task OnInitializedAsync()
     {
