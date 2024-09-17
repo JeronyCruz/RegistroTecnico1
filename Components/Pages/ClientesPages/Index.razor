@@ -64,9 +64,9 @@
 
 
 @code {
-    public List<Clientes> Clientes = new List<Clientes>();
-    private string FiltroSeleccionado = "ID";
-    private string CriterioBusqueda = string.Empty;
+    public List<Clientes> Clientes { get; set; } = new List<Clientes>();
+    private string FiltroSeleccionado { get; set; } = "ID";
+    private string CriterioBusqueda { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {

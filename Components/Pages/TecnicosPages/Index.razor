@@ -66,9 +66,9 @@
 
 
 @code {
-    public List<Tecnicos> Tecnico = new List<Tecnicos>();
-    private string FiltroSeleccionado = "ID";
-    private string CriterioBusqueda = string.Empty;
+    public List<Tecnicos> Tecnico { get; set; } = new List<Tecnicos>();
+    private string FiltroSeleccionado { get; set; } = "ID";
+    private string CriterioBusqueda { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {

@@ -73,8 +73,8 @@
 </EditForm>
 
 @code {
-    public List<Tecnicos> Tecnicos = new List<Tecnicos>();
-    public List<Clientes> Clientes = new List<Clientes>();
+    public List<Tecnicos> Tecnicos { get; set; } = new List<Tecnicos>();
+    public List<Clientes> Clientes { get; set; } = new List<Clientes>();
     public Trabajos Trabajos { get; set; } = new Trabajos();
     string Mensaje { get; set; } = string.Empty;
     string SueldoMensaje { get; set; } = string.Empty;

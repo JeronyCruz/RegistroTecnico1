@@ -76,9 +76,9 @@
 
 
 @code {
-    public List<Trabajos> Trabajo = new List<Trabajos>();
-    private string FiltroSeleccionado = "ID";
-    private string CriterioBusqueda = string.Empty;
+    public List<Trabajos> Trabajo { get; set; } = new List<Trabajos>();
+    private string FiltroSeleccionado { get; set; } = "ID";
+    private string CriterioBusqueda { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
