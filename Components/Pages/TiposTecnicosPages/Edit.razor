@@ -38,7 +38,7 @@
 @code {
     [Parameter]
     public int TecnicoId { get; set; }
-    string Mensaje { get; set; } = string.Empty;
+    public string Mensaje { get; set; } = string.Empty;
     public TiposTecnicos TiposTecnico { get; set; } = new TiposTecnicos();
 
     protected override async Task OnInitializedAsync()
