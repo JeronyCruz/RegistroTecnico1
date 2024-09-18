@@ -28,6 +28,9 @@ namespace RegistroTecnico1
             //Inyeccion del Trabajo
             builder.Services.AddScoped<TrabajosService>();
 
+            //Inyeccion de la Prioridad
+            builder.Services.AddScoped<PrioridadesService>();
+
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
