@@ -23,7 +23,7 @@ public class PrioridadesService(Context context)
     private async Task<bool> Modificar(Prioridades prioridades)
     {
         var existingPrioridades = await _context.Prioridades.FindAsync(prioridades.PrioridadId);
-        if(existingPrioridades == null)
+        if(existingPrioridades != null)
         {
             _context.Entry(existingPrioridades).CurrentValues.SetValues(prioridades);
             return await _context.SaveChangesAsync() > 0;
@@ -42,7 +42,7 @@ public class PrioridadesService(Context context)
     public async Task<bool> Eliminar(int id)
     {
         var prioridad = await _context.Prioridades.FindAsync(id);
-        if(prioridad == null)
+        if(prioridad != null)
         {
             _context.Prioridades.Remove(prioridad);
             await _context.SaveChangesAsync();
@@ -69,10 +69,6 @@ public class PrioridadesService(Context context)
 
     public async Task<bool> TiempoExiste(int tiempo)
     {
-        if (tiempo <= 0)
-        {
-            return false;
-        }
         return await _context.Prioridades.AnyAsync(t => t.Tiempo == tiempo);
     }
 
