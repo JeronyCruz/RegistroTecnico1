@@ -1,0 +1,93 @@
+﻿@page "/Prioridades/Index"
+@rendermode InteractiveServer
+@inject PrioridadesService prioridadesService
+
+<PageTitle> Registro Prioridades</PageTitle>
+
+<h3>Registro de Prioridades</h3>
+@* Filtro y Búsqueda *@
+<div class="filtro-busqueda">
+    <label for="filtrarPor">Filtrar por:</label>
+    <select id="filtrarPor" @bind="FiltroSeleccionado">
+        <option value="ID">ID</option>
+        <option value="Descripcion">Descripci&oacute;n</option>
+    </select>
+
+    <label for="busqueda">Búsqueda</label>
+    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+
+    <button @onclick="BuscarPrioridades" class="btn btn-primary btn-primary bi bi-search"> Buscar</button>
+</div>
+
+@*Body*@
+<div class="card-body">
+    <table class="t">
+        <thead class="th">
+            <tr>
+                <th>ID</th>
+                <th>Descripci&oacute;n</th>
+                <th>Tiempo</th>
+                <th>Detalles</th>
+                <th>Modificar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prioridades in Prioridades)
+            {
+                <tr>
+                    <td class="text-center"> @prioridades.PrioridadId</td>
+                    <td class="text-center"> @prioridades.Descripcion</td>
+                    <td class="text-center"> @prioridades.Tiempo</td>
+                    <td class="text-center">
+                        <a href="/Prioridades/Details/@prioridades.PrioridadId" class="bi bi-eye-fill"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Prioridades/Edit/@prioridades.PrioridadId" class=" bi bi-pencil-square"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="/Prioridades/Delete/@prioridades.PrioridadId" class=" bi bi-trash-fill"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*Boton*@
+    <div class="row">
+        <div class="col text-end">
+            <a href="/Prioridades/Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Crear
+            </a>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public List<Prioridades> Prioridades { get; set; } = new List<Prioridades>();
+    private string FiltroSeleccionado { get; set; } = "ID";
+    private string CriterioBusqueda { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Prioridades = await prioridadesService.Listar(a => true);
+    }
+
+    private async Task BuscarPrioridades()
+    {
+        switch (FiltroSeleccionado)
+        {
+            case "ID":
+                if(int.TryParse(CriterioBusqueda, out int id))
+                {
+                    Prioridades = await prioridadesService.Listar(a => a.PrioridadId == id);
+                }
+                break;
+
+            case "Descripcion":
+                Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower())); ;
+                break;
+        }
+    }
+}
+
