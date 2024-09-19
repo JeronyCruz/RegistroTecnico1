@@ -1,0 +1,86 @@
+﻿@page "/Prioridades/Create"
+@rendermode InteractiveServer
+@inject PrioridadesService prioridadesService
+@inject NavigationManager navigation
+
+<PageTitle>Crear nueva Prioridad</PageTitle>
+
+<EditForm Model="@Prioridades" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="ContenedorAgregar">
+        <h3>Crear Prioridad</h3>
+        @*ID*@
+        <div class="inputsAgregar">
+            <label>ID</label>
+            <InputNumber @bind-Value="Prioridades.PrioridadId" readonly />
+        </div>
+        @*Nombre*@
+        <div class="inputsAgregar">
+            <label>Descripci&oacute;n</label>
+            <InputText @bind-Value="Prioridades.Descripcion" />
+            @if (!string.IsNullOrEmpty(Mensaje))
+            {
+                <label class="error-label">@Mensaje</label>
+            }
+        </div>
+        @*WhatsApp*@
+        <div class="inputsAgregar">
+            <label>Tiempo</label>
+            <InputNumber @bind-Value="Prioridades.Tiempo" />
+            @if (!string.IsNullOrEmpty(MensajeTiempo))
+            {
+                <label class="error-label">@MensajeTiempo</label>
+            }
+        </div>
+
+        @*Botones*@
+        <div class="BotonesAgregar">
+            <button type="button" @onclick="Volver">
+                <i class="bi bi-arrow-return-left"></i> Volver
+            </button>
+            <button type="submit">
+                <i class="bi bi-plus-circle-dotted"></i> Guardar
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Prioridades Prioridades { get; set; } = new Prioridades();
+    public string Mensaje { get; set; } = string.Empty;
+    public string MensajeTiempo { get; set; } = string.Empty;
+
+    public async Task Guardar()
+    {
+        if(Prioridades.Tiempo <= 0)
+        {
+            MensajeTiempo = "El tiempo no puede ser menor a 0";
+            return;
+        }
+
+
+        bool descripcionExiste = await prioridadesService.DescripcionExiste(Prioridades.Descripcion);
+        bool tiempoExiste = await prioridadesService.TiempoExiste(Prioridades.Tiempo);
+        if (descripcionExiste)
+        {
+            Mensaje = "La descripcion ya existe.";
+            return;
+        }
+        if (tiempoExiste)
+        {
+            MensajeTiempo = "Este tiempo ya pertenece a una Prioridad.";
+            return;
+        }
+        {
+            await prioridadesService.Guardar(Prioridades);
+            Prioridades = new Prioridades();
+            navigation.NavigateTo("/Prioridades/Index");
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("Prioridades/Index");
+    }
+}
