@@ -11,6 +11,7 @@
     <select id="filtrarPor" @bind="FiltroSeleccionado">
         <option value="ID">ID</option>
         <option value="Descripcion">Descripci&oacute;n</option>
+        <option value="Tiempo">Tiempo</option>
     </select>
 
     <label for="busqueda">Búsqueda</label>
@@ -87,6 +88,14 @@
             case "Descripcion":
                 Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower())); ;
                 break;
+
+            case "Tiempo":
+                if (int.TryParse(CriterioBusqueda, out int tiempo))
+                {
+                    Prioridades = await prioridadesService.Listar(a => a.Tiempo == tiempo);
+                }
+                break;
+
         }
     }
 }
