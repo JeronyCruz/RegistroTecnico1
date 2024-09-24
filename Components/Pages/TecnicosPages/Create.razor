@@ -50,9 +50,9 @@
         </div>
         @*Botones*@
         <div class="BotonesAgregar">
-            <button type="button" @onclick="Volver">
+            <a href="/Tecnicos/Index" class="btn btn-primary">
                 <i class="bi bi-arrow-return-left"></i> Volver
-            </button>
+            </a>
             <button type="submit">
                 <i class="bi bi-plus-circle-dotted"></i> Guardar
             </button>
@@ -93,8 +93,4 @@
         }
     }
 
-    public void Volver()
-    {
-        navigation.NavigateTo("/Tecnicos/Index");
-    }
 }
