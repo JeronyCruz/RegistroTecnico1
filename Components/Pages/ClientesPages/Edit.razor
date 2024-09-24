@@ -37,9 +37,9 @@
         </div>
         @*Botones*@
         <div class="botones">
-            <button type="button" @onclick="Volver">
+            <a href="/Clientes/Index" class="btn btn-primary">
                 <i class="bi bi-arrow-return-left"></i> Volver
-            </button>
+            </a>
             <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
         </div>
     </EditForm>
@@ -88,11 +88,6 @@
         }
         await clientesService.Guardar(Clientes);
         Clientes = new Clientes();
-        navigation.NavigateTo("/Clientes/Index");
-    }
-
-    public void Volver()
-    {
         navigation.NavigateTo("/Clientes/Index");
     }
 }
