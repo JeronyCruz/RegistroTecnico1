@@ -18,7 +18,9 @@
     </div>
     @*Botones*@
     <div class="botones">
-        <button type="submit" @onclick="Volver" class="bi bi-arrow-90deg-left"> Volver</button>
+        <a href="/Clientes/Index" class="btn btn-primary">
+            <i class="bi bi-arrow-return-left"></i> Volver
+        </a>
         <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
     </div>
 
@@ -54,8 +56,4 @@
         }
     }
 
-    public void Volver()
-    {
-        navigation.NavigateTo("/Clientes/Index");
-    }
 }
