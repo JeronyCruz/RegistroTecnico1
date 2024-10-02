@@ -53,14 +53,14 @@ public class TrabajosService(Context context)
 
     public async Task<Trabajos> Buscar(int id)
     {
-        return await _context.Trabajos.Include(t => t.Tecnico).Include(t => t.Cliente)
+        return await _context.Trabajos.Include(t => t.Tecnico).Include(t => t.Cliente).Include(t => t.Prioridad)
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.TrabajoId == id);
     }
 
     public async Task<List<Trabajos>> Listar(Expression<Func<Trabajos, bool>> criterio)
     {
-        return await _context.Trabajos.Include(t => t.Tecnico).Include(t => t.Cliente)
+        return await _context.Trabajos.Include(t => t.Tecnico).Include(t => t.Cliente).Include(t => t.Prioridad)
             .AsNoTracking().Where(criterio).ToListAsync();
 
     }
