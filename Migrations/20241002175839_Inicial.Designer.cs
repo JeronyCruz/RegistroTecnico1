@@ -11,7 +11,7 @@ using RegistroTecnico1.DAL;
 namespace RegistroTecnico1.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240918175654_Inicial")]
+    [Migration("20241002175839_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -114,12 +114,17 @@ namespace RegistroTecnico1.Migrations
                     b.Property<double>("Monto")
                         .HasColumnType("REAL");
 
+                    b.Property<int>("PrioridadId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("TecnicoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("TrabajoId");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("PrioridadId");
 
                     b.HasIndex("TecnicoId");
 
@@ -145,6 +150,12 @@ namespace RegistroTecnico1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RegistroTecnico1.Models.Prioridades", "Prioridad")
+                        .WithMany()
+                        .HasForeignKey("PrioridadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RegistroTecnico1.Models.Tecnicos", "Tecnico")
                         .WithMany()
                         .HasForeignKey("TecnicoId")
@@ -152,6 +163,8 @@ namespace RegistroTecnico1.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+
+                    b.Navigation("Prioridad");
 
                     b.Navigation("Tecnico");
                 });
