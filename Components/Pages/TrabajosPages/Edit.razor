@@ -3,6 +3,7 @@
 @inject TecnicoService tecnicosService
 @inject TrabajosService trabajosService
 @inject ClientesService clientesService
+@inject PrioridadesService prioridadesService
 @inject NavigationManager navigation
 
 <link rel="stylesheet" href="StyleCreate.css" />
@@ -52,6 +53,17 @@
             </InputSelect>
         </div>
 
+        @*Prioridad*@
+        <div class="inputsAgregar">
+            <label>Elija la Prioridad</label>
+            <InputSelect class="form-select" @bind-Value="Trabajos.PrioridadId">
+                @foreach (var prioridad in Prioridades)
+                {
+                    <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
+                }
+            </InputSelect>
+        </div>
+
         @* Descripción *@
         <div class="inputsAgregar">
             <label>Descripción del Trabajo</label>
@@ -88,6 +100,7 @@
     public int TrabajoId { get; set; }
     public List<Tecnicos> Tecnicos { get; set; } = new List<Tecnicos>();
     public List<Clientes> Clientes { get; set; } = new List<Clientes>();
+    public List<Prioridades> Prioridades { get; set; } = new List<Prioridades>();
     public Trabajos Trabajos { get; set; } = new Trabajos();
     public string Mensaje { get; set; } = string.Empty;
     public string SueldoMensaje { get; set; } = string.Empty;
@@ -96,6 +109,7 @@
     {
         Tecnicos = await tecnicosService.Listar(j => j.Id > 0);
         Clientes = await clientesService.Listar(j => j.ClienteId > 0);
+        Prioridades = await prioridadesService.Listar(j => j.PrioridadId > 0);
 
         if (TrabajoId > 0)
         {
