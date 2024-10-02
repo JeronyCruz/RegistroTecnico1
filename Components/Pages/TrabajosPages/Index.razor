@@ -28,6 +28,8 @@
             <tr>
                 <th>Trabajo ID</th>
                 <th>Fecha</th>
+                <th>Prioridad ID</th>
+                <th>Prioridad</th>
                 <th>ID Cliente</th>
                 <th>Cliente</th>
                 <th>ID Tecnico</th>
@@ -45,6 +47,8 @@
                 <tr>
                     <td class="text-center"> @trabajo.TrabajoId</td>
                     <td class="text-center"> @trabajo.Fecha</td>
+                    <td class="text-center"> @trabajo.Prioridad?.PrioridadId</td>
+                    <td class="text-center"> @trabajo.Prioridad?.Descripcion</td>
                     <td class="text-center"> @trabajo.Cliente?.ClienteId</td>
                     <td class="text-center"> @trabajo.Cliente?.Nombres</td>
                     <td class="text-center"> @trabajo.Tecnico?.TecnicoId</td>
