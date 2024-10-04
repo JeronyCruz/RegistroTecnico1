@@ -31,6 +31,17 @@
             <InputDate @bind-Value="Trabajos.Fecha">@Trabajos.Fecha</InputDate>
         </div>
 
+        @*Prioridad*@
+        <div class="inputsAgregar">
+            <label>Elija la Prioridad</label>
+            <InputSelect class="form-select" @bind-Value="Trabajos.PrioridadId">
+                @foreach (var prioridad in Prioridades)
+                {
+                    <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
+                }
+            </InputSelect>
+        </div>
+
         @* Cliente *@
         <div class="inputsAgregar">
             <label>Elija el Cliente</label>
@@ -49,17 +60,6 @@
                 @foreach (var tecnico in Tecnicos)
                 {
                     <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
-                }
-            </InputSelect>
-        </div>
-
-        @*Prioridad*@
-        <div class="inputsAgregar">
-            <label>Elija la Prioridad</label>
-            <InputSelect class="form-select" @bind-Value="Trabajos.PrioridadId">
-                @foreach (var prioridad in Prioridades)
-                {
-                    <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
                 }
             </InputSelect>
         </div>
