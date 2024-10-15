@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
 .List-des, .list-details {
     height: 350px;
     width: 300px;
-    background-color: #ffffff; /* Cambiar a blanco */
+    background-color: #ffffff; 
     border-radius: 15px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5), 0px 0px 20px rgba(255, 0, 0, 0.8);
     border: 5px solid rgba(255, 0, 0, 0.7);
@@ -37,12 +37,12 @@
     }
 
 .name, .list-details ul {
-    color: black; /* Cambiar a negro */
+    color: black; 
     z-index: 2;
     background-color: transparent;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
-    text-shadow: none; /* Eliminar sombra del texto */
+    text-shadow: none; 
     padding: 20px;
     list-style: none;
     margin: 0;
@@ -70,4 +70,4 @@
     .botones button:hover, .btn-details button:hover {
         background-color: #e53935;
         box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-    }
+    } */
