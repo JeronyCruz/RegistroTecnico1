@@ -8,30 +8,72 @@
 
 <PageTitle> Detalles Trabajo</PageTitle>
 
-@*Body*@
-<div class="Contenedor_Eliminar">
-    <h3> Detalles del trabajo</h3>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Detalle Trabajo</h5>
+        </div>
 
-    <div class="list-details">
-        <ul class="name">
-            @*Detalles del Trabajo*@
-            <li>Trabajo Id: @Trabajo.TrabajoId</li>
-            <li>Fecha: @Trabajo.Fecha</li>
-            <li>Prioridad Id: @Trabajo.Prioridad?.PrioridadId</li>
-            <li>Prioridad: @Trabajo.Prioridad?.Descripcion</li>
-            <li>ID Cliente: @Trabajo.Cliente?.ClienteId</li>
-            <li>Nombre Cliente: @Trabajo.Cliente?.Nombres</li>
-            <li>ID Tecnico: @Trabajo.Tecnico?.TecnicoId</li>
-            <li>Nombre Tecnico: @Trabajo.Tecnico?.NombresTecnico</li>
-            <li>Descripci&oacute;n @Trabajo.Descripcion</li>
-            <li>Monto: @Trabajo.Monto</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="btn-details">
-        <a href="/Trabajos/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong> Trabajo Id:</strong> @Trabajo.TrabajoId
+                    </li>
+
+                    @*Fecha*@
+                    <li class="list-group-item">
+                        <strong>Fecha:</strong> @Trabajo.Fecha
+                    </li>
+
+                    @*Prioridad Id*@
+                    <li class="list-group-item">
+                        <strong>Prioridad Id:</strong> @Trabajo.Prioridad?.PrioridadId
+                    </li>
+
+                    @*Prioridad *@
+                    <li class="list-group-item">
+                        <strong>Prioridad:</strong> @Trabajo.Prioridad?.Descripcion
+                    </li>
+
+                    @*Cliente Id*@
+                    <li class="list-group-item">
+                        <strong>Cliente Id:</strong> @Trabajo.Cliente?.ClienteId
+                    </li>
+
+                    @*Cliente *@
+                    <li class="list-group-item">
+                        <strong>Cliente:</strong> @Trabajo.Cliente?.Nombres
+                    </li>
+
+                    @*Tecnico Id*@
+                    <li class="list-group-item">
+                        <strong>Tecnico Id:</strong> @Trabajo.Tecnico?.TecnicoId
+                    </li>
+
+                    @*Tecnico *@
+                    <li class="list-group-item">
+                        <strong>Tecnico:</strong> @Trabajo.Tecnico?.NombresTecnico
+                    </li>
+
+                    @*Descripcion *@
+                    <li class="list-group-item">
+                        <strong>Descripc&iacute;on:</strong> @Trabajo.Descripcion
+                    </li>
+
+                    @*Monto*@
+                    <li class="list-group-item">
+                        <strong>Monto:</strong> @Trabajo.Monto.ToString("N2")
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+        </div>
     </div>
 </div>
 

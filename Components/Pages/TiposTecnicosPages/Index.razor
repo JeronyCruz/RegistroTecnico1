@@ -4,60 +4,72 @@
 
 <PageTitle> Registro Tipos de T&eacute;cnicos</PageTitle>
 
-<h3>Registro tipos de t&eacute;cnicos</h3>
-@* Filtro y Búsqueda *@
-<div class="filtro-busqueda">
-    <label for="filtrarPor">Filtrar por:</label>
-    <select id="filtrarPor" @bind="FiltroSeleccionado">
-        <option value="ID">ID</option>
-        <option value="Descripcion">Descripci&oacute;n</option>
-    </select>
+<div class="container">
+	<div class="card shadow-lg">
 
-    <label for="busqueda">Búsqueda</label>
-    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+		<div class="card-header">
+			<h5 class="card-title text-center">Registro de Tipos Tecnicos</h5>
+		</div>
+		<div class="card-body">
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<label for="filtrarPor"> Filtrar por:</label>
+					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+						<option value="ID">ID</option>
+						<option value="Descripcion">Descripcion</option>
+					</InputSelect>
+				</div>
 
-    <button @onclick="BuscarTecnicos" class="btn btn-primary btn-primary bi bi-search"> Buscar</button>
-</div>
+				<div class="col-md-6 d-flex justify-content-center mt-4">
+					<div class="input-group">
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
+						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
+					</div>
+				</div>
+			</div>
 
-@*Body*@
-<div class="card-body">
-    <table class="t">
-        <thead class="th">
-            <tr>
-                <th>ID</th>
-                <th>Descripci&oacute;n</th>
-                <th>Detalles</th>
-                <th>Modificar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Tipostecnico in TiposTecnico)
-            {
-                <tr>
-                    <td class="text-center"> @Tipostecnico.Id</td>
-                    <td class="text-center"> @Tipostecnico.Descripcion</td>
-                    <td class="text-center">
-                        <a href="/TiposTecnicos/Details/@Tipostecnico.Id" class="bi bi-eye-fill"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/TiposTecnicos/Edit/@Tipostecnico.Id" class=" bi bi-pencil-square"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/TiposTecnicos/Delete/@Tipostecnico.Id" class=" bi bi-trash-fill"></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @*Boton*@
-    <div class="row">
-        <div class="col text-end">
-            <a href="/TiposTecnicos/Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Crear
-            </a>
-        </div>
-    </div>
+			<div class="row mb-3">
+				<div class="col text-end">
+					<a href="/TiposTecnicos/Create" class="btn btn-primary bi bi-plus-square mt-3">
+						Crear
+					</a>
+				</div>
+			</div>
+
+			<table class="table table-light table-hover">
+				<thead class="table table-striped ">
+					<tr class="text-center">
+						<th>Tipos T&eacute;cnico Id</th>
+						<th>Descripc&iacute;on</th>
+						<th>Detalles</th>
+						<th>Modificar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var tiposTecnico in TiposTecnico)
+					{
+						<tr class="text-center">
+							<td>@tiposTecnico.Id</td>
+							<td>@tiposTecnico.Descripcion</td>
+							<td>
+								<a href="/TiposTecnicos/Details/@tiposTecnico.Id" class="btn btn-primary bi bi-eye"></a>
+							</td>
+							<td>
+								<a href="/TiposTecnicos/Edit/@tiposTecnico.Id" class="btn btn-primary bi bi-pencil-square"></a>
+							</td>
+							<td>
+								<a href="/TiposTecnicos/Delete/@tiposTecnico.Id" class="btn btn-primary bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+
+			</table>
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
 </div>
 
 

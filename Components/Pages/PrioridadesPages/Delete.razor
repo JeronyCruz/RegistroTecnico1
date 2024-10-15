@@ -5,26 +5,42 @@
 
 <PageTitle>Eliminar Prioridad</PageTitle>
 
-@*Body*@
-<div class="Contenedor_Eliminar">
-    <div class="list-details">
-        @*Detalles de la Prioridad*@
-        <ul>
-            <li>Prioridad Id: @Prioridades.PrioridadId</li>
-            <li>Descripci&oacute;n: @Prioridades.Descripcion</li>
-            <li>Tiempo: @Prioridades.Tiempo</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="botones">
-        <a href="/Prioridades/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
-        <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
-    </div>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Eliminar Prioridad</h5>
+        </div>
 
-    <div>
-        <label>Estas Seguro de que desea eliminar esta Prioridad?</label>
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong> Prioridad Id:</strong> @Prioridades.PrioridadId
+                    </li>
+
+                    @*Nombre del Tecnico*@
+                    <li class="list-group-item">
+                        <strong>Descripc&iacute;on:</strong> @Prioridades.Descripcion
+                    </li>
+
+                    @*Tiempo*@
+                    <li class="list-group-item">
+                        <strong>Tiempo:</strong> @Prioridades.Tiempo
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h6>¿Estas seguro que deseas eliminar esta Prioridad?</h6>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" @onclick="Eliminar" class="btn btn-outline-danger btn bi bi-trash"> Eliminar</button>
+        </div>
     </div>
 </div>
 

@@ -7,25 +7,37 @@
 
 <PageTitle> Eliminar Tipos T&eacute;cnicos</PageTitle>
 
-@*Body*@
-<div class="Contenedor_Eliminar">
-    <div class="list-details">
-        @*Detalles*@
-        <ul>
-            <li>T&eacute;cnico Id: @TiposTecnico.Id</li>
-            <li>Descripci&oacute;n del t&eacute;cnico: @TiposTecnico.Descripcion</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="botones">
-        <a href="/TiposTecnicos/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
-        <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
-    </div>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Eliminar Tipo T&eacute;cnico</h5>
+        </div>
 
-    <div>
-        <label>Estas Seguro de que desea eliminar a este tipo t&eacute;cnico?</label>
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong>Tipo T&eacute;cnico Id:</strong> @TiposTecnico.Id
+                    </li>
+
+                    @*Descripcion*@
+                    <li class="list-group-item">
+                        <strong>Descripc&iacute;on Tecnico:</strong> @TiposTecnico.Descripcion
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h6>¿Estas seguro que deseas eliminar este Tipo de Tecnico?</h6>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/TiposTecnicos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" @onclick="Eliminar" class="btn btn-outline-danger btn bi bi-trash"> Eliminar</button>
+        </div>
     </div>
 </div>
 

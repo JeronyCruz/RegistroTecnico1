@@ -16,84 +16,91 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="ContenedorAgregar">
-        <h3>Editar Trabajo</h3>
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Editar Trabajo</h5>
+            </div>
 
-        @* ID *@
-        <div class="inputsAgregar">
-            <label>ID</label>
-            <InputNumber @bind-Value="Trabajos.TrabajoId" readonly />
+            <div class="card-body">
+                @*ID*@
+                <div class="mb-3">
+                    <label for="CobroId" class="form-label text-primary">Trabajo ID</label>
+                    <InputNumber class="form-control" @bind-Value="Trabajos.TrabajoId" readonly></InputNumber>
+                </div>
+
+                @*Fecha*@
+                <div class="mb-3">
+                    <label for="fecha" class="form-label text-primary">Fecha</label>
+                    <InputDate class="form-control" @bind-Value="Trabajos.Fecha"></InputDate>
+                </div>
+
+                @*Prioridad*@
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="DeudorId" class="form-label text-primary">Elija la Prioridad</label>
+                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.PrioridadId">
+                        <option disabled value="">-- Seleccione un deudor --</option>
+                        @foreach (var prioridad in Prioridades)
+                        {
+                            <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                @*Cliente*@
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="DeudorId" class="form-label text-primary">Elija el Cliente</label>
+                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.ClienteId">
+                        <option disabled value="">-- Seleccione un deudor --</option>
+                        @foreach (var cliente in Clientes)
+                        {
+                            <option value="@cliente.ClienteId">@cliente.Nombres</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                @*Tecnico*@
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="DeudorId" class="form-label text-primary">Elija el Tecnico</label>
+                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.TecnicoId">
+                        <option disabled value="">-- Seleccione un deudor --</option>
+                        @foreach (var tecnico in Tecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                @*Descripccion*@
+                <div class="mb-3">
+                    <label for="CobroId" class="form-label text-primary">Descripc&iacute;on del trabajo</label>
+                    <InputText class="form-control" @bind-Value="Trabajos.Descripcion"></InputText>
+                    <ValidationMessage For="(()=> Trabajos.Descripcion)"></ValidationMessage>
+                </div>
+
+                @*Monto*@
+                <div class="mb-3">
+                    <label for="CobroId" class="form-label text-primary">Monto del trabajo</label>
+                    <InputNumber class="form-control" @bind-Value="Trabajos.Monto"></InputNumber>
+                    <ValidationMessage For="(()=> Trabajos.Monto)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(SueldoMensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @SueldoMensaje
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
 
-        @* Fecha *@
-        <div class="inputsAgregar">
-            <label>Fecha</label>
-            <InputDate @bind-Value="Trabajos.Fecha">@Trabajos.Fecha</InputDate>
-        </div>
-
-        @*Prioridad*@
-        <div class="inputsAgregar">
-            <label>Elija la Prioridad</label>
-            <InputSelect class="form-select" @bind-Value="Trabajos.PrioridadId">
-                @foreach (var prioridad in Prioridades)
-                {
-                    <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
-                }
-            </InputSelect>
-        </div>
-
-        @* Cliente *@
-        <div class="inputsAgregar">
-            <label>Elija el Cliente</label>
-            <InputSelect class="form-select" @bind-Value="Trabajos.ClienteId">
-                @foreach (var cliente in Clientes)
-                {
-                    <option value="@cliente.ClienteId">@cliente.Nombres</option>
-                }
-            </InputSelect>
-        </div>
-
-        @* Técnico *@
-        <div class="inputsAgregar">
-            <label>Elija el Técnico</label>
-            <InputSelect class="form-select" @bind-Value="Trabajos.TecnicoId">
-                @foreach (var tecnico in Tecnicos)
-                {
-                    <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
-                }
-            </InputSelect>
-        </div>
-
-        @* Descripción *@
-        <div class="inputsAgregar">
-            <label>Descripción del Trabajo</label>
-            <InputText @bind-Value="Trabajos.Descripcion" />
-        </div>
-
-        @* Monto *@
-        <div class="inputsAgregar">
-            <label>Monto del Trabajo</label>
-            <InputNumber @bind-Value="Trabajos.Monto" />
-            @if (!string.IsNullOrEmpty(SueldoMensaje))
-            {
-                <label class="error-label">@SueldoMensaje</label>
-            }
-        </div>
-
-        @* Botones *@
-        <div class="BotonesAgregar">
-            <a href="/Trabajos/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit">
-                <i class="bi bi-plus-circle-dotted"></i> Guardar
-            </button>
-            <button type="button" @onclick="EnviarWhatsApp">
-                <i class="bi bi-whatsapp"></i> Enviar por WhatsApp
-            </button>
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            <button type="button" class="btn btn-outline-primary bi bi-whatsapp mt-3" @onclick="EnviarWhatsApp">Enviar por WhatsApp</button>
         </div>
     </div>
 </EditForm>
+
 
 @code {
     [Parameter]

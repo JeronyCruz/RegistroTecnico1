@@ -7,73 +7,85 @@
 
 <PageTitle> Registro de Trabajos</PageTitle>
 
-<h3>Registro de Trabajo</h3>
-@* Filtro y Búsqueda *@
-<div class="filtro-busqueda">
-    <label for="filtrarPor">Filtrar por:</label>
-    <select id="filtrarPor" @bind="FiltroSeleccionado">
-        <option value="ID">ID</option>
-    </select>
+<div class="container">
+	<div class="card shadow-lg">
 
-    <label for="busqueda">Búsqueda</label>
-    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+		<div class="card-header">
+			<h5 class="card-title text-center ">Registro de Trabajo</h5>
+		</div>
+		<div class="card-body">
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<label for="filtrarPor"> Filtrar por:</label>
+					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+						<option value="ID">ID</option>
+					</InputSelect>
+				</div>
 
-    <button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search"> Buscar</button>
-</div>
+				<div class="col-md-6 d-flex justify-content-center mt-4">
+					<div class="input-group">
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
+						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
+					</div>
+				</div>
+			</div>
 
-@*Body*@
-<div class="card-body">
-    <table class="t">
-        <thead class="th">
-            <tr>
-                <th>Trabajo ID</th>
-                <th>Fecha</th>
-                <th>Prioridad</th>
-                <th>ID Cliente</th>
-                <th>Cliente</th>
-                <th>ID Tecnico</th>
-                <th>Tecnico</th>
-                <th>Descripci&oacute;n</th>
-                <th>Monto</th>
-                <th>Detalles</th>
-                <th>Modificar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var trabajo in Trabajo)
-            {
-                <tr>
-                    <td class="text-center"> @trabajo.TrabajoId</td>
-                    <td class="text-center"> @trabajo.Fecha</td>
-                    <td class="text-center"> @trabajo.Prioridad?.Descripcion</td>
-                    <td class="text-center"> @trabajo.Cliente?.ClienteId</td>
-                    <td class="text-center"> @trabajo.Cliente?.Nombres</td>
-                    <td class="text-center"> @trabajo.Tecnico?.TecnicoId</td>
-                    <td class="text-center"> @trabajo.Tecnico?.NombresTecnico</td>
-                    <td class="text-center"> @trabajo.Descripcion</td>
-                    <td class="text-center"> @trabajo.Monto</td>
-                    <td class="text-center">
-                        <a href="/Trabajos/Details/@trabajo.TrabajoId" class="bi bi-eye-fill"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Trabajos/Edit/@trabajo.TrabajoId" class=" bi bi-pencil-square"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Trabajos/Delete/@trabajo.TrabajoId" class=" bi bi-trash-fill"></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @*Boton*@
-    <div class="row">
-        <div class="col text-end">
-            <a href="/Trabajos/Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Crear
-            </a>
-        </div>
-    </div>
+			<div class="row mb-3">
+				<div class="col text-end">
+					<a href="/Trabajos/Create" class="btn btn-primary bi bi-plus-square mt-3">
+						Crear
+					</a>
+				</div>
+			</div>
+
+			<table class="table table-light table-hover">
+				<thead class="table table-striped ">
+					<tr class="text-center">
+						<th>Trabajo Id</th>
+						<th>Fecha</th>
+						<th>Prioridad</th>
+						<th>Cliente Id</th>
+						<th>Cliente</th>
+						<th>Tecnico Id</th>
+						<th>Tecnico</th>
+						<th>Descripc&iacute;on</th>
+						<th>Monto</th>
+						<th>Detalles</th>
+						<th>Modificar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var trabajo in Trabajo)
+					{
+						<tr class="text-center">
+							<td>@trabajo.TrabajoId</td>
+							<td>@trabajo.Fecha.ToString("dd/MM/yyyy")</td>
+							<td>@trabajo.Prioridad?.Descripcion</td>
+							<td>@trabajo.Cliente?.ClienteId</td>
+							<td>@trabajo.Cliente?.Nombres</td>
+							<td>@trabajo.Tecnico?.TecnicoId</td>
+							<td>@trabajo.Tecnico?.NombresTecnico</td>
+							<td>@trabajo.Descripcion</td>
+							<td>@trabajo.Monto.ToString("N2")</td>
+							<td>
+								<a href="/Trabajos/Details/@trabajo.TrabajoId" class="btn btn-primary bi bi-eye"></a>
+							</td>
+							<td>
+								<a href="/Trabajos/Edit/@trabajo.TrabajoId" class="btn btn-primary bi bi-pencil-square"></a>
+							</td>
+							<td>
+								<a href="/Trabajos/Delete/@trabajo.TrabajoId" class="btn btn-primary bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+
+			</table>
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
 </div>
 
 

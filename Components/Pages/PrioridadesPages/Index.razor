@@ -4,63 +4,75 @@
 
 <PageTitle> Registro Prioridades</PageTitle>
 
-<h3>Registro de Prioridades</h3>
-@* Filtro y Búsqueda *@
-<div class="filtro-busqueda">
-    <label for="filtrarPor">Filtrar por:</label>
-    <select id="filtrarPor" @bind="FiltroSeleccionado">
-        <option value="ID">ID</option>
-        <option value="Descripcion">Descripci&oacute;n</option>
-        <option value="Tiempo">Tiempo</option>
-    </select>
+<div class="container">
+	<div class="card shadow-lg">
 
-    <label for="busqueda">Búsqueda</label>
-    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+		<div class="card-header">
+			<h5 class="card-title text-center">Registro de Prioridades</h5>
+		</div>
+		<div class="card-body">
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<label for="filtrarPor"> Filtrar por:</label>
+					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+						<option value="ID">ID</option>
+						<option value="Descripcion">Descripcion</option>
+						<option value="Tiempo">Tiempo</option>
+					</InputSelect>
+				</div>
 
-    <button @onclick="BuscarPrioridades" class="btn btn-primary btn-primary bi bi-search"> Buscar</button>
-</div>
+				<div class="col-md-6 d-flex justify-content-center mt-4">
+					<div class="input-group">
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
+						<button @onclick="BuscarPrioridades" class="btn btn-primary bi bi-search "> Buscar</button>
+					</div>
+				</div>
+			</div>
 
-@*Body*@
-<div class="card-body">
-    <table class="t">
-        <thead class="th">
-            <tr>
-                <th>ID</th>
-                <th>Descripci&oacute;n</th>
-                <th>Tiempo</th>
-                <th>Detalles</th>
-                <th>Modificar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var prioridades in Prioridades)
-            {
-                <tr>
-                    <td class="text-center"> @prioridades.PrioridadId</td>
-                    <td class="text-center"> @prioridades.Descripcion</td>
-                    <td class="text-center"> @prioridades.Tiempo</td>
-                    <td class="text-center">
-                        <a href="/Prioridades/Details/@prioridades.PrioridadId" class="bi bi-eye-fill"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Prioridades/Edit/@prioridades.PrioridadId" class=" bi bi-pencil-square"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Prioridades/Delete/@prioridades.PrioridadId" class=" bi bi-trash-fill"></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @*Boton*@
-    <div class="row">
-        <div class="col text-end">
-            <a href="/Prioridades/Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Crear
-            </a>
-        </div>
-    </div>
+			<div class="row mb-3">
+				<div class="col text-end">
+					<a href="/Prioridades/Create" class="btn btn-primary bi bi-plus-square mt-3">
+						Crear
+					</a>
+				</div>
+			</div>
+
+			<table class="table table-light table-hover">
+				<thead class="table table-striped ">
+					<tr class="text-center">
+						<th>Prioridad Id</th>
+						<th>Descripc&iacute;on</th>
+						<th>Tiempo</th>
+						<th>Detalles</th>
+						<th>Modificar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var prioridad in Prioridades)
+					{
+						<tr class="text-center">
+							<td>@prioridad.PrioridadId</td>
+							<td>@prioridad.Descripcion</td>
+							<td>@prioridad.Tiempo</td>
+							<td>
+								<a href="/Prioridades/Details/@prioridad.PrioridadId" class="btn btn-primary bi bi-eye"></a>
+							</td>
+							<td>
+								<a href="/Prioridades/Edit/@prioridad.PrioridadId" class="btn btn-primary bi bi-pencil-square"></a>
+							</td>
+							<td>
+								<a href="/Prioridades/Delete/@prioridad.PrioridadId" class="btn btn-primary bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+
+			</table>
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
 </div>
 
 @code

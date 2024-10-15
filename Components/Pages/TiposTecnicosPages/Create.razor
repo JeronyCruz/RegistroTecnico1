@@ -6,36 +6,42 @@
 
 <PageTitle> Crear Tipos T&eacute;cnicos</PageTitle>
 
-<h2>Crear Nuevo Tipo T&eacute;cnicos</h2>
 
 <EditForm Model="@TiposTecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="ContenedorAgregar">
-        <h3>Nuevo tipo T&eacute;cnico</h3>
-        @*ID*@
-        <div class="inputsAgregar">
-            <label>Tipo T&eacute;cnico Id</label>
-            <InputNumber @bind-Value="TiposTecnico.Id" readonly />
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Tipo T&eacute;cnico</h5>
+            </div>
+
+            <div class="card-body">
+                @*Tipo Tecnico ID*@
+                <div class="mb-3">
+                    <label for="TipoTecnicoId" class="form-label text-primary">Tipo T&eacute;cnico Id</label>
+                    <InputNumber class="form-control" @bind-Value="TiposTecnico.Id" readonly></InputNumber>
+                </div>
+
+                @*Descripccion*@
+                <div class="mb-3">
+                    <label for="TipoTecnico" class="form-label text-primary">Descripc&iacute;on del T&eacute;cnico</label>
+                    <InputText class="form-control" @bind-Value="TiposTecnico.Descripcion"></InputText>
+                    <ValidationMessage For="(()=> TiposTecnico.Descripcion)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(Mensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Mensaje
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        @*Descripcion*@
-        <div class="inputsAgregar">
-            <label>Descripci&oacute;n</label>
-            <InputText @bind-Value="TiposTecnico.Descripcion" />
-            @if (!string.IsNullOrEmpty(Mensaje))
-            {
-                <label class="error-label">@Mensaje</label>
-            }
-        </div>
-        @*Botones*@
-        <div class="BotonesAgregar">
-            <a href="/TiposTecnicos/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit">
-                <i class="bi bi-plus-circle-dotted"></i> Guardar
-            </button>
+
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
         </div>
     </div>
 </EditForm>

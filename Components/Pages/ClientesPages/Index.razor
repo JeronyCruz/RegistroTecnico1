@@ -4,62 +4,74 @@
 
 <PageTitle> Registro Clientes</PageTitle>
 
-<h3>Registro de Clientes</h3>
-@* Filtro y Búsqueda *@
-<div class="filtro-busqueda">
-    <label for="filtrarPor">Filtrar por:</label>
-    <select id="filtrarPor" @bind="FiltroSeleccionado">
-        <option value="ID">ID</option>
-        <option value="Nombre">Nombre</option>
-    </select>
+<div class="container">
+	<div class="card shadow-lg">
 
-    <label for="busqueda">Búsqueda</label>
-    <input id="busqueda" type="text" @bind="CriterioBusqueda" placeholder="Buscar..." />
+		<div class="card-header">
+			<h5 class="card-title text-center">Registro de Clientes</h5>
+		</div>
+		<div class="card-body">
+			<div class="row mb-3">
+				<div class="col-md-6">
+					<label for="filtrarPor"> Filtrar por:</label>
+					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+						<option value="ID">ID</option>
+						<option value="Nombre">Nombre</option>
+					</InputSelect>
+				</div>
 
-    <button @onclick="BuscarTecnicos" class="btn btn-primary btn-primary bi bi-search"> Buscar</button>
-</div>
+				<div class="col-md-6 d-flex justify-content-center mt-4">
+					<div class="input-group">
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
+						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
+					</div>
+				</div>
+			</div>
 
-@*Body*@
-<div class="card-body">
-    <table class="t">
-        <thead class="th">
-            <tr>
-                <th>ID</th>
-                <th>Nombres</th>
-                <th>WhatsApp</th>
-                <th>Detalles</th>
-                <th>Modificar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var clientes in Clientes)
-            {
-                <tr>
-                    <td class="text-center"> @clientes.ClienteId</td>
-                    <td class="text-center"> @clientes.Nombres</td>
-                    <td class="text-center"> @clientes.WhatsApp</td>
-                    <td class="text-center">
-                        <a href="/Clientes/Details/@clientes.ClienteId" class="bi bi-eye-fill"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Clientes/Edit/@clientes.ClienteId" class=" bi bi-pencil-square"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="/Clientes/Delete/@clientes.ClienteId" class=" bi bi-trash-fill"></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @*Boton*@
-    <div class="row">
-        <div class="col text-end">
-            <a href="/Clientes/Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Crear
-            </a>
-        </div>
-    </div>
+			<div class="row mb-3">
+				<div class="col text-end">
+					<a href="/Clientes/Create" class="btn btn-primary bi bi-plus-square mt-3">
+						Crear
+					</a>
+				</div>
+			</div>
+
+			<table class="table table-light table-hover">
+				<thead class="table table-striped ">
+					<tr class="text-center">
+						<th>Cliente Id</th>
+						<th>Nombres</th>
+						<th>WhatsApp</th>
+						<th>Detalles</th>
+						<th>Modificar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var clientes in Clientes)
+					{
+						<tr class="text-center">
+							<td>@clientes.ClienteId</td>
+							<td>@clientes.Nombres</td>
+							<td>@clientes.WhatsApp</td>
+							<td>
+								<a href="/Clientes/Details/@clientes.ClienteId" class="btn btn-primary bi bi-eye"></a>
+							</td>
+							<td>
+								<a href="/Clientes/Edit/@clientes.ClienteId" class="btn btn-primary bi bi-pencil-square"></a>
+							</td>
+							<td>
+								<a href="/Clientes/Delete/@clientes.ClienteId" class="btn btn-primary bi bi-trash"></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+
+			</table>
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
 </div>
 
 
