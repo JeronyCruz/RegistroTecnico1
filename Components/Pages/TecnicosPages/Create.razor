@@ -54,7 +54,7 @@
                 <div class="mb-3 d-flex align-items-center">
                     <label for="TipoT" class="form-label text-primary">Descripc&iacute;on del T&eacute;cnico</label>
                     <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Tecnico.Id">
-                        <option disabled value="">-- Seleccione un deudor --</option>
+                        <option disabled value="">-- Seleccione un Tipo Tecnico --</option>
                         @foreach (var tipoTecnico in TiposTecnico)
                         {
                             <option value="@tipoTecnico.Id">@tipoTecnico.Descripcion</option>
