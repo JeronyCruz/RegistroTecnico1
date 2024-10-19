@@ -4,6 +4,8 @@
 @inject TrabajosService trabajosService
 @inject ClientesService clientesService
 @inject PrioridadesService prioridadesService
+@inject ArticulosService articulosService
+@inject TrabajosDetalleService trabajosDetalleService
 @inject NavigationManager navigation
 
 <link rel="stylesheet" href="StyleCreate.css" />
@@ -39,7 +41,7 @@
                 <div class="mb-3 d-flex align-items-center">
                     <label for="DeudorId" class="form-label text-primary">Elija la Prioridad</label>
                     <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.PrioridadId">
-                        <option disabled value="">-- Seleccione un deudor --</option>
+                        <option disabled value="">-- Seleccione una Prioridad --</option>
                         @foreach (var prioridad in Prioridades)
                         {
                             <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
@@ -51,7 +53,7 @@
                 <div class="mb-3 d-flex align-items-center">
                     <label for="DeudorId" class="form-label text-primary">Elija el Cliente</label>
                     <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.ClienteId">
-                        <option disabled value="">-- Seleccione un deudor --</option>
+                        <option disabled value="">-- Seleccione un Cliente --</option>
                         @foreach (var cliente in Clientes)
                         {
                             <option value="@cliente.ClienteId">@cliente.Nombres</option>
@@ -63,7 +65,7 @@
                 <div class="mb-3 d-flex align-items-center">
                     <label for="DeudorId" class="form-label text-primary">Elija el Tecnico</label>
                     <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.TecnicoId">
-                        <option disabled value="">-- Seleccione un deudor --</option>
+                        <option disabled value="">-- Seleccione un Tecnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
@@ -90,6 +92,45 @@
                         </div>
                     }
                 </div>
+
+                @* Detalles del trabajo *@
+                <div class="border border-success p-3 mt-3">
+                    <div class="row">
+                        <div class="col-auto input-group align-items-center">
+                            <SeleccionarArticulo Articulos="Articulos"
+                                                 Cantidad="DetalleActual.Cantidad"
+                                                 Precio="DetalleActual.Precio"
+                                                 ArticuloId="DetalleActual.ArticuloId"
+                                                 ArticuloSeleccionado="AgregarDetalle" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <table class="table table-light">
+                            <thead class="table-striped">
+                                <tr class="text-center">
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Remover</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var Detalle in Trabajos.TrabajosDetalles)
+                                {
+                                    <tr class="text-center">
+                                        <td>@Detalle.ArticuloId</td>
+                                        <td>@Detalle.Cantidad</td>
+                                        <td>@Detalle.Precio</td>
+                                        <td>
+                                            <button type="button" @onclick="() => RemoverDetalle(Detalle)" class="btn btn-outline-danger bi bi-trash">Remover</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -108,19 +149,26 @@
     public List<Tecnicos> Tecnicos { get; set; } = new List<Tecnicos>();
     public List<Clientes> Clientes { get; set; } = new List<Clientes>();
     public List<Prioridades> Prioridades { get; set; } = new List<Prioridades>();
+    public List<TrabajosDetalle> TrabajosDetalle { get; set; } = new List<TrabajosDetalle>();
+    public TrabajosDetalle DetalleActual { get; set; } = new TrabajosDetalle();
     public Trabajos Trabajos { get; set; } = new Trabajos();
+    public List<Articulos> Articulos { get; set; } = new List<Articulos>();
     public string Mensaje { get; set; } = string.Empty;
+    public string MensajeError { get; set; } = string.Empty;
     public string SueldoMensaje { get; set; } = string.Empty;
+    public int? SeleccionadoArticuloId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        Trabajos = await trabajosService.BuscarConDetalles(TrabajoId);
         Tecnicos = await tecnicosService.Listar(j => j.Id > 0);
         Clientes = await clientesService.Listar(j => j.ClienteId > 0);
         Prioridades = await prioridadesService.Listar(j => j.PrioridadId > 0);
+        Articulos = await articulosService.Listar(a => a.ArticuloId > 0);
 
         if (TrabajoId > 0)
         {
-            Trabajos = await trabajosService.Buscar(TrabajoId);
+            Trabajos = await trabajosService.BuscarConDetalles(TrabajoId);
 
             if (Trabajos == null)
             {
@@ -129,16 +177,50 @@
         }
     }
 
+    private async Task AgregarDetalle((Articulos articulos, int Cantidad) selection)
+    {
+        var ArticuloExiste = Trabajos.TrabajosDetalles
+        .FirstOrDefault(A => A.ArticuloId == selection.articulos.ArticuloId);
+        if (ArticuloExiste != null)
+        {
+            ArticuloExiste.Cantidad += selection.Cantidad;
+            ArticuloExiste.Costo = ArticuloExiste.Articulo.Costo * ArticuloExiste.Cantidad;
+            ArticuloExiste.Precio = ArticuloExiste.Articulo.Precio * ArticuloExiste.Cantidad;
+        }
+        else
+        {
+            var TrabajosDetalle = new TrabajosDetalle
+                {
+                    ArticuloId = selection.articulos.ArticuloId,
+                    Cantidad = selection.Cantidad,
+                    Costo = selection.articulos.Costo * selection.Cantidad,
+                    Precio = selection.articulos.Precio * selection.Cantidad,
+                };
+            Trabajos.TrabajosDetalles.Add(TrabajosDetalle);
+            DetalleActual = new TrabajosDetalle();
+            await Task.CompletedTask;
+        }
+
+    }
+
     public async Task Guardar()
     {
+        SueldoMensaje = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(Trabajos.Descripcion))
+        {
+            SueldoMensaje = "La descripción del trabajo es obligatoria.";
+            return;
+        }
+
         if (Trabajos.Monto <= 0)
         {
-            SueldoMensaje = "El monto debe ser mayor a 0.";
+            SueldoMensaje = "El monto del trabajo debe ser mayor a 0.";
             return;
         }
 
         await trabajosService.Guardar(Trabajos);
-
+        Trabajos = new Trabajos();
         navigation.NavigateTo("/Trabajos/Index");
     }
 
@@ -148,21 +230,21 @@
 
         if (cliente != null && !string.IsNullOrEmpty(cliente.WhatsApp))
         {
-            
+
             string numeroWhatsApp = cliente.WhatsApp.Replace(" ", "").Replace("-", "");
 
-            
+
             if (numeroWhatsApp.StartsWith("809"))
             {
                 numeroWhatsApp = "1" + numeroWhatsApp;
             }
 
-            
+
             string mensaje = $"Hola {cliente.Nombres}, su trabajo ha sido aceptado. Descripción del trabajo: {Trabajos.Descripcion}. Monto: {Trabajos.Monto}";
-            
+
             string mensajeEscapado = Uri.EscapeDataString(mensaje);
 
-           
+
             string urlWhatsApp = $"https://wa.me/{numeroWhatsApp}?text={mensajeEscapado}";
             Task.Delay(100).ContinueWith(t => navigation.NavigateTo(urlWhatsApp, true));
         }
@@ -170,6 +252,27 @@
         {
             Mensaje = "No se encontró el número de teléfono del cliente.";
         }
+    }
+
+    public async void RemoverDetalle(TrabajosDetalle detalle)
+    {
+        Trabajos.TrabajosDetalles.Remove(detalle);
+        DetalleActual.ArticuloId = detalle.ArticuloId;
+        DetalleActual.Cantidad = detalle.Cantidad;
+        DetalleActual.Precio = detalle.Precio;
+
+        var articulo = await articulosService.Buscar(detalle.ArticuloId);
+
+        if (articulo != null)
+        {
+            articulo.Existencia += detalle.Cantidad;
+        }
+    }
+
+    public void LimpiarMensajes()
+    {
+        MensajeError = string.Empty;
+        Mensaje = string.Empty;
     }
 
 
