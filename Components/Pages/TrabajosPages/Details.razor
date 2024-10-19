@@ -72,9 +72,9 @@
                     {
                         <ul>
                             <li>Articulo Id: @detalle.ArticuloId</li>
-                            <li>Precio del Articulo : @detalle.Precio $</li>
+                            <li>Nombre Articulo: @detalle.Articulo?.Descripcion</li>
                             <li>Cantidad Articulo: @detalle.Cantidad </li>
-                            <li>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</li>
+                            <li>Total en Articulos: @detalle.Precio $</li>
                         </ul>
                     }
                 </div>
@@ -96,6 +96,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Trabajo = await trabajosService.Buscar(TecnicoId);
+        Trabajo = await trabajosService.BuscarConDetalles(TecnicoId);
     }
 }
