@@ -6,36 +6,44 @@
 
 <PageTitle> Editar Tipos T&eacute;cnicos</PageTitle>
 
-<h3>Modificar</h3>
+<EditForm Model="@TiposTecnico" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<div class="Contenedor_Modificar">
-    <EditForm Model="@TiposTecnico" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        @*ID*@
-        <div class="Inputs-text">
-            <label>Tipo T&eacute;cnico Id:</label>
-            <input type="text" @bind="TiposTecnico.Id" readonly />
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Editar Tipo T&eacute;cnico</h5>
+            </div>
+
+            <div class="card-body">
+                @*Tipo Tecnico ID*@
+                <div class="mb-3">
+                    <label for="TipoTecnicoId" class="form-label text-primary">Tipo T&eacute;cnico Id</label>
+                    <InputNumber class="form-control" @bind-Value="TiposTecnico.Id" readonly></InputNumber>
+                </div>
+
+                @*Descripccion*@
+                <div class="mb-3">
+                    <label for="TipoTecnico" class="form-label text-primary">Descripc&iacute;on del T&eacute;cnico</label>
+                    <InputText class="form-control" @bind-Value="TiposTecnico.Descripcion"></InputText>
+                    <ValidationMessage For="(()=> TiposTecnico.Descripcion)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(Mensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Mensaje
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        @*Descripcion*@
-        <div class="Inputs-text">
-            <label>Descripci&oacute;n:</label>
-            <InputText @bind-Value="TiposTecnico.Descripcion" />
-            @if (!string.IsNullOrEmpty(Mensaje))
-            {
-                <label class="error-label">@Mensaje</label>
-            }
-            <ValidationMessage For="(()=> TiposTecnico.Descripcion)"></ValidationMessage>
+
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/TiposTecnicos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
         </div>
-        @*Botones*@
-        <div class="botones">
-            <a href="/TiposTecnicos/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
-        </div>
-    </EditForm>
-</div>
+    </div>
+</EditForm>
 
 @code {
     [Parameter]

@@ -2,48 +2,59 @@
 @rendermode InteractiveServer
 @inject ClientesService clientesService
 @inject NavigationManager navigation
+<link rel="stylesheet" href="StyleCreate.css" />
 
 <PageTitle>Crear Clientes</PageTitle>
 
-<h2> Crear nuevo Cliente</h2>
 
 <EditForm Model="@Clientes" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="ContenedorAgregar">
-        <h3>Crear Cliente</h3>
-        @*ID*@
-        <div class="inputsAgregar">
-            <label>ID</label>
-            <InputNumber @bind-Value="Clientes.ClienteId" readonly/>
-        </div>
-        @*Nombre*@
-        <div class="inputsAgregar">
-            <label>Nombre</label>
-            <InputText @bind-Value="Clientes.Nombres"/>
-            @if (!string.IsNullOrEmpty(Mensaje))
-            {
-                <label class="error-label">@Mensaje</label>
-            }
-        </div>
-        @*WhatsApp*@
-        <div class="inputsAgregar">
-            <label>WhatsApp</label>
-            <InputText @bind-Value="Clientes.WhatsApp"/>
-            @if (!string.IsNullOrEmpty(MensajeN))
-            {
-                <label class="error-label">@MensajeN</label>
-            }
+
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Cliente</h5>
+            </div>
+
+            <div class="card-body">
+                @* Cliente ID*@
+                <div class="mb-3">
+                    <label for="ClienteId" class="form-label text-primary">Cliente Id</label>
+                    <InputNumber class="form-control" @bind-Value="Clientes.ClienteId" readonly></InputNumber>
+                </div>
+
+                @*Nombre*@
+                <div class="mb-3">
+                    <label for="Cliente" class="form-label text-primary">Nombre</label>
+                    <InputText class="form-control" @bind-Value="Clientes.Nombres"></InputText>
+                    <ValidationMessage For="(()=> Clientes.Nombres)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(Mensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Mensaje
+                        </div>
+                    }
+                </div>
+
+                @*Tiempo*@
+                <div class="mb-3">
+                    <label for="Whatsapp" class="form-label text-primary">WhatsApp</label>
+                    <InputText class="form-control" @bind-Value="Clientes.WhatsApp"></InputText>
+                    <ValidationMessage For="(()=> Clientes.WhatsApp)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(MensajeN))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @MensajeN
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
 
-        @*Botones*@
-        <div class="BotonesAgregar">
-            <a href="/Clientes/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit">
-                <i class="bi bi-plus-circle-dotted"></i> Guardar
-            </button>
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/Clientes/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
         </div>
     </div>
 </EditForm>

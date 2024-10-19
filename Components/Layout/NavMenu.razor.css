@@ -82,14 +82,7 @@
 }
 
 .nav-scrollable {
-    position: fixed;
-    top: 60px; 
-    left: 0;
-    width: 250px;
-    height: 100%;
-    padding: 15px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 999;
+    display: none;
 }
 
 .navbar-toggler:checked ~ .nav-scrollable {

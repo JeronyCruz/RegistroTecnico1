@@ -5,46 +5,58 @@
 
 <PageTitle> Editar Prioridad</PageTitle>
 
-<h2>Editar Prioridad</h2>
 
-<div class="Contenedor_Modificar">
-    <EditForm Model="@Prioridades" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        @*ID*@
-        <div class="inputsAgregar">
-            <label>ID</label>
-            <InputNumber @bind-Value="Prioridades.PrioridadId" readonly />
+<EditForm Model="@Prioridades" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Editar Prioridad</h5>
+            </div>
+
+            <div class="card-body">
+                @* Prioridad ID*@
+                <div class="mb-3">
+                    <label for="PrioridadId" class="form-label text-primary">Prioridad Id</label>
+                    <InputNumber class="form-control" @bind-Value="Prioridades.PrioridadId" readonly></InputNumber>
+                </div>
+
+                @*Nombre*@
+                <div class="mb-3">
+                    <label for="Prioridad" class="form-label text-primary">Descripc&iacute;on</label>
+                    <InputText class="form-control" @bind-Value="Prioridades.Descripcion"></InputText>
+                    <ValidationMessage For="(()=> Prioridades.Descripcion)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(Mensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Mensaje
+                        </div>
+                    }
+                </div>
+
+                @*Tiempo*@
+                <div class="mb-3">
+                    <label for="Tiempo" class="form-label text-primary">Tiempo</label>
+                    <InputNumber class="form-control" @bind-Value="Prioridades.Tiempo"></InputNumber>
+                    <ValidationMessage For="(()=> Prioridades.Tiempo)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(MensajeTiempo))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @MensajeTiempo
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        @*Nombre*@
-        <div class="inputsAgregar">
-            <label>Descripci&oacute;n</label>
-            <InputText @bind-Value="Prioridades.Descripcion" />
-            @if (!string.IsNullOrEmpty(Mensaje))
-            {
-                <label class="error-label">@Mensaje</label>
-            }
-            <ValidationMessage For="(() => Prioridades.Descripcion)"></ValidationMessage>
+
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
         </div>
-        @*WhatsApp*@
-        <div class="inputsAgregar">
-            <label>Tiempo</label>
-            <InputNumber @bind-Value="Prioridades.Tiempo"></InputNumber>
-            @if (!string.IsNullOrEmpty(MensajeTiempo))
-            {
-                <label class="error-label">@MensajeTiempo</label>
-            }
-            <ValidationMessage For="(() => Prioridades.Tiempo)"></ValidationMessage>
-        </div>
-        @*Botones*@
-        <div class="botones">
-            <a href="/Prioridades/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
-        </div>
-    </EditForm>
-</div>
+    </div>
+</EditForm>
 
 @code {
     [Parameter]

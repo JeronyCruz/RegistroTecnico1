@@ -1,0 +1,71 @@
+﻿<div class="col-auto input-group align-items-center">
+    <InputSelect class="form-select" @bind-Value="ArticuloId">
+        <option disabled value="0">--- Seleccione un Articulo ---</option>
+        @foreach (var articulo in Articulos)
+        {
+            <option value="@articulo.ArticuloId">@articulo.ArticuloId -- @articulo.Descripcion -- (@articulo.Existencia )</option>
+        }
+    </InputSelect>
+
+    <label class="col-form-label input-group-text">Cantidad</label>
+    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0"></InputNumber>
+
+    <label class="col-form-label input-group-text">Precio</label>
+    <InputNumber class="form-control" @bind-Value="Precio" placeholder="0.00$" readonly></InputNumber>
+    <button type="button" class="btn btn-success bi bi-floppy" @onclick="ElegirArticulo">Agregar detalle</button>
+</div>
+
+@if (!string.IsNullOrEmpty(MensajeError))
+{
+    <div class="alert alert-danger">@MensajeError</div>
+}
+
+@code {
+    [Parameter]
+    public List<Articulos> Articulos { get; set; } = new List<Articulos>();
+
+    [Parameter]
+    public int Cantidad { get; set; }
+
+    [Parameter]
+    public double Precio { get; set; }
+
+    [Parameter]
+    public int ArticuloId { get; set; }
+
+    [Parameter]
+    public EventCallback<(Articulos articulos, int Cantidad)> ArticuloSeleccionado { get; set; }
+
+    public string? MensajeError { get; set; }
+
+    private async Task ElegirArticulo()
+    {
+        MensajeError = null;
+
+        if (ArticuloId > 0 && Cantidad > 0)
+        {
+            var ArticuloElegido = Articulos.SingleOrDefault(p => p.ArticuloId == ArticuloId);
+
+            if (ArticuloElegido != null)
+            {
+                if (ArticuloElegido.Existencia < Cantidad)
+                {
+                    MensajeError = "La cantidad que solicita es mayor a la existente";
+                }
+                else
+                {
+                    // Asegurarse de invocar el callback con los datos correctos
+                    await ArticuloSeleccionado.InvokeAsync((ArticuloElegido, Cantidad));
+                }
+            }
+            else
+            {
+                MensajeError = "Artículo no encontrado";
+            }
+        }
+        else
+        {
+            MensajeError = "Debe seleccionar un artículo y una cantidad válida";
+        }
+    }
+}

@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -71,17 +71,18 @@
         }
 
         .botones button:first-child {
-            background-color: #007bff; /* Azul */
+            background-color: #007bff;
         }
 
             .botones button:first-child:hover {
-                background-color: #0056b3; /* Azul más oscuro */
+                background-color: #0056b3;
             }
 
         .botones button:last-child {
-            background-color: #6f42c1; /* Morado */
+            background-color: #6f42c1; 
         }
 
             .botones button:last-child:hover {
-                background-color: #5a2d81; /* Morado más oscuro */
+                background-color: #5a2d81; 
             }
+*/

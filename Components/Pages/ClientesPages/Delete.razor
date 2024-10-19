@@ -6,26 +6,42 @@
 <PageTitle> Eliminar Clientes</PageTitle>
 
 
-@*Body*@
-<div class="Contenedor_Eliminar">
-    <div class="list-details">
-        @*Detalles del Cliente*@
-        <ul>
-            <li>Cliente Id: @Clientes.ClienteId</li>
-            <li>Nombre del Cliente: @Clientes.Nombres</li>
-            <li>WhatsApp del Cliente: @Clientes.WhatsApp</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="botones">
-        <a href="/Clientes/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
-        <button type="submit" @onclick="Eliminar" class="bi bi-person-x-fill"> Eliminar</button>
-    </div>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Eliminar Cliente</h5>
+        </div>
 
-    <div>
-        <label>Estas Seguro de que desea eliminar a este Cliente?</label>
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong> Cliente Id:</strong> @Clientes.ClienteId
+                    </li>
+
+                    @*Nombre del Cliente*@
+                    <li class="list-group-item">
+                        <strong>Nombre del Cliente:</strong> @Clientes.Nombres
+                    </li>
+
+                    @*Whatsapp*@
+                    <li class="list-group-item">
+                        <strong>Whatsapp del Cliente:</strong> @Clientes.WhatsApp
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h6>¿Estas seguro que deseas eliminar este Cliente?</h6>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Clientes/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" @onclick="Eliminar" class="btn btn-outline-danger btn bi bi-trash"> Eliminar</button>
+        </div>
     </div>
 </div>
 

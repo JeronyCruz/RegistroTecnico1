@@ -5,21 +5,37 @@
 
 <PageTitle>Detalles Prioridad</PageTitle>
 
-<div class="Contenedor_Eliminar">
-    <h3>Detalles de la Prioridad</h3>
-    <div class="list-details">
-        @*Detalles*@
-        <ul>
-            <li>Prioridad Id: @Prioridades.PrioridadId</li>
-            <li>Descripci&oacute;n: @Prioridades.Descripcion</li>
-            <li>Tiempo: @Prioridades.Tiempo</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="botones">
-        <a href="/Prioridades/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Detalles Prioridad</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong> Prioridad Id:</strong> @Prioridades.PrioridadId
+                    </li>
+
+                    @*Nombre del Tecnico*@
+                    <li class="list-group-item">
+                        <strong>Descripc&iacute;on:</strong> @Prioridades.Descripcion
+                    </li>
+
+                    @*Tiempo*@
+                    <li class="list-group-item">
+                        <strong>Tiempo:</strong> @Prioridades.Tiempo
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+        </div>
     </div>
 </div>
 

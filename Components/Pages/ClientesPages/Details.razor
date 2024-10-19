@@ -6,23 +6,37 @@
 
 <PageTitle> Detalles Cliente</PageTitle>
 
-@*Body*@
-<div class="Contenedor_Eliminar">
-    <h3> Detalles del Cliente</h3>
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg border-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Eliminar Cliente</h5>
+        </div>
 
-    <div class="list-details">
-        <ul class="name">
-            @*Detalles del Tecnico*@
-            <li>Cliente Id: @Clientes.ClienteId</li>
-            <li>Nombre del Cliente: @Clientes.Nombres</li>
-            <li>WhatsApp del Cliente: @Clientes.WhatsApp</li>
-        </ul>
-    </div>
-    @*Botones*@
-    <div class="btn-details">
-        <a href="/Clientes/Index" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left"></i> Volver
-        </a>
+        <div class="card-body">
+            <div class="list-details">
+                <ul class="list-group">
+                    @*Cobro Id*@
+                    <li class="list-group-item">
+                        <strong> Cliente Id:</strong> @Clientes.ClienteId
+                    </li>
+
+                    @*Nombre del Cliente*@
+                    <li class="list-group-item">
+                        <strong>Nombre del Cliente:</strong> @Clientes.Nombres
+                    </li>
+
+                    @*Whatsapp*@
+                    <li class="list-group-item">
+                        <strong>Whatsapp del Cliente:</strong> @Clientes.WhatsApp
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card-footer d-flex justify-content-between">
+            <a href="/Clientes/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+        </div>
     </div>
 </div>
 

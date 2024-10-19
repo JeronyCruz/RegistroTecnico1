@@ -6,55 +6,69 @@
 
 <PageTitle> Editar T&eacute;cnicos</PageTitle>
 
-<h3>Modificar</h3>
+<EditForm Model="@Tecnico" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<div class="Contenedor_Modificar">
-    <EditForm Model="@Tecnico" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        @*ID*@
-        <div class="Inputs-text">
-            <label>T&eacute;cnico Id:</label>
-            <input type="text" @bind="Tecnico.TecnicoId" readonly />
+    <div class="container mt-5">
+        <div class="card p-4 shadow-lg border-primary">
+            <div class="card-header">
+                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Editar T&eacute;cnico</h5>
+            </div>
+
+            <div class="card-body">
+                @* Tecnico ID*@
+                <div class="mb-3">
+                    <label for="TecnicoId" class="form-label text-primary">Tipo T&eacute;cnico Id</label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
+                </div>
+
+                @*Nombre*@
+                <div class="mb-3">
+                    <label for="Tecnico" class="form-label text-primary">Nombre del T&eacute;cnico</label>
+                    <InputText class="form-control" @bind-Value="Tecnico.NombresTecnico"></InputText>
+                    <ValidationMessage For="(()=> Tecnico.NombresTecnico)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(Mensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Mensaje
+                        </div>
+                    }
+                </div>
+
+                @*Sueldo Hora*@
+                <div class="mb-3">
+                    <label for="SueldoHora" class="form-label text-primary">Sueldo por hora</label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
+                    <ValidationMessage For="(()=> Tecnico.SueldoHora)"></ValidationMessage>
+                    @if (!string.IsNullOrEmpty(SueldoMensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @SueldoMensaje
+                        </div>
+                    }
+                </div>
+
+                @*Descripcion Tecnico*@
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="TipoT" class="form-label text-primary">Descripc&iacute;on del T&eacute;cnico</label>
+                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Tecnico.Id">
+                        <option disabled value="">-- Seleccione un deudor --</option>
+                        @foreach (var tipoTecnico in TiposTecnico)
+                        {
+                            <option value="@tipoTecnico.Id">@tipoTecnico.Descripcion</option>
+                        }
+                    </InputSelect>
+                </div>
+            </div>
         </div>
-        @*Nombre*@
-        <div class="Inputs-text">
-            <label>Nombre:</label>
-            <InputText @bind-Value="Tecnico.NombresTecnico" />
-            @if (!string.IsNullOrEmpty(Mensaje))
-            {
-                <label class="error-label">@Mensaje</label>
-            }
-            <ValidationMessage For="(()=> Tecnico.NombresTecnico)"></ValidationMessage>
+
+        <div class="card-footer d-flex justify-content-center">
+            <a href="/Tecnicos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
         </div>
-        @*Sueldo Hora*@
-        <div class="Inputs-text">
-            <label>Sueldo Hora:</label>
-            <InputNumber @bind-Value="Tecnico.SueldoHora" />
-            @if (!string.IsNullOrEmpty(SueldoMensaje))
-            {
-                <label class="error-label">@SueldoMensaje</label>
-            }
-        </div>
-        @*Descripcion*@
-        <div class="inputsAgregar">
-            <label>Descripci&oacute;n del T&eacute;cnico</label>
-            <InputSelect class="form-select" @bind-Value="Tecnico.Id">
-                @foreach (var tipoTecnico in TiposTecnico)
-                {
-                    <option value="@tipoTecnico.Id">@tipoTecnico.Descripcion</option>
-                }
-            </InputSelect>
-        </div>
-        @*Botones*@
-        <div class="botones">
-            <a href="/Tecnicos/Index" class="btn btn-primary">
-                <i class="bi bi-arrow-return-left"></i> Volver
-            </a>
-            <button type="submit" class="bi bi-plus-circle-dotted"> Guardar</button>
-        </div>
-    </EditForm>
-</div>
+    </div>
+</EditForm>
 
 @code {
     [Parameter]
