@@ -67,11 +67,22 @@
                         <strong>Monto:</strong> @Trabajo.Monto.ToString("N2")
                     </li>
                 </ul>
+                <div class="border border-success p-3 mt-3">
+                    @foreach(var detalle in Trabajo.TrabajosDetalles)
+                    {
+                        <ul>
+                            <li>Articulo Id: @detalle.ArticuloId</li>
+                            <li>Precio del Articulo : @detalle.Precio $</li>
+                            <li>Cantidad Articulo: @detalle.Cantidad </li>
+                            <li>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</li>
+                        </ul>
+                    }
+                </div>
             </div>
         </div>
 
 
-        <div class="card-footer d-flex justify-content-between">
+        <div class="card-footer d-flex justify-content-center">
             <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
         </div>
     </div>
