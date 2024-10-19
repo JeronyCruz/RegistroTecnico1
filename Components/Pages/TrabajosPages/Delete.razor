@@ -75,9 +75,9 @@
                     {
                         <ul>
                             <li>Articulo Id: @detalle.ArticuloId</li>
-                            <li>Precio del Articulo : @detalle.Precio $</li>
+                            <li>Nombre Articulo: @detalle.Articulo?.Descripcion</li>
                             <li>Cantidad Articulo: @detalle.Cantidad </li>
-                            <li>Total en Articulos: @(detalle.Precio * detalle.Cantidad) $</li>
+                            <li>Total en Articulos: @detalle.Precio $</li>
                         </ul>
                     }
                 </div>
@@ -91,7 +91,7 @@
 
         <div class="card-footer d-flex justify-content-center">
             <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
-            <button type="submit" @onclick="Eliminar" class="btn btn-outline-danger btn bi bi-trash"> Eliminar</button>
+            <button type="submit" @onclick="Eliminar" class="btn btn-outline-danger btn bi bi-trash mt-3"> Eliminar</button>
         </div>
     </div>
 </div>
