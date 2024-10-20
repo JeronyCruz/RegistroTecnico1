@@ -96,6 +96,12 @@
                 @* Detalles del trabajo *@
                 <div class="border border-success p-3 mt-3">
                     <h4>Detalles de Articulos utilizados</h4>
+                    @if (!string.IsNullOrEmpty(DetalleMensaje))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @DetalleMensaje
+                        </div>
+                    }
                     <div class="row">
                         <div class="col-auto input-group align-items-center">
                             <SeleccionarArticulo Articulos="Articulos"
@@ -158,6 +164,7 @@
     public string MensajeError { get; set; } = string.Empty;
     public string SueldoMensaje { get; set; } = string.Empty;
     public int? SeleccionadoArticuloId { get; set; }
+    public string DetalleMensaje { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -219,7 +226,11 @@
             SueldoMensaje = "El monto del trabajo debe ser mayor a 0.";
             return;
         }
-
+        if (!Trabajos.TrabajosDetalles.Any())
+        {
+            DetalleMensaje = "Debe agregar al menos un detalle de trabajo.";
+            return;
+        }
         await trabajosService.Guardar(Trabajos);
         Trabajos = new Trabajos();
         navigation.NavigateTo("/Trabajos/Index");
