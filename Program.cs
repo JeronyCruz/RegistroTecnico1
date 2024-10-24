@@ -14,7 +14,7 @@ namespace RegistroTecnico1
 
             //Inyeccion de la base de datos(SqLite)
             var ConStr = builder.Configuration.GetConnectionString("ConStr");
-            builder.Services.AddDbContext<Context>(c => c.UseSqlite(ConStr));
+            builder.Services.AddDbContextFactory<Context>(c => c.UseSqlite(ConStr));
 
             //Inyeccion del Servicio(service)
             builder.Services.AddScoped<TecnicoService>();
@@ -35,6 +35,12 @@ namespace RegistroTecnico1
 			builder.Services.AddScoped<TrabajosDetalleService>();
 
             builder.Services.AddScoped<ArticulosService>();
+
+            builder.Services.AddScoped<Cotizaciones>();
+
+            builder.Services.AddScoped<CotizacionesDetalle>();
+
+
 
 
 
