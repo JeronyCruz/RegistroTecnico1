@@ -12,36 +12,33 @@
 
 <PageTitle> Agregar Trabajos</PageTitle>
 
-<h2>Crear Nuevo Trabajo</h2>
-
 <EditForm Model="@Trabajos" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-lg border-primary">
-            <div class="card-header">
-                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Trabajo</h5>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Crear Trabajo</h5>
             </div>
 
             <div class="card-body">
                 @* ID *@
                 <div class="mb-3">
-                    <label for="TrabajoId" class="form-label text-primary">Trabajo ID</label>
+                    <label for="TrabajoId" class="form-label">Trabajo ID</label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.TrabajoId" readonly></InputNumber>
                 </div>
 
                 @* Fecha *@
                 <div class="mb-3">
-                    <label for="Fecha" class="form-label text-primary">Fecha</label>
+                    <label for="Fecha" class="form-label">Fecha</label>
                     <InputDate class="form-control" @bind-Value="Trabajos.Fecha"></InputDate>
                 </div>
 
                 @* Prioridad *@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="PrioridadId" class="form-label text-primary">Elija la Prioridad</label>
-                    <InputSelect id="PrioridadId" class="form-control border-primary" @bind-Value="Trabajos.PrioridadId">
-                        <option disabled value="">-- Seleccione una Prioridad --</option>
+                    <label for="PrioridadId" class="form-label">Elija la Prioridad</label>
+                    <InputSelect id="PrioridadId" class="form-control" @bind-Value="Trabajos.PrioridadId">
+                        <option value="0" selected disabled>-- Seleccione una Prioridad --</option>
                         @foreach (var prioridad in Prioridades)
                         {
                             <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
@@ -51,9 +48,9 @@
 
                 @* Cliente *@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="ClienteId" class="form-label text-primary">Elija el Cliente</label>
-                    <InputSelect id="ClienteId" class="form-control border-primary" @bind-Value="Trabajos.ClienteId">
-                        <option disabled value="">-- Seleccione un Cliente --</option>
+                    <label for="ClienteId" class="form-label">Elija el Cliente</label>
+                    <InputSelect id="ClienteId" class="form-control" @bind-Value="Trabajos.ClienteId">
+                        <option value="0" selected disabled>-- Seleccione un Cliente --</option>
                         @foreach (var cliente in Clientes)
                         {
                             <option value="@cliente.ClienteId">@cliente.Nombres</option>
@@ -63,9 +60,9 @@
 
                 @* Técnico *@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="TecnicoId" class="form-label text-primary">Elija el Técnico</label>
-                    <InputSelect id="TecnicoId" class="form-control border-primary" @bind-Value="Trabajos.TecnicoId">
-                        <option disabled value="">-- Seleccione un Técnico --</option>
+                    <label for="TecnicoId" class="form-label">Elija el Técnico</label>
+                    <InputSelect id="TecnicoId" class="form-control" @bind-Value="Trabajos.TecnicoId">
+                        <option value="0" selected disabled>-- Seleccione un Técnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
@@ -75,14 +72,14 @@
 
                 @* Descripción *@
                 <div class="mb-3">
-                    <label for="Descripcion" class="form-label text-primary">Descripción del trabajo</label>
+                    <label for="Descripcion" class="form-label">Descripción del trabajo</label>
                     <InputText class="form-control" @bind-Value="Trabajos.Descripcion"></InputText>
                     <ValidationMessage For="(() => Trabajos.Descripcion)"></ValidationMessage>
                 </div>
 
                 @* Monto *@
                 <div class="mb-3">
-                    <label for="Monto" class="form-label text-primary">Monto del trabajo</label>
+                    <label for="Monto" class="form-label">Monto del trabajo</label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.Monto"></InputNumber>
                     <ValidationMessage For="(() => Trabajos.Monto)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(SueldoMensaje))
@@ -139,7 +136,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer d-flex justify-content-center">
+            <div class="card-footer text-center mt-2">
                 <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3">Volver</a>
                 <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3">Guardar</button>
             </div>
