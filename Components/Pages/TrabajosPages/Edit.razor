@@ -16,32 +16,31 @@
 
 <EditForm Model="@Trabajos" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-lg border-primary">
-            <div class="card-header">
-                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Editar Trabajo</h5>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Editar Trabajo</h5>
             </div>
 
             <div class="card-body">
                 @*ID*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label text-primary">Trabajo ID</label>
+                    <label for="CobroId" class="form-label">Trabajo ID</label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.TrabajoId" readonly></InputNumber>
                 </div>
 
                 @*Fecha*@
                 <div class="mb-3">
-                    <label for="fecha" class="form-label text-primary">Fecha</label>
+                    <label for="fecha" class="form-label">Fecha</label>
                     <InputDate class="form-control" @bind-Value="Trabajos.Fecha"></InputDate>
                 </div>
 
                 @*Prioridad*@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="DeudorId" class="form-label text-primary">Elija la Prioridad</label>
-                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.PrioridadId">
-                        <option disabled value="">-- Seleccione una Prioridad --</option>
+                    <label for="DeudorId" class="form-label">Elija la Prioridad</label>
+                    <InputSelect id="DeudorId" class="form-control" @bind-Value="Trabajos.PrioridadId">
+                        <option value="0" selected disabled>-- Seleccione una Prioridad --</option>
                         @foreach (var prioridad in Prioridades)
                         {
                             <option value="@prioridad.PrioridadId">@prioridad.Descripcion</option>
@@ -51,9 +50,9 @@
 
                 @*Cliente*@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="DeudorId" class="form-label text-primary">Elija el Cliente</label>
-                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.ClienteId">
-                        <option disabled value="">-- Seleccione un Cliente --</option>
+                    <label for="DeudorId" class="form-label">Elija el Cliente</label>
+                    <InputSelect id="DeudorId" class="form-control" @bind-Value="Trabajos.ClienteId">
+                        <option value="0" selected disabled>-- Seleccione un Cliente --</option>
                         @foreach (var cliente in Clientes)
                         {
                             <option value="@cliente.ClienteId">@cliente.Nombres</option>
@@ -63,9 +62,9 @@
 
                 @*Tecnico*@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="DeudorId" class="form-label text-primary">Elija el Tecnico</label>
-                    <InputSelect id="DeudorId" class="form-control border-primary" @bind-Value="Trabajos.TecnicoId">
-                        <option disabled value="">-- Seleccione un Tecnico --</option>
+                    <label for="DeudorId" class="form-label">Elija el Tecnico</label>
+                    <InputSelect id="DeudorId" class="form-control" @bind-Value="Trabajos.TecnicoId">
+                        <option value="0" selected disabled>-- Seleccione un Tecnico --</option>
                         @foreach (var tecnico in Tecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.NombresTecnico</option>
@@ -75,14 +74,14 @@
 
                 @*Descripccion*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label text-primary">Descripc&iacute;on del trabajo</label>
+                    <label for="CobroId" class="form-label">Descripc&iacute;on del trabajo</label>
                     <InputText class="form-control" @bind-Value="Trabajos.Descripcion"></InputText>
                     <ValidationMessage For="(()=> Trabajos.Descripcion)"></ValidationMessage>
                 </div>
 
                 @*Monto*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label text-primary">Monto del trabajo</label>
+                    <label for="CobroId" class="form-label">Monto del trabajo</label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.Monto"></InputNumber>
                     <ValidationMessage For="(()=> Trabajos.Monto)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(SueldoMensaje))
@@ -139,12 +138,12 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card-footer d-flex justify-content-center">
-            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
-            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
-            <button type="button" class="btn btn-outline-primary bi bi-whatsapp mt-3" @onclick="EnviarWhatsApp">Enviar por WhatsApp</button>
+            <div class="card-footer text-center mt-2">
+                <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+                <button type="button" class="btn btn-outline-primary bi bi-whatsapp mt-3" @onclick="EnviarWhatsApp">Enviar por WhatsApp</button>
+            </div>
         </div>
     </div>
 </EditForm>
