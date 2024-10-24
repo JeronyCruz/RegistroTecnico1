@@ -33,27 +33,57 @@ public class TrabajosService(IDbContextFactory<Context> DbFactory)
             else
 				Articulo.Existencia += item.Cantidad;
 		}
-    }
 
-    private async Task<bool> Modificar(Trabajos trabajos)
-    {
-        await using var contexto = await DbFactory.CreateDbContextAsync();
-        var trabajoOriginal = await contexto.Trabajos
-        .Include(t => t.TrabajosDetalles)
-        .AsNoTracking()
-        .FirstOrDefaultAsync(t => t.TrabajoId == trabajos.TrabajoId);
+		await contexto.SaveChangesAsync();
+	}
 
-        await AfectarArticulo(trabajoOriginal.TrabajosDetalles.ToArray(), false);
+	private async Task<bool> Modificar(Trabajos trabajos)
+	{
+		await using var contexto = await DbFactory.CreateDbContextAsync();
 
-        await AfectarArticulo(trabajos.TrabajosDetalles.ToArray(), true);
+		var trabajoOriginal = await contexto.Trabajos
+			.Include(t => t.TrabajosDetalles)
+			.FirstOrDefaultAsync(t => t.TrabajoId == trabajos.TrabajoId);
 
-        contexto.Update(trabajos);
-        return await contexto.SaveChangesAsync() > 0;
-    }
+		if (trabajoOriginal == null)
+			return false;
+
+		await AfectarArticulo(trabajoOriginal.TrabajosDetalles.ToArray(), false);
+
+		foreach (var detalleOriginal in trabajoOriginal.TrabajosDetalles)
+		{
+			if (!trabajos.TrabajosDetalles.Any(d => d.DetalleId == detalleOriginal.DetalleId))
+			{
+				contexto.TrabajosDetalles.Remove(detalleOriginal);
+			}
+		}
+
+		await AfectarArticulo(trabajos.TrabajosDetalles.ToArray(), true);
+
+		contexto.Entry(trabajoOriginal).CurrentValues.SetValues(trabajos);
+
+		foreach (var detalle in trabajos.TrabajosDetalles)
+		{
+			var detalleExistente = trabajoOriginal.TrabajosDetalles
+				.FirstOrDefault(d => d.DetalleId == detalle.DetalleId);
+
+			if (detalleExistente != null)
+			{
+				contexto.Entry(detalleExistente).CurrentValues.SetValues(detalle);
+			}
+			else
+			{
+				trabajoOriginal.TrabajosDetalles.Add(detalle);
+			}
+		}
+
+		return await contexto.SaveChangesAsync() > 0;
+	}
 
 
 
-    public async Task<bool> Guardar(Trabajos trabajos)
+
+	public async Task<bool> Guardar(Trabajos trabajos)
     {
         if (!await Existe(trabajos.TrabajoId))
             return await Insertar(trabajos);
@@ -61,30 +91,28 @@ public class TrabajosService(IDbContextFactory<Context> DbFactory)
             return await Modificar(trabajos);
     }
 
-    public async Task<bool> Eliminar(int id)
-    {
-        await using var contexto = await DbFactory.CreateDbContextAsync();
-        var trabajos = contexto.Trabajos.Find(id);
+	public async Task<bool> Eliminar(int id)
+	{
+		await using var contexto = await DbFactory.CreateDbContextAsync();
+		var trabajos = await contexto.Trabajos
+			.Include(t => t.TrabajosDetalles)
+			.ThenInclude(td => td.Articulo)
+			.FirstOrDefaultAsync(t => t.TrabajoId == id);
 
-        await AfectarArticulo(trabajos.TrabajosDetalles.ToArray(), resta: false);
+		if (trabajos == null)
+			return false;
 
-        contexto.TrabajosDetalles.RemoveRange(trabajos.TrabajosDetalles);
-        contexto.Trabajos.Remove(trabajos);
-        var cantidad = await contexto.SaveChangesAsync();
-        return cantidad > 0;
+		await AfectarArticulo(trabajos.TrabajosDetalles.ToArray(), resta: false);
+
+		contexto.TrabajosDetalles.RemoveRange(trabajos.TrabajosDetalles);
+		contexto.Trabajos.Remove(trabajos);
+
+		var cantidad = await contexto.SaveChangesAsync();
+		return cantidad > 0;
+	}
 
 
-        /*var trabajo = await _context.Trabajos.FindAsync(id);
-        if (trabajo != null)
-        {
-            _context.Trabajos.Remove(trabajo);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;*/
-    }
-
-    public async Task<Trabajos> Buscar(int id)
+	public async Task<Trabajos> Buscar(int id)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.Trabajos
