@@ -15,4 +15,7 @@ public class Prioridades
     [RegularExpression(@"^\d+(\.\d+)?$", ErrorMessage = "Solo se permiten números enteros o decimales")]
 
     public int Tiempo { get; set; }
+
+    [Required(ErrorMessage = "Campo Obligatorio")]
+    public DateTime Fecha { get; set; } = DateTime.Now;
 }
