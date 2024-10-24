@@ -2,30 +2,28 @@
 @rendermode InteractiveServer
 @inject PrioridadesService prioridadesService
 @inject NavigationManager navigation
-<link rel="stylesheet" href="StyleCreate.css" />
 
 <PageTitle>Crear nueva Prioridad</PageTitle>
 
 <EditForm Model="@Prioridades" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-lg border-primary">
-            <div class="card-header">
-                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Prioridad</h5>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Crear Prioridad</h5>
             </div>
 
             <div class="card-body">
                 @* Prioridad ID*@
                 <div class="mb-3">
-                    <label for="PrioridadId" class="form-label text-primary">Prioridad Id</label>
+                    <label for="PrioridadId" class="form-label">Prioridad Id</label>
                     <InputNumber class="form-control" @bind-Value="Prioridades.PrioridadId" readonly></InputNumber>
                 </div>
 
                 @*Nombre*@
                 <div class="mb-3">
-                    <label for="Prioridad" class="form-label text-primary">Descripc&iacute;on</label>
+                    <label for="Prioridad" class="form-label">Descripc&iacute;on</label>
                     <InputText class="form-control" @bind-Value="Prioridades.Descripcion"></InputText>
                     <ValidationMessage For="(()=> Prioridades.Descripcion)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(Mensaje))
@@ -38,7 +36,7 @@
 
                 @*Tiempo*@
                 <div class="mb-3">
-                    <label for="Tiempo" class="form-label text-primary">Tiempo</label>
+                    <label for="Tiempo" class="form-label">Tiempo</label>
                     <InputNumber class="form-control" @bind-Value="Prioridades.Tiempo"></InputNumber>
                     <ValidationMessage For="(()=> Prioridades.Tiempo)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(MensajeTiempo))
@@ -49,11 +47,12 @@
                     }
                 </div>
             </div>
-        </div>
+        
 
-        <div class="card-footer d-flex justify-content-center">
-            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
-            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            <div class="card-footer text-center mt-2">
+                <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>
