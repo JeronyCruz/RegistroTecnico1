@@ -2,31 +2,29 @@
 @rendermode InteractiveServer
 @inject ClientesService clientesService
 @inject NavigationManager navigation
-<link rel="stylesheet" href="StyleCreate.css" />
 
 <PageTitle>Crear Clientes</PageTitle>
 
 
 <EditForm Model="@Clientes" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-lg border-primary">
-            <div class="card-header">
-                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Cliente</h5>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Crear Cliente</h5>
             </div>
 
             <div class="card-body">
                 @* Cliente ID*@
                 <div class="mb-3">
-                    <label for="ClienteId" class="form-label text-primary">Cliente Id</label>
+                    <label for="ClienteId" class="form-label">Cliente Id</label>
                     <InputNumber class="form-control" @bind-Value="Clientes.ClienteId" readonly></InputNumber>
                 </div>
 
                 @*Nombre*@
                 <div class="mb-3">
-                    <label for="Cliente" class="form-label text-primary">Nombre</label>
+                    <label for="Cliente" class="form-label">Nombre</label>
                     <InputText class="form-control" @bind-Value="Clientes.Nombres"></InputText>
                     <ValidationMessage For="(()=> Clientes.Nombres)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(Mensaje))
@@ -37,9 +35,9 @@
                     }
                 </div>
 
-                @*Tiempo*@
+                @*Whatsapp*@
                 <div class="mb-3">
-                    <label for="Whatsapp" class="form-label text-primary">WhatsApp</label>
+                    <label for="Whatsapp" class="form-label">WhatsApp</label>
                     <InputText class="form-control" @bind-Value="Clientes.WhatsApp"></InputText>
                     <ValidationMessage For="(()=> Clientes.WhatsApp)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(MensajeN))
@@ -50,11 +48,11 @@
                     }
                 </div>
             </div>
-        </div>
 
-        <div class="card-footer d-flex justify-content-center">
-            <a href="/Clientes/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
-            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            <div class="card-footer text-center mt-2">
+                <a href="/Clientes/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>
