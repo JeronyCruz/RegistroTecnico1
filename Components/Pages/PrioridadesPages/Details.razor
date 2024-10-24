@@ -5,36 +5,32 @@
 
 <PageTitle>Detalles Prioridad</PageTitle>
 
-<div class="container mt-5">
-    <div class="card p-4 shadow-lg border-primary">
-        <div class="card-header">
-            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Detalles Prioridad</h5>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5 class="card-title">Detalles Prioridad</h5>
         </div>
 
         <div class="card-body">
-            <div class="list-details">
-                <ul class="list-group">
-                    @*Cobro Id*@
-                    <li class="list-group-item">
-                        <strong> Prioridad Id:</strong> @Prioridades.PrioridadId
-                    </li>
-
-                    @*Nombre del Tecnico*@
-                    <li class="list-group-item">
-                        <strong>Descripc&iacute;on:</strong> @Prioridades.Descripcion
-                    </li>
-
-                    @*Tiempo*@
-                    <li class="list-group-item">
-                        <strong>Tiempo:</strong> @Prioridades.Tiempo
-                    </li>
-                </ul>
-            </div>
+            <table class="mt-4 table">
+                <tr>
+                    <td><strong>Prioridad Id:</strong></td>
+                    <td>@Prioridades.PrioridadId</td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción:</strong></td>
+                    <td>@Prioridades.Descripcion</td>
+                </tr>
+                <tr>
+                    <td><strong>Tiempo:</strong></td>
+                    <td>@Prioridades.Tiempo</td>
+                </tr>
+            </table>
         </div>
 
 
-        <div class="card-footer d-flex justify-content-between">
-            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+        <div class="card-footer text-center">
+            <a href="/Prioridades/Index" class="btn btn-outline-primary bi bi-arrow-left"> Volver</a>
         </div>
     </div>
 </div>
