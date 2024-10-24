@@ -17,13 +17,19 @@
             <div class="card-body">
                 @* Prioridad ID*@
                 <div class="mb-3">
-                    <label for="PrioridadId" class="form-label">Prioridad Id</label>
+                    <label for="PrioridadId" class="form-label"><strong>Prioridad Id</strong></label>
                     <InputNumber class="form-control" @bind-Value="Prioridades.PrioridadId" readonly></InputNumber>
+                </div>
+
+                @* Fecha *@
+                <div class="mb-3">
+                    <label for="Fecha" class="form-label"><strong>Fecha</strong></label>
+                    <InputDate class="form-control" @bind-Value="Prioridades.Fecha"></InputDate>
                 </div>
 
                 @*Nombre*@
                 <div class="mb-3">
-                    <label for="Prioridad" class="form-label">Descripc&iacute;on</label>
+                    <label for="Prioridad" class="form-label"><strong>Descripc&iacute;on</strong></label>
                     <InputText class="form-control" @bind-Value="Prioridades.Descripcion"></InputText>
                     <ValidationMessage For="(()=> Prioridades.Descripcion)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(Mensaje))
@@ -36,7 +42,7 @@
 
                 @*Tiempo*@
                 <div class="mb-3">
-                    <label for="Tiempo" class="form-label">Tiempo</label>
+                    <label for="Tiempo" class="form-label"><strong>Tiempo</strong></label>
                     <InputNumber class="form-control" @bind-Value="Prioridades.Tiempo"></InputNumber>
                     <ValidationMessage For="(()=> Prioridades.Tiempo)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(MensajeTiempo))

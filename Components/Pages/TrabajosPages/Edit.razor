@@ -26,19 +26,19 @@
             <div class="card-body">
                 @*ID*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label">Trabajo ID</label>
+                    <label for="CobroId" class="form-label"><strong>Trabajo ID</strong></label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.TrabajoId" readonly></InputNumber>
                 </div>
 
                 @*Fecha*@
                 <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha</label>
+                    <label for="fecha" class="form-label"><strong>Fecha</strong></label>
                     <InputDate class="form-control" @bind-Value="Trabajos.Fecha"></InputDate>
                 </div>
 
                 @*Prioridad*@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="DeudorId" class="form-label">Elija la Prioridad</label>
+                    <label for="DeudorId" class="form-label"><strong>Elija la Prioridad</strong></label>
                     <InputSelect id="DeudorId" class="form-control" @bind-Value="Trabajos.PrioridadId">
                         <option value="0" selected disabled>-- Seleccione una Prioridad --</option>
                         @foreach (var prioridad in Prioridades)
@@ -62,7 +62,7 @@
 
                 @*Tecnico*@
                 <div class="mb-3 d-flex align-items-center">
-                    <label for="DeudorId" class="form-label">Elija el Tecnico</label>
+                    <label for="DeudorId" class="form-label"><strong>Elija el T&eacute;cnico</strong></label>
                     <InputSelect id="DeudorId" class="form-control" @bind-Value="Trabajos.TecnicoId">
                         <option value="0" selected disabled>-- Seleccione un Tecnico --</option>
                         @foreach (var tecnico in Tecnicos)
@@ -74,14 +74,14 @@
 
                 @*Descripccion*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label">Descripc&iacute;on del trabajo</label>
+                    <label for="CobroId" class="form-label"><strong>Descripc&iacute;on del trabajo</strong></label>
                     <InputText class="form-control" @bind-Value="Trabajos.Descripcion"></InputText>
                     <ValidationMessage For="(()=> Trabajos.Descripcion)"></ValidationMessage>
                 </div>
 
                 @*Monto*@
                 <div class="mb-3">
-                    <label for="CobroId" class="form-label">Monto del trabajo</label>
+                    <label for="CobroId" class="form-label"><strong>Monto del trabajo</strong></label>
                     <InputNumber class="form-control" @bind-Value="Trabajos.Monto"></InputNumber>
                     <ValidationMessage For="(()=> Trabajos.Monto)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(SueldoMensaje))

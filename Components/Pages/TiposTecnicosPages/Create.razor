@@ -18,13 +18,19 @@
             <div class="card-body">
                 @*Tipo Tecnico ID*@
                 <div class="mb-3">
-                    <label for="TipoTecnicoId" class="form-label">Tipo T&eacute;cnico Id</label>
+                    <label for="TipoTecnicoId" class="form-label"><strong>Tipo T&eacute;cnico Id</strong></label>
                     <InputNumber class="form-control" @bind-Value="TiposTecnico.Id" readonly></InputNumber>
+                </div>
+
+                @* Fecha *@
+                <div class="mb-3">
+                    <label for="Fecha" class="form-label"><strong>Fecha</strong></label>
+                    <InputDate class="form-control" @bind-Value="TiposTecnico.Fecha"></InputDate>
                 </div>
 
                 @*Descripccion*@
                 <div class="mb-3">
-                    <label for="TipoTecnico" class="form-label">Descripc&iacute;on del T&eacute;cnico</label>
+                    <label for="TipoTecnico" class="form-label"><strong>Descripc&iacute;on del T&eacute;cnico</strong></label>
                     <InputText class="form-control" @bind-Value="TiposTecnico.Descripcion"></InputText>
                     <ValidationMessage For="(()=> TiposTecnico.Descripcion)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(Mensaje))
