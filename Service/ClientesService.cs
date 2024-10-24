@@ -5,28 +5,30 @@ using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
 
-public class ClientesService(Context context)
+public class ClientesService(IDbContextFactory<Context> DbFactory)
 {
-    private readonly Context _context = context;
 
     public async Task<bool> Existe(int id)
     {
-        return await _context.Clientes.AnyAsync(a => a.ClienteId == id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Clientes.AnyAsync(a => a.ClienteId == id);
     }
 
     private async Task<bool> Insertar(Clientes clientes)
     {
-        _context.Clientes.Add(clientes);
-        return await _context.SaveChangesAsync() > 0;
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        contexto.Clientes.Add(clientes);
+        return await contexto.SaveChangesAsync() > 0;
     }
 
     private async Task<bool> Modificar(Clientes clientes)
     {
-        var existingCliente = await _context.Clientes.FindAsync(clientes.ClienteId);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var existingCliente = await contexto.Clientes.FindAsync(clientes.ClienteId);
         if(existingCliente != null)
         {
-            _context.Entry(existingCliente).CurrentValues.SetValues(clientes);
-                return await _context.SaveChangesAsync() > 0;
+            contexto.Entry(existingCliente).CurrentValues.SetValues(clientes);
+                return await contexto.SaveChangesAsync() > 0;
         }
         return false;
     }
@@ -41,11 +43,12 @@ public class ClientesService(Context context)
 
     public async Task<bool> Eliminar(int id)
     {
-        var cliente = await _context.Clientes.FindAsync(id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var cliente = await contexto.Clientes.FindAsync(id);
         if(cliente != null)
         {
-            _context.Clientes.Remove(cliente);
-             await _context.SaveChangesAsync();
+            contexto.Clientes.Remove(cliente);
+             await contexto.SaveChangesAsync();
             return true;
         }
         return false;
@@ -53,26 +56,36 @@ public class ClientesService(Context context)
 
     public async Task<Clientes> Buscar(int id)
     {
-        return await _context.Clientes.AsNoTracking().
-               FirstOrDefaultAsync(p => p.ClienteId == id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Clientes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.ClienteId == id);
     }
 
     public async Task<List<Clientes>> Listar(Expression<Func<Clientes, bool>> criterio)
     {
-            return await _context.Clientes.AsNoTracking().Where(criterio).ToListAsync();
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Clientes
+            .AsNoTracking()
+            .Where(criterio)
+            .ToListAsync();
 
     }
 
     public async Task<bool> NombreExiste(string nombreCliente)
     {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         var nombreClienteNormalizado = nombreCliente.Trim().ToLower();
-           return await _context.Clientes.AnyAsync(t => t.Nombres.Trim().ToLower() == nombreClienteNormalizado);
+           return await contexto.Clientes
+            .AnyAsync(t => t.Nombres.Trim().ToLower() == nombreClienteNormalizado);
     }
 
     public async Task<bool> NumeroExiste(string numeroWhatsApp)
     {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         var numeroNormalizado = numeroWhatsApp.Trim().ToLower();
-        return await _context.Clientes.AnyAsync(t => t.WhatsApp.Trim().ToLower() == numeroNormalizado);
+        return await contexto.Clientes
+            .AnyAsync(t => t.WhatsApp.Trim().ToLower() == numeroNormalizado);
     }
 
 }
