@@ -2,31 +2,29 @@
 @rendermode InteractiveServer
 @inject TiposTecnicosService tiposTecnicoService
 @inject NavigationManager navigation
-<link rel="stylesheet" href="StyleCreate.css" />
 
 <PageTitle> Crear Tipos T&eacute;cnicos</PageTitle>
 
 
 <EditForm Model="@TiposTecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-lg border-primary">
-            <div class="card-header">
-                <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Crear Tipo T&eacute;cnico</h5>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title ">Crear Tipo T&eacute;cnico</h5>
             </div>
 
             <div class="card-body">
                 @*Tipo Tecnico ID*@
                 <div class="mb-3">
-                    <label for="TipoTecnicoId" class="form-label text-primary">Tipo T&eacute;cnico Id</label>
+                    <label for="TipoTecnicoId" class="form-label">Tipo T&eacute;cnico Id</label>
                     <InputNumber class="form-control" @bind-Value="TiposTecnico.Id" readonly></InputNumber>
                 </div>
 
                 @*Descripccion*@
                 <div class="mb-3">
-                    <label for="TipoTecnico" class="form-label text-primary">Descripc&iacute;on del T&eacute;cnico</label>
+                    <label for="TipoTecnico" class="form-label">Descripc&iacute;on del T&eacute;cnico</label>
                     <InputText class="form-control" @bind-Value="TiposTecnico.Descripcion"></InputText>
                     <ValidationMessage For="(()=> TiposTecnico.Descripcion)"></ValidationMessage>
                     @if (!string.IsNullOrEmpty(Mensaje))
@@ -37,11 +35,11 @@
                     }
                 </div>
             </div>
-        </div>
 
-        <div class="card-footer d-flex justify-content-center">
-            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
-            <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            <div class="card-footer text-center mt-2">
+                <a href="/TiposTecnicos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+                <button type="submit" class="btn btn-outline-success bi bi-floppy mt-3"> Guardar</button>
+            </div>
         </div>
     </div>
 </EditForm>
