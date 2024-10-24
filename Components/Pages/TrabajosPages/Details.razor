@@ -8,65 +8,55 @@
 
 <PageTitle> Detalles Trabajo</PageTitle>
 
-<div class="container mt-5">
-    <div class="card p-4 shadow-lg border-primary">
-        <div class="card-header">
-            <h5 class="card-title text-center mb-4 bg-primary text-white p-2 rounded">Detalle Trabajo</h5>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5><strong>Datos del Trabajo</strong></h5>
         </div>
 
         <div class="card-body">
-            <div class="list-details">
-                <ul class="list-group">
-                    @*Cobro Id*@
-                    <li class="list-group-item">
-                        <strong> Trabajo Id:</strong> @Trabajo.TrabajoId
-                    </li>
-
-                    @*Fecha*@
-                    <li class="list-group-item">
-                        <strong>Fecha:</strong> @Trabajo.Fecha
-                    </li>
-
-                    @*Prioridad Id*@
-                    <li class="list-group-item">
-                        <strong>Prioridad Id:</strong> @Trabajo.Prioridad?.PrioridadId
-                    </li>
-
-                    @*Prioridad *@
-                    <li class="list-group-item">
-                        <strong>Prioridad:</strong> @Trabajo.Prioridad?.Descripcion
-                    </li>
-
-                    @*Cliente Id*@
-                    <li class="list-group-item">
-                        <strong>Cliente Id:</strong> @Trabajo.Cliente?.ClienteId
-                    </li>
-
-                    @*Cliente *@
-                    <li class="list-group-item">
-                        <strong>Cliente:</strong> @Trabajo.Cliente?.Nombres
-                    </li>
-
-                    @*Tecnico Id*@
-                    <li class="list-group-item">
-                        <strong>Tecnico Id:</strong> @Trabajo.Tecnico?.TecnicoId
-                    </li>
-
-                    @*Tecnico *@
-                    <li class="list-group-item">
-                        <strong>Tecnico:</strong> @Trabajo.Tecnico?.NombresTecnico
-                    </li>
-
-                    @*Descripcion *@
-                    <li class="list-group-item">
-                        <strong>Descripc&iacute;on:</strong> @Trabajo.Descripcion
-                    </li>
-
-                    @*Monto*@
-                    <li class="list-group-item">
-                        <strong>Monto:</strong> @Trabajo.Monto.ToString("N2")
-                    </li>
-                </ul>
+            <table class="mt-4 table">
+                <tr>
+                    <td><strong>Trabajo Id:</strong></td>
+                    <td>@Trabajo.TrabajoId</td>
+                </tr>
+                <tr>
+                    <td><strong>Fecha:</strong></td>
+                    <td>@Trabajo.Fecha</td>
+                </tr>
+                <tr>
+                    <td><strong>Prioridad Id:</strong></td>
+                    <td>@Trabajo.Prioridad?.PrioridadId</td>
+                </tr>
+                <tr>
+                    <td><strong>Prioridad:</strong></td>
+                    <td>@Trabajo.Prioridad?.Descripcion</td>
+                </tr>
+                <tr>
+                    <td><strong>Cliente Id:</strong></td>
+                    <td>@Trabajo.Cliente?.ClienteId</td>
+                </tr>
+                <tr>
+                    <td><strong>Cliente:</strong></td>
+                    <td>@Trabajo.Cliente?.Nombres</td>
+                </tr>
+                <tr>
+                    <td><strong>Técnico Id:</strong></td>
+                    <td>@Trabajo.Tecnico?.TecnicoId</td>
+                </tr>
+                <tr>
+                    <td><strong>Técnico:</strong></td>
+                    <td>@Trabajo.Tecnico?.NombresTecnico</td>
+                </tr>
+                <tr>
+                    <td><strong>Descripción:</strong></td>
+                    <td>@Trabajo.Descripcion</td>
+                </tr>
+                <tr>
+                    <td><strong>Monto:</strong></td>
+                    <td>@Trabajo.Monto.ToString("N2")</td>
+                </tr>
+            </table>
                 <div class="border border-success p-3 mt-3">
                     @foreach(var detalle in Trabajo.TrabajosDetalles)
                     {
@@ -78,12 +68,11 @@
                         </ul>
                     }
                 </div>
-            </div>
         </div>
 
 
-        <div class="card-footer d-flex justify-content-center">
-            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left mt-3"> Volver</a>
+        <div class="card-footer text-center">
+            <a href="/Trabajos/Index" class="btn btn-outline-primary bi bi-arrow-left"> Volver</a>
         </div>
     </div>
 </div>
