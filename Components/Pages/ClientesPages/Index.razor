@@ -2,93 +2,122 @@
 @rendermode InteractiveServer
 @inject ClientesService clienteService
 
-<PageTitle> Registro Clientes</PageTitle>
+<PageTitle>Registro Clientes</PageTitle>
 
 <div class="container">
-	<div class="card shadow-lg">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h5 class="card-title text-center">Registro de Clientes</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="filtrarPor">Filtrar por:</label>
+                    <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+                        <option value="ID">ID</option>
+                        <option value="Nombre">Nombre</option>
+                        <option value="Fecha">Fecha</option> <!-- Agregamos opción para filtrar por fecha -->
+                    </InputSelect>
+                </div>
 
-		<div class="card-header">
-			<h5 class="card-title text-center">Registro de Clientes</h5>
-		</div>
-		<div class="card-body">
-			<div class="row mb-3">
-				<div class="col-md-6">
-					<label for="filtrarPor"> Filtrar por:</label>
-					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
-						<option value="ID">ID</option>
-						<option value="Nombre">Nombre</option>
-					</InputSelect>
-				</div>
+                <div class="col-md-6 d-flex justify-content-center mt-4">
+                    <div class="input-group">
+                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="Buscar por ID o Nombre"></InputText>
+                        <button @onclick="BuscarClientes" class="btn btn-primary bi bi-search">Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-				<div class="col-md-6 d-flex justify-content-center mt-4">
-					<div class="input-group">
-						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
-						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
-					</div>
-				</div>
-			</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="FechaInicio">Fecha Inicio:</label>
+                    <InputSelect id="FechaInicio" class="form-select" @bind-Value="FechaInicio" @onchange="ActualizarFechasFinales">
+                        <option value="0" selected disabled>Seleccione Fecha de Inicio</option>
+                        @foreach (var fecha in FechasInicio)
+                        {
+                            <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
+                        }
+                    </InputSelect>
+                </div>
 
-			<div class="row mb-3">
-				<div class="col text-end">
-					<a href="/Clientes/Create" class="btn btn-primary bi bi-plus-square mt-3">
-						Crear
-					</a>
-				</div>
-			</div>
+                <div class="col-md-6">
+                    <label for="FechaFinal">Fecha Final:</label>
+                    <div class="input-group">
+                        <InputSelect id="FechaFinal" class="form-select" @bind-Value="FechaFinal">
+                            <option value="0" selected disabled>Seleccione Fecha Final</option>
+                            @foreach (var fecha in FechasFinales)
+                            {
+                                <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
+                            }
+                        </InputSelect>
+                        <button class="btn btn-outline-primary bi bi-rocket-takeoff" @onclick="BuscarFechasMayores"></button>
+                        <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+                    </div>
+                </div>
+            </div>
 
-			<table class="table table-light table-hover">
-				<thead class="table table-striped ">
-					<tr class="text-center">
-						<th>Cliente Id</th>
-						<th>Fecha</th>
-						<th>Nombres</th>
-						<th>WhatsApp</th>
-						<th>Detalles</th>
-						<th>Modificar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var clientes in Clientes)
-					{
-						<tr class="text-center">
-							<td>@clientes.ClienteId</td>
-							<td>@clientes.Fecha</td>
-							<td>@clientes.Nombres</td>
-							<td>@clientes.WhatsApp</td>
-							<td>
-								<a href="/Clientes/Details/@clientes.ClienteId" class="btn btn-primary bi bi-eye"></a>
-							</td>
-							<td>
-								<a href="/Clientes/Edit/@clientes.ClienteId" class="btn btn-primary bi bi-pencil-square"></a>
-							</td>
-							<td>
-								<a href="/Clientes/Delete/@clientes.ClienteId" class="btn btn-primary bi bi-trash"></a>
-							</td>
-						</tr>
-					}
-				</tbody>
+            <div class="row mb-3">
+                <div class="col text-end">
+                    <a href="/Clientes/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
+                </div>
+            </div>
 
-			</table>
-		</div>
-		<div class="card-footer">
-			<p><strong>Total de Clientes: </strong>@Clientes.Count</p>
-		</div>
-	</div>
+            <table class="table table-light table-hover">
+                <thead class="table table-striped">
+                    <tr class="text-center">
+                        <th>Cliente Id</th>
+                        <th>Fecha</th>
+                        <th>Nombres</th>
+                        <th>WhatsApp</th>
+                        <th>Detalles</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cliente in Clientes)
+                    {
+                        <tr class="text-center">
+                            <td>@cliente.ClienteId</td>
+                            <td>@cliente.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@cliente.Nombres</td>
+                            <td>@cliente.WhatsApp</td>
+                            <td>
+                                <a href="/Clientes/Details/@cliente.ClienteId" class="btn btn-outline-success bi bi-eye"></a>
+                            </td>
+                            <td>
+                                <a href="/Clientes/Edit/@cliente.ClienteId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                            </td>
+                            <td>
+                                <a href="/Clientes/Delete/@cliente.ClienteId" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <p><strong>Total de Clientes: </strong>@Clientes.Count</p>
+        </div>
+    </div>
 </div>
-
 
 @code {
     public List<Clientes> Clientes { get; set; } = new List<Clientes>();
     private string FiltroSeleccionado { get; set; } = "ID";
     private string CriterioBusqueda { get; set; } = string.Empty;
+    private DateTime? FechaInicio { get; set; }
+    private DateTime? FechaFinal { get; set; }
+    public List<DateTime> FechasInicio { get; set; } = new List<DateTime>();
+    public List<DateTime> FechasFinales { get; set; } = new List<DateTime>();
 
     protected override async Task OnInitializedAsync()
     {
         Clientes = await clienteService.Listar(a => true);
+        FechasInicio = Clientes.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
     }
 
-    private async Task BuscarTecnicos()
+    private async Task BuscarClientes()
     {
         switch (FiltroSeleccionado)
         {
@@ -100,10 +129,51 @@
                 break;
 
             case "Nombre":
-                Clientes = await clienteService.Listar(e => e.Nombres.ToLower().Contains(CriterioBusqueda.ToLower())); ;
+                Clientes = await clienteService.Listar(e => e.Nombres.ToLower().Contains(CriterioBusqueda.ToLower()));
                 break;
 
+            case "Fecha":
+                if (FechaInicio.HasValue && FechaFinal.HasValue)
+                {
+                    Clientes = await clienteService.Listar(a => a.Fecha >= FechaInicio.Value && a.Fecha <= FechaFinal.Value);
+                }
+                break;
         }
     }
 
+    private void ActualizarFechasFinales()
+    {
+        if (FechaInicio.HasValue)
+        {
+            FechasFinales = Clientes
+                .Where(c => c.Fecha >= FechaInicio.Value)
+                .Select(c => c.Fecha)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+        }
+    }
+
+    private void BuscarFechasMayores()
+    {
+        if (FechaInicio.HasValue)
+        {
+            FechasFinales = Clientes
+                .Where(c => c.Fecha > FechaInicio.Value)
+                .Select(c => c.Fecha)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+        }
+    }
+
+    private async Task RefrescarDatos()
+    {
+        Clientes = await clienteService.Listar(a => true);
+        FechasInicio = Clientes.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
+        CriterioBusqueda = string.Empty;
+        FechaInicio = DateTime.MinValue;
+        FechaFinal = DateTime.MinValue;
+        FechasFinales.Clear();
+    }
 }
