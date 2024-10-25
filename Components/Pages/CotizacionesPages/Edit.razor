@@ -53,14 +53,8 @@
                 @* Monto *@
                 <div class="mb-3">
                     <label for="Monto" class="form-label"><strong>Monto</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Cotizaciones.Monto"></InputNumber>
+                    <InputNumber class="form-control" @bind-Value="Cotizaciones.Monto" readonly></InputNumber>
                     <ValidationMessage For="(() => Cotizaciones.Monto)"></ValidationMessage>
-                    @if (!string.IsNullOrEmpty(SueldoMensaje))
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @SueldoMensaje
-                        </div>
-                    }
                 </div>
 
                 @* Detalles del trabajo *@
@@ -138,10 +132,16 @@
         Clientes = await clientesService.Listar(a => a.ClienteId > 0);
         Articulos = await articulosService.Listar(a => a.ArticuloId > 0);
     }
+
+    private void CalcularMontoTotal()
+    {
+        Cotizaciones.Monto = Cotizaciones.CotizacionesDetalle.Sum(d => d.Precio);
+    }
+
     private async Task AgregarDetalle((Articulos articulos, int Cantidad) selection)
     {
         var ArticuloExiste = Cotizaciones.CotizacionesDetalle
-        .FirstOrDefault(A => A.ArticuloId == selection.articulos.ArticuloId);
+            .FirstOrDefault(A => A.ArticuloId == selection.articulos.ArticuloId);
         if (ArticuloExiste != null)
         {
             ArticuloExiste.Cantidad += selection.Cantidad;
@@ -156,10 +156,10 @@
                     Precio = selection.articulos.Precio * selection.Cantidad,
                 };
             Cotizaciones.CotizacionesDetalle.Add(CotizacioneDetalle);
-            DetalleActual = new CotizacionesDetalle();
-            await Task.CompletedTask;
         }
 
+        CalcularMontoTotal();
+        await Task.CompletedTask;
     }
 
     public async Task Guardar()
@@ -169,12 +169,6 @@
         if (string.IsNullOrWhiteSpace(Cotizaciones.Observacion))
         {
             SueldoMensaje = "La Observacion del trabajo es obligatoria.";
-            return;
-        }
-
-        if (Cotizaciones.Monto <= 0)
-        {
-            SueldoMensaje = "El monto de la cotizacion debe ser mayor a 0.";
             return;
         }
         if (!Cotizaciones.CotizacionesDetalle.Any())
@@ -191,12 +185,12 @@
     public async void RemoverDetalle(CotizacionesDetalle detalle)
     {
         Cotizaciones.CotizacionesDetalle.Remove(detalle);
+        CalcularMontoTotal();
         DetalleActual.ArticuloId = detalle.ArticuloId;
         DetalleActual.Cantidad = detalle.Cantidad;
         DetalleActual.Precio = detalle.Precio;
 
         var articulo = await articulosService.Buscar(detalle.ArticuloId);
-
         if (articulo != null)
         {
             articulo.Existencia += detalle.Cantidad;
