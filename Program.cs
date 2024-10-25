@@ -36,7 +36,7 @@ namespace RegistroTecnico1
 
             builder.Services.AddScoped<ArticulosService>();
 
-            builder.Services.AddScoped<Cotizaciones>();
+            builder.Services.AddScoped<CotizacionesService>();
 
             builder.Services.AddScoped<CotizacionesDetalle>();
 
