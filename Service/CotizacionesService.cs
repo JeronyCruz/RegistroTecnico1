@@ -129,15 +129,24 @@ public class CotizacionesService(IDbContextFactory<Context> DbFactory)
             .FirstOrDefaultAsync(p => p.CotizacionId == id);
     }
 
-    public async Task<List<Cotizaciones>> Listar(Expression<Func<Cotizaciones, bool>> criterio)
-    {
-        await using var contexto = await DbFactory.CreateDbContextAsync();
-        return await contexto.Cotizaciones
-            .Include(t => t.Cliente)
-            .Include(t => t.CotizacionesDetalle)
-            .AsNoTracking()
-            .Where(criterio)
-            .ToListAsync();
+	public async Task<List<Cotizaciones>> Listar(Expression<Func<Cotizaciones, bool>> criterio)
+	{
+		await using var contexto = await DbFactory.CreateDbContextAsync();
+		var cotizaciones = await contexto.Cotizaciones
+			.Include(t => t.Cliente)
+			.Include(t => t.CotizacionesDetalle)
+			.ThenInclude(td => td.Articulo)
+			.AsNoTracking()
+			.Where(criterio)
+			.ToListAsync();
 
-    }
+		foreach (var cotizacion in cotizaciones)
+		{
+			cotizacion.Monto = cotizacion.CotizacionesDetalle
+				.Sum(detalle => detalle.Cantidad * detalle.Articulo.Precio);
+		}
+
+		return cotizaciones;
+	}
+
 }
