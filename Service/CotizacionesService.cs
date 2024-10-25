@@ -113,6 +113,7 @@ public class CotizacionesService(IDbContextFactory<Context> DbFactory)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.Cotizaciones
+            .Include(t => t.Cliente)
             .Include(t => t.CotizacionesDetalle)
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.CotizacionId == id);
@@ -122,20 +123,21 @@ public class CotizacionesService(IDbContextFactory<Context> DbFactory)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.Cotizaciones
+            .Include(t => t.Cliente)
             .Include(t => t.CotizacionesDetalle)
             .ThenInclude(td => td.Articulo)
             .FirstOrDefaultAsync(p => p.CotizacionId == id);
     }
 
-    public async Task<List<Trabajos>> Listar(Expression<Func<Trabajos, bool>> criterio)
+    public async Task<List<Cotizaciones>> Listar(Expression<Func<Cotizaciones, bool>> criterio)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
-        return await contexto.Trabajos
-            .Include(t => t.Tecnico)
+        return await contexto.Cotizaciones
             .Include(t => t.Cliente)
-            .Include(t => t.Prioridad)
-            .Include(t => t.TrabajosDetalles)
-            .AsNoTracking().Where(criterio).ToListAsync();
+            .Include(t => t.CotizacionesDetalle)
+            .AsNoTracking()
+            .Where(criterio)
+            .ToListAsync();
 
     }
 }
