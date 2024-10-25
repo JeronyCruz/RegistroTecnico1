@@ -16,14 +16,14 @@
                     <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
                         <option value="ID">ID</option>
                         <option value="Nombre">Nombre</option>
-                        <option value="Fecha">Fecha</option> <!-- Agregamos opción para filtrar por fecha -->
+                        <option value="Fecha">Fecha</option>
                     </InputSelect>
                 </div>
 
                 <div class="col-md-6 d-flex justify-content-center mt-4">
                     <div class="input-group">
                         <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="Buscar por ID o Nombre"></InputText>
-                        <button @onclick="BuscarClientes" class="btn btn-primary bi bi-search">Buscar</button>
+                        <button @onclick="BuscarClientes" class="btn btn-outline-primary bi bi-search"> Buscar</button>
                     </div>
                 </div>
             </div>
@@ -31,26 +31,13 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="FechaInicio">Fecha Inicio:</label>
-                    <InputSelect id="FechaInicio" class="form-select" @bind-Value="FechaInicio" @onchange="ActualizarFechasFinales">
-                        <option value="0" selected disabled>Seleccione Fecha de Inicio</option>
-                        @foreach (var fecha in FechasInicio)
-                        {
-                            <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
-                        }
-                    </InputSelect>
+                    <InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
                 </div>
 
                 <div class="col-md-6">
                     <label for="FechaFinal">Fecha Final:</label>
                     <div class="input-group">
-                        <InputSelect id="FechaFinal" class="form-select" @bind-Value="FechaFinal">
-                            <option value="0" selected disabled>Seleccione Fecha Final</option>
-                            @foreach (var fecha in FechasFinales)
-                            {
-                                <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
-                            }
-                        </InputSelect>
-                        <button class="btn btn-outline-primary bi bi-rocket-takeoff" @onclick="BuscarFechasMayores"></button>
+                        <InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
                         <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
                     </div>
                 </div>
@@ -108,13 +95,10 @@
     private string CriterioBusqueda { get; set; } = string.Empty;
     private DateTime? FechaInicio { get; set; }
     private DateTime? FechaFinal { get; set; }
-    public List<DateTime> FechasInicio { get; set; } = new List<DateTime>();
-    public List<DateTime> FechasFinales { get; set; } = new List<DateTime>();
 
     protected override async Task OnInitializedAsync()
     {
         Clientes = await clienteService.Listar(a => true);
-        FechasInicio = Clientes.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
     }
 
     private async Task BuscarClientes()
@@ -141,39 +125,11 @@
         }
     }
 
-    private void ActualizarFechasFinales()
-    {
-        if (FechaInicio.HasValue)
-        {
-            FechasFinales = Clientes
-                .Where(c => c.Fecha >= FechaInicio.Value)
-                .Select(c => c.Fecha)
-                .Distinct()
-                .OrderBy(f => f)
-                .ToList();
-        }
-    }
-
-    private void BuscarFechasMayores()
-    {
-        if (FechaInicio.HasValue)
-        {
-            FechasFinales = Clientes
-                .Where(c => c.Fecha > FechaInicio.Value)
-                .Select(c => c.Fecha)
-                .Distinct()
-                .OrderBy(f => f)
-                .ToList();
-        }
-    }
-
     private async Task RefrescarDatos()
     {
         Clientes = await clienteService.Listar(a => true);
-        FechasInicio = Clientes.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
         CriterioBusqueda = string.Empty;
-        FechaInicio = DateTime.MinValue;
-        FechaFinal = DateTime.MinValue;
-        FechasFinales.Clear();
+        FechaInicio = null;
+        FechaFinal = null;
     }
 }

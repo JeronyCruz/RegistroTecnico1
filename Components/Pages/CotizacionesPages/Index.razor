@@ -22,8 +22,9 @@
 
                 <div class="col-md-6 d-flex justify-content-center mt-4">
                     <div class="input-group">
-                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="Buscar por ID"></InputText>
-                        <button @onclick="BuscarCotizaciones" class="btn btn-primary bi bi-search">Buscar</button>
+                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"
+                                   placeholder="@GetPlaceholder()"></InputText>
+                        <button @onclick="BuscarCotizaciones" class="btn btn-outline-primary bi bi-search"> Buscar</button>
                     </div>
                 </div>
             </div>
@@ -31,26 +32,13 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="FechaInicio">Fecha Inicio:</label>
-                    <InputSelect id="FechaInicio" class="form-select" @bind-Value="FechaInicio" @onchange="ActualizarFechasFinales">
-                        <option value="0" selected disabled>Seleccione Fecha de Inicio</option>
-                        @foreach (var fecha in FechasInicio)
-                        {
-                            <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
-                        }
-                    </InputSelect>
+                    <InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
                 </div>
 
                 <div class="col-md-6">
                     <label for="FechaFinal">Fecha Final:</label>
                     <div class="input-group">
-                        <InputSelect id="FechaFinal" class="form-select" @bind-Value="FechaFinal">
-                            <option value="0" selected disabled>Seleccione Fecha Final</option>
-                            @foreach (var fecha in FechasFinales)
-                            {
-                                <option value="@fecha">@fecha.ToString("dd/MM/yyyy")</option>
-                            }
-                        </InputSelect>
-                        <button class="btn btn-outline-primary bi bi-rocket-takeoff" @onclick="BuscarFechasMayores"></button>
+                        <InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
                         <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
                     </div>
                 </div>
@@ -114,7 +102,12 @@
     protected override async Task OnInitializedAsync()
     {
         Cotizaciones = await cotizacionesService.Listar(a => true);
-        FechasInicio = Cotizaciones.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
+
+        FechasInicio = Cotizaciones
+            .Select(c => c.Fecha.Date) 
+            .Distinct()
+            .OrderBy(f => f)
+            .ToList();
     }
 
     private async Task BuscarCotizaciones()
@@ -126,43 +119,22 @@
         else if (FiltroSeleccionado == "Fecha" && FechaInicio.HasValue && FechaFinal.HasValue)
         {
             Cotizaciones = await cotizacionesService.Listar(a =>
-                a.Fecha >= FechaInicio.Value && a.Fecha <= FechaFinal.Value);
-        }
-    }
-
-    private void ActualizarFechasFinales()
-    {
-        if (FechaInicio.HasValue)
-        {
-            FechasFinales = Cotizaciones
-                .Where(c => c.Fecha >= FechaInicio.Value)
-                .Select(c => c.Fecha)
-                .Distinct()
-                .OrderBy(f => f)
-                .ToList();
-        }
-    }
-
-    private void BuscarFechasMayores()
-    {
-        if (FechaInicio.HasValue)
-        {
-            FechasFinales = Cotizaciones
-                .Where(c => c.Fecha > FechaInicio.Value)
-                .Select(c => c.Fecha)
-                .Distinct()
-                .OrderBy(f => f)
-                .ToList();
+                a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
         }
     }
 
     private async Task RefrescarDatos()
     {
         Cotizaciones = await cotizacionesService.Listar(a => true);
-        FechasInicio = Cotizaciones.Select(c => c.Fecha).Distinct().OrderBy(f => f).ToList();
+        FechasInicio = Cotizaciones.Select(c => c.Fecha.Date).Distinct().OrderBy(f => f).ToList();
         CriterioBusqueda = string.Empty;
-        FechaInicio = DateTime.MinValue;
-        FechaFinal = DateTime.MinValue;
+        FechaInicio = null;
+        FechaFinal = null;
         FechasFinales.Clear();
+    }
+
+    private string GetPlaceholder()
+    {
+        return FiltroSeleccionado == "ID" ? "Buscar por ID" : "Buscar por Fecha";
     }
 }

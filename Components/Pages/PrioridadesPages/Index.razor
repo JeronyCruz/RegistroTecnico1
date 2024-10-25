@@ -2,87 +2,102 @@
 @rendermode InteractiveServer
 @inject PrioridadesService prioridadesService
 
-<PageTitle> Registro Prioridades</PageTitle>
+<PageTitle>Registro Prioridades</PageTitle>
 
 <div class="container">
-	<div class="card shadow-lg">
+    <div class="card shadow-lg">
 
-		<div class="card-header">
-			<h5 class="card-title text-center">Registro de Prioridades</h5>
-		</div>
-		<div class="card-body">
-			<div class="row mb-3">
-				<div class="col-md-6">
-					<label for="filtrarPor"> Filtrar por:</label>
-					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
-						<option value="ID">ID</option>
-						<option value="Descripcion">Descripcion</option>
-						<option value="Tiempo">Tiempo</option>
-					</InputSelect>
-				</div>
+        <div class="card-header">
+            <h5 class="card-title text-center">Registro de Prioridades</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="filtrarPor">Filtrar por:</label>
+                    <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+                        <option value="ID">ID</option>
+                        <option value="Descripcion">Descripción</option>
+                        <option value="Tiempo">Tiempo</option>
+                        <option value="Fecha">Fecha</option>
+                    </InputSelect>
+                </div>
 
-				<div class="col-md-6 d-flex justify-content-center mt-4">
-					<div class="input-group">
-						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
-						<button @onclick="BuscarPrioridades" class="btn btn-primary bi bi-search "> Buscar</button>
-					</div>
-				</div>
-			</div>
+                <div class="col-md-6 d-flex justify-content-center mt-4">
+                    <div class="input-group">
+                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"
+                                   placeholder="@GetPlaceholder()"></InputText>
+                        <button @onclick="BuscarPrioridades" class="btn btn-outline-primary bi bi-search"> Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-			<div class="row mb-3">
-				<div class="col text-end">
-					<a href="/Prioridades/Create" class="btn btn-primary bi bi-plus-square mt-3">
-						Crear
-					</a>
-				</div>
-			</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="FechaInicio">Fecha Inicio:</label>
+                    <InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio"/>
+                </div>
 
-			<table class="table table-light table-hover">
-				<thead class="table table-striped ">
-					<tr class="text-center">
-						<th>Prioridad Id</th>
-						<th>Fecha</th>
-						<th>Descripc&iacute;on</th>
-						<th>Tiempo</th>
-						<th>Detalles</th>
-						<th>Modificar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var prioridad in Prioridades)
-					{
-						<tr class="text-center">
-							<td>@prioridad.PrioridadId</td>
-							<td>@prioridad.Fecha</td>
-							<td>@prioridad.Descripcion</td>
-							<td>@prioridad.Tiempo</td>
-							<td>
-								<a href="/Prioridades/Details/@prioridad.PrioridadId" class="btn btn-outline-success bi bi-eye"></a>
-							</td>
-							<td>
-								<a href="/Prioridades/Edit/@prioridad.PrioridadId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-							</td>
-							<td>
-								<a href="/Prioridades/Delete/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-trash"></a>
-							</td>
-						</tr>
-					}
-				</tbody>
+                <div class="col-md-6">
+                    <label for="FechaFinal">Fecha Final:</label>
+                    <div class="input-group">
+                        <InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
+                        <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+                    </div>
+                </div>
+            </div>
 
-			</table>
-		</div>
-		<div class="card-footer">
-			<p><strong>Total de Prioridades: </strong>@Prioridades.Count</p>
-		</div>
-	</div>
+            <div class="row mb-3">
+                <div class="col text-end">
+                    <a href="/Prioridades/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
+                </div>
+            </div>
+
+            <table class="table table-light table-hover">
+                <thead class="table table-striped">
+                    <tr class="text-center">
+                        <th>Prioridad Id</th>
+                        <th>Fecha</th>
+                        <th>Descripción</th>
+                        <th>Tiempo</th>
+                        <th>Detalles</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prioridad in Prioridades)
+                    {
+                        <tr class="text-center">
+                            <td>@prioridad.PrioridadId</td>
+                            <td>@prioridad.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@prioridad.Descripcion</td>
+                            <td>@prioridad.Tiempo</td>
+                            <td>
+                                <a href="/Prioridades/Details/@prioridad.PrioridadId" class="btn btn-outline-success bi bi-eye"></a>
+                            </td>
+                            <td>
+                                <a href="/Prioridades/Edit/@prioridad.PrioridadId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                            </td>
+                            <td>
+                                <a href="/Prioridades/Delete/@prioridad.PrioridadId" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <p><strong>Total de Prioridades: </strong>@Prioridades.Count</p>
+        </div>
+    </div>
 </div>
 
-@code
-{
+@code {
     public List<Prioridades> Prioridades { get; set; } = new List<Prioridades>();
     private string FiltroSeleccionado { get; set; } = "ID";
     private string CriterioBusqueda { get; set; } = string.Empty;
+    private DateTime? FechaInicio { get; set; }
+    private DateTime? FechaFinal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,14 +109,14 @@
         switch (FiltroSeleccionado)
         {
             case "ID":
-                if(int.TryParse(CriterioBusqueda, out int id))
+                if (int.TryParse(CriterioBusqueda, out int id))
                 {
                     Prioridades = await prioridadesService.Listar(a => a.PrioridadId == id);
                 }
                 break;
 
             case "Descripcion":
-                Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower())); ;
+                Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()));
                 break;
 
             case "Tiempo":
@@ -111,7 +126,42 @@
                 }
                 break;
 
+            case "Fecha":
+                if (FechaInicio.HasValue && FechaFinal.HasValue)
+                {
+                    Prioridades = await prioridadesService.Listar(a =>
+                        a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+                }
+                break;
         }
     }
-}
 
+    private async Task BuscarPorFechas()
+    {
+        if (FechaInicio.HasValue && FechaFinal.HasValue)
+        {
+            Prioridades = await prioridadesService.Listar(a =>
+                a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+        }
+    }
+
+    private async Task RefrescarDatos()
+    {
+        Prioridades = await prioridadesService.Listar(a => true);
+        CriterioBusqueda = string.Empty;
+        FechaInicio = null;
+        FechaFinal = null;
+    }
+
+    private string GetPlaceholder()
+    {
+        return FiltroSeleccionado switch
+        {
+            "ID" => "Buscar por ID",
+            "Descripcion" => "Buscar por Descripción",
+            "Tiempo" => "Buscar por Tiempo",
+            "Fecha" => "Buscar por Fecha",
+            _ => string.Empty,
+        };
+    }
+}
