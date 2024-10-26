@@ -104,7 +104,7 @@
 				break;
 
 			case "Descripcion":
-				TiposTecnico = await tiposTecnicosService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()));
+				TiposTecnico = await tiposTecnicosService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()) && e.Fecha >= FechaInicio && e.Fecha <= FechaFinal);
 				break;
 
 			case "Fecha":

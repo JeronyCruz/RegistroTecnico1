@@ -113,7 +113,7 @@
                 break;
 
             case "Nombre":
-                Clientes = await clienteService.Listar(e => e.Nombres.ToLower().Contains(CriterioBusqueda.ToLower()));
+                Clientes = await clienteService.Listar(e => e.Nombres.ToLower().Contains(CriterioBusqueda.ToLower()) && e.Fecha >= FechaInicio && e.Fecha <= FechaFinal);
                 break;
 
             case "Fecha":

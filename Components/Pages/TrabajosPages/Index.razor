@@ -19,6 +19,7 @@
 					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
 						<option value="ID">ID</option>
 						<option value="Fecha">Fecha</option>
+						<option value="Descripcion">Descripcion</option>
 					</InputSelect>
 				</div>
 
@@ -123,6 +124,11 @@
 					Trabajo = await trabajosService.Listar(a =>
 						a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
 				}
+				break;
+
+			case "Descripcion":
+				Trabajo = await trabajosService.Listar(a =>
+					a.Prioridad.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()) && a.Fecha >= FechaInicio && a.Fecha <= FechaFinal);
 				break;
 		}
 	}

@@ -116,7 +116,7 @@
                 break;
 
             case "Descripcion":
-                Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()));
+                Prioridades = await prioridadesService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()) && e.Fecha >= FechaInicio && e.Fecha <= FechaFinal);
                 break;
 
             case "Tiempo":

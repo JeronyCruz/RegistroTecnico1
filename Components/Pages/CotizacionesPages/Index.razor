@@ -17,6 +17,7 @@
                     <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
                         <option value="ID">ID</option>
                         <option value="Fecha">Fecha</option>
+                        <option value="Nombre">Nombre</option>
                     </InputSelect>
                 </div>
 
@@ -112,16 +113,30 @@
 
     private async Task BuscarCotizaciones()
     {
-        if (FiltroSeleccionado == "ID" && int.TryParse(CriterioBusqueda, out int id))
+        switch (FiltroSeleccionado)
         {
-            Cotizaciones = await cotizacionesService.Listar(a => a.CotizacionId == id);
-        }
-        else if (FiltroSeleccionado == "Fecha" && FechaInicio.HasValue && FechaFinal.HasValue)
-        {
-            Cotizaciones = await cotizacionesService.Listar(a =>
-                a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+            case "ID":
+                if (int.TryParse(CriterioBusqueda, out int id))
+                {
+                    Cotizaciones = await cotizacionesService.Listar(a => a.CotizacionId == id);
+                }
+                break;
+
+            case "Fecha":
+                if (FechaInicio.HasValue && FechaFinal.HasValue)
+                {
+                    Cotizaciones = await cotizacionesService.Listar(a =>
+                        a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+                }
+                break;
+            
+            case "Nombre":
+                Cotizaciones = await cotizacionesService.Listar(a =>
+                    a.Cliente.Nombres.ToLower().Contains(CriterioBusqueda.ToLower()) && a.Fecha >= FechaInicio && a.Fecha <= FechaFinal);
+                break;
         }
     }
+
 
     private async Task RefrescarDatos()
     {
