@@ -5,24 +5,21 @@ using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service
 {
-    public class ArticulosService
+    public class ArticulosService(IDbContextFactory<Context> DbFactory)
     {
-        private readonly Context _context;
-
-        public ArticulosService(Context context)
-        {
-            _context = context;
-        }
 
         public async Task<Articulos> Buscar(int id)
         {
-            return await _context.Articulos.AsNoTracking().
-                   FirstOrDefaultAsync(p => p.ArticuloId == id);
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Articulos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.ArticuloId == id);
         }
 
         public async Task<List<Articulos>> Listar(Expression<Func<Articulos, bool>> criterio)
         {
-            return await _context.Articulos
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Articulos
                 .AsNoTracking()
                 .Where(criterio)
                 .ToListAsync();

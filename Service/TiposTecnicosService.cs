@@ -5,28 +5,30 @@ using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
 
-public class TiposTecnicosService(Context context)
+public class TiposTecnicosService(IDbContextFactory<Context> DbFactory)
 {
-    private readonly Context _context = context;
 
     public async Task<bool> Existe(int id)
     {
-        return await _context.TiposTecnicos.AnyAsync(p => p.Id == id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.TiposTecnicos.AnyAsync(p => p.Id == id);
     }
 
     private async Task<bool> Insertar(TiposTecnicos tiposTecnicos)
     {
-        _context.TiposTecnicos.Add(tiposTecnicos);
-        return await _context.SaveChangesAsync() > 0;
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        contexto.TiposTecnicos.Add(tiposTecnicos);
+        return await contexto.SaveChangesAsync() > 0;
     }
 
     private async Task<bool> Modificar(TiposTecnicos tiposTecnicos)
     {
-        var existingTecnico = await _context.TiposTecnicos.FindAsync(tiposTecnicos.Id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var existingTecnico = await contexto.TiposTecnicos.FindAsync(tiposTecnicos.Id);
         if (existingTecnico != null)
         {
-            _context.Entry(existingTecnico).CurrentValues.SetValues(tiposTecnicos);
-            return await _context.SaveChangesAsync() > 0;
+            contexto.Entry(existingTecnico).CurrentValues.SetValues(tiposTecnicos);
+            return await contexto.SaveChangesAsync() > 0;
         }
         return false;
     }
@@ -41,11 +43,12 @@ public class TiposTecnicosService(Context context)
 
     public async Task<bool> Eliminar(int id)
     {
-        var tecnico = await _context.TiposTecnicos.FindAsync(id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var tecnico = await contexto.TiposTecnicos.FindAsync(id);
         if (tecnico != null)
         {
-            _context.TiposTecnicos.Remove(tecnico);
-            await _context.SaveChangesAsync();
+            contexto.TiposTecnicos.Remove(tecnico);
+            await contexto.SaveChangesAsync();
             return true;
         }
         return false;
@@ -53,21 +56,24 @@ public class TiposTecnicosService(Context context)
 
     public async Task<TiposTecnicos?> Buscar(int id)
     {
-        return await _context.TiposTecnicos.AsNoTracking().
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.TiposTecnicos.AsNoTracking().
             FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
     {
-        return await _context.TiposTecnicos.AsNoTracking()
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.TiposTecnicos.AsNoTracking()
             .Where(criterio)
             .ToListAsync();
     }
 
     public async Task<bool> DescripcionExiste(string descripcionTecnico)
     {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         var descripccionNormalizado = descripcionTecnico.Trim().ToLower();
-        return await _context.TiposTecnicos
+        return await contexto.TiposTecnicos
             .AnyAsync(t => t.Descripcion.Trim().ToLower() == descripccionNormalizado);
     }
 

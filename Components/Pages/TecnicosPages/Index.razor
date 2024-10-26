@@ -5,82 +5,92 @@
 <PageTitle> Registro de T&eacute;cnicos</PageTitle>
 
 <div class="container">
-	<div class="card shadow-lg">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h5 class="card-title text-center">Registro de Tecnicos</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="filtrarPor"> Filtrar por:</label>
+                    <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+                        <option value="ID">ID</option>
+                        <option value="Nombre">Nombre</option>
+                        <option value="Fecha">Fecha</option>
+                    </InputSelect>
+                </div>
 
-		<div class="card-header">
-			<h5 class="card-title text-center">Registro de Tecnicos</h5>
-		</div>
-		<div class="card-body">
-			<div class="row mb-3">
-				<div class="col-md-6">
-					<label for="filtrarPor"> Filtrar por:</label>
-					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
-						<option value="ID">ID</option>
-						<option value="Nombre">Nombre</option>
-					</InputSelect>
-				</div>
+                <div class="col-md-6 d-flex justify-content-center mt-4">
+                    <div class="input-group">
+                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="@GetPlaceholder()"></InputText>
+                        <button @onclick="BuscarTecnicos" class="btn btn-outline-primary bi bi-search"> Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-				<div class="col-md-6 d-flex justify-content-center mt-4">
-					<div class="input-group">
-						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
-						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
-					</div>
-				</div>
-			</div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="FechaInicio">Fecha Inicio:</label>
+                        <InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
+                    </div>
 
-			<div class="row mb-3">
-				<div class="col text-end">
-					<a href="/Tecnicos/Create" class="btn btn-primary bi bi-plus-square mt-3">
-						Crear
-					</a>
-				</div>
-			</div>
+                    <div class="col-md-6">
+                        <label for="FechaFinal">Fecha Final:</label>
+                        <div class="input-group">
+                            <InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
+                            <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+                        </div>
+                    </div>
+                </div>
 
-			<table class="table table-light table-hover">
-				<thead class="table table-striped ">
-					<tr class="text-center">
-						<th>T&eacute;cnico Id</th>
-						<th>Nombre</th>
-						<th>Descripc&iacute;on</th>
-						<th>Sueldo Hora</th>
-						<th>Detalles</th>
-						<th>Modificar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var tecnico in Tecnico)
-					{
-						<tr class="text-center">
-							<td>@tecnico.TecnicoId</td>
-							<td>@tecnico.NombresTecnico</td>
-							<td>@tecnico.TipoTecnico?.Descripcion</td>
-							<td>@tecnico.SueldoHora $</td>
-							<td>
-								<a href="/Tecnicos/Details/@tecnico.TecnicoId" class="btn btn-primary bi bi-eye"></a>
-							</td>
-							<td>
-								<a href="/Tecnicos/Edit/@tecnico.TecnicoId" class="btn btn-primary bi bi-pencil-square"></a>
-							</td>
-							<td>
-								<a href="/Tecnicos/Delete/@tecnico.TecnicoId" class="btn btn-primary bi bi-trash"></a>
-							</td>
-						</tr>
-					}
-				</tbody>
+            <div class="row mb-3">
+                <div class="col text-end">
+                    <a href="/Tecnicos/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
+                </div>
+            </div>
 
-			</table>
-		</div>
-		<div class="card-footer">
-		</div>
-	</div>
+            <table class="table table-light table-hover">
+                <thead class="table table-striped">
+                    <tr class="text-center">
+                        <th>T&eacute;cnico Id</th>
+                        <th>Fecha</th>
+                        <th>Nombre</th>
+                        <th>Descripc&iacute;on</th>
+                        <th>Sueldo Hora</th>
+                        <th>Detalles</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tecnico in Tecnico)
+                    {
+                        <tr class="text-center">
+                            <td>@tecnico.TecnicoId</td>
+                            <td>@tecnico.Fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@tecnico.NombresTecnico</td>
+                            <td>@tecnico.TipoTecnico?.Descripcion</td>
+                            <td>@tecnico.SueldoHora $</td>
+                            <td><a href="/Tecnicos/Details/@tecnico.TecnicoId" class="btn btn-outline-success bi bi-eye"></a></td>
+                            <td><a href="/Tecnicos/Edit/@tecnico.TecnicoId" class="btn btn-outline-primary bi bi-pencil-square"></a></td>
+                            <td><a href="/Tecnicos/Delete/@tecnico.TecnicoId" class="btn btn-outline-danger bi bi-trash"></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <p><strong>Total de T&eacute;cnico: </strong>@Tecnico.Count</p>
+        </div>
+    </div>
 </div>
-
 
 @code {
     public List<Tecnicos> Tecnico { get; set; } = new List<Tecnicos>();
     private string FiltroSeleccionado { get; set; } = "ID";
     private string CriterioBusqueda { get; set; } = string.Empty;
+    private DateTime? FechaInicio { get; set; }
+    private DateTime? FechaFinal { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -99,10 +109,35 @@
                 break;
 
             case "Nombre":
-                Tecnico = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(CriterioBusqueda.ToLower())); ;
+                Tecnico = await tecnicoService.Listar(e => e.NombresTecnico.ToLower().Contains(CriterioBusqueda.ToLower()) && e.Fecha >= FechaInicio && e.Fecha <= FechaFinal);
                 break;
 
+            case "Fecha":
+                if (FechaInicio.HasValue && FechaFinal.HasValue)
+                {
+                    Tecnico = await tecnicoService.Listar(a =>
+                        a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+                }
+                break;
         }
     }
 
+    private async Task RefrescarDatos()
+    {
+        Tecnico = await tecnicoService.Listar(a => true);
+        CriterioBusqueda = string.Empty;
+        FechaInicio = null;
+        FechaFinal = null;
+    }
+
+    private string GetPlaceholder()
+    {
+        return FiltroSeleccionado switch
+        {
+            "ID" => "Buscar por ID",
+            "Nombre" => "Buscar por Nombre",
+            "Fecha" => "Buscar por Fecha",
+            _ => string.Empty,
+        };
+    }
 }

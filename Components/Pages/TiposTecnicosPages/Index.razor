@@ -6,7 +6,6 @@
 
 <div class="container">
 	<div class="card shadow-lg">
-
 		<div class="card-header">
 			<h5 class="card-title text-center">Registro de Tipos Tecnicos</h5>
 		</div>
@@ -17,29 +16,43 @@
 					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
 						<option value="ID">ID</option>
 						<option value="Descripcion">Descripcion</option>
+						<option value="Fecha">Fecha</option>
 					</InputSelect>
 				</div>
 
 				<div class="col-md-6 d-flex justify-content-center mt-4">
 					<div class="input-group">
-						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
-						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="@GetPlaceholder()"></InputText>
+						<button @onclick="BuscarTecnicos" class="btn btn-outline-primary bi bi-search"> Buscar</button>
 					</div>
 				</div>
 			</div>
 
+				<div class="row mb-3">
+					<div class="col-md-6">
+						<label for="FechaInicio">Fecha Inicio:</label>
+						<InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
+					</div>
+					<div class="col-md-6">
+						<label for="FechaFinal">Fecha Final:</label>
+						<div class="input-group">
+							<InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
+							<button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+						</div>
+					</div>
+				</div>
+
 			<div class="row mb-3">
 				<div class="col text-end">
-					<a href="/TiposTecnicos/Create" class="btn btn-primary bi bi-plus-square mt-3">
-						Crear
-					</a>
+					<a href="/TiposTecnicos/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
 				</div>
 			</div>
 
 			<table class="table table-light table-hover">
-				<thead class="table table-striped ">
+				<thead class="table table-striped">
 					<tr class="text-center">
 						<th>Tipos T&eacute;cnico Id</th>
+						<th>Fecha</th>
 						<th>Descripc&iacute;on</th>
 						<th>Detalles</th>
 						<th>Modificar</th>
@@ -51,54 +64,74 @@
 					{
 						<tr class="text-center">
 							<td>@tiposTecnico.Id</td>
+							<td>@tiposTecnico.Fecha.ToString("dd/MM/yyyy")</td>
 							<td>@tiposTecnico.Descripcion</td>
-							<td>
-								<a href="/TiposTecnicos/Details/@tiposTecnico.Id" class="btn btn-primary bi bi-eye"></a>
-							</td>
-							<td>
-								<a href="/TiposTecnicos/Edit/@tiposTecnico.Id" class="btn btn-primary bi bi-pencil-square"></a>
-							</td>
-							<td>
-								<a href="/TiposTecnicos/Delete/@tiposTecnico.Id" class="btn btn-primary bi bi-trash"></a>
-							</td>
+							<td><a href="/TiposTecnicos/Details/@tiposTecnico.Id" class="btn btn-outline-success bi bi-eye"></a></td>
+							<td><a href="/TiposTecnicos/Edit/@tiposTecnico.Id" class="btn btn-outline-primary bi bi-pencil-square"></a></td>
+							<td><a href="/TiposTecnicos/Delete/@tiposTecnico.Id" class="btn btn-outline-danger bi bi-trash"></a></td>
 						</tr>
 					}
 				</tbody>
-
 			</table>
 		</div>
 		<div class="card-footer">
+			<p><strong>Total de Tipos de T&eacute;cnico: </strong>@TiposTecnico.Count</p>
 		</div>
 	</div>
 </div>
 
-
 @code {
-    public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
-    private string FiltroSeleccionado { get; set; } = "ID";
-    private string CriterioBusqueda { get; set; } = string.Empty;
+	public List<TiposTecnicos> TiposTecnico { get; set; } = new List<TiposTecnicos>();
+	private string FiltroSeleccionado { get; set; } = "ID";
+	private string CriterioBusqueda { get; set; } = string.Empty;
+	private DateTime? FechaInicio { get; set; }
+	private DateTime? FechaFinal { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        TiposTecnico = await tiposTecnicosService.Listar(a => true);
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		TiposTecnico = await tiposTecnicosService.Listar(a => true);
+	}
 
-    private async Task BuscarTecnicos()
-    {
-        switch (FiltroSeleccionado)
-        {
-            case "ID":
-                if (int.TryParse(CriterioBusqueda, out int id))
-                {
-                    TiposTecnico = await tiposTecnicosService.Listar(a => a.Id == id);
-                }
-                break;
+	private async Task BuscarTecnicos()
+	{
+		switch (FiltroSeleccionado)
+		{
+			case "ID":
+				if (int.TryParse(CriterioBusqueda, out int id))
+				{
+					TiposTecnico = await tiposTecnicosService.Listar(a => a.Id == id);
+				}
+				break;
 
-            case "Descripcion":
-                TiposTecnico = await tiposTecnicosService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower())); ;
-                break;
+			case "Descripcion":
+				TiposTecnico = await tiposTecnicosService.Listar(e => e.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()) && e.Fecha >= FechaInicio && e.Fecha <= FechaFinal);
+				break;
 
-        }
-    }
+			case "Fecha":
+				if (FechaInicio.HasValue && FechaFinal.HasValue)
+				{
+					TiposTecnico = await tiposTecnicosService.Listar(a => a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+				}
+				break;
+		}
+	}
 
+	private async Task RefrescarDatos()
+	{
+		TiposTecnico = await tiposTecnicosService.Listar(a => true);
+		CriterioBusqueda = string.Empty;
+		FechaInicio = null;
+		FechaFinal = null;
+	}
+
+	private string GetPlaceholder()
+	{
+		return FiltroSeleccionado switch
+		{
+			"ID" => "Buscar por ID",
+			"Descripcion" => "Buscar por Descripción",
+			"Fecha" => "Buscar por Fecha",
+			_ => string.Empty,
+		};
+	}
 }

@@ -4,28 +4,30 @@ using RegistroTecnico1.Models;
 using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
-    public class TecnicoService(Context context)
+    public class TecnicoService(IDbContextFactory<Context> DbFactory)
 {
-        private readonly Context _context = context;
 
     public async Task<bool> Existe(int id)
         {
-            return await _context.Tecnicos.AnyAsync(p => p.TecnicoId == id);
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Tecnicos.AnyAsync(p => p.TecnicoId == id);
         }
 
         private async Task<bool> Insertar(Tecnicos tecnicos)
         {
-            _context.Tecnicos.Add(tecnicos);
-            return await _context.SaveChangesAsync() > 0;
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            contexto.Tecnicos.Add(tecnicos);
+            return await contexto.SaveChangesAsync() > 0;
         }
 
         private async Task<bool> Modificar(Tecnicos tecnicos)
         {
-            var existingTecnico = await _context.Tecnicos.FindAsync(tecnicos.TecnicoId);
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            var existingTecnico = await contexto.Tecnicos.FindAsync(tecnicos.TecnicoId);
             if (existingTecnico != null)
             {
-                _context.Entry(existingTecnico).CurrentValues.SetValues(tecnicos);
-                return await _context.SaveChangesAsync() > 0;
+                contexto.Entry(existingTecnico).CurrentValues.SetValues(tecnicos);
+                return await contexto.SaveChangesAsync() > 0;
             }
             return false;
         }
@@ -40,11 +42,12 @@ namespace RegistroTecnico1.Service;
 
         public async Task<bool> Eliminar(int id)
         {
-            var tecnico = await _context.Tecnicos.FindAsync(id);
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            var tecnico = await contexto.Tecnicos.FindAsync(id);
             if (tecnico != null)
             {
-                _context.Tecnicos.Remove(tecnico);
-                await _context.SaveChangesAsync();
+                contexto.Tecnicos.Remove(tecnico);
+                await contexto.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -52,14 +55,16 @@ namespace RegistroTecnico1.Service;
 
         public async Task<Tecnicos?> Buscar(int id)
         {
-            return await _context.Tecnicos.Include(x => x.TipoTecnico)
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Tecnicos.Include(x => x.TipoTecnico)
             .AsNoTracking().
                 FirstOrDefaultAsync(p => p.TecnicoId == id);
         }
 
         public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
         {
-            return await _context.Tecnicos.Include(x => x.TipoTecnico)
+            await using var contexto = await DbFactory.CreateDbContextAsync();
+            return await contexto.Tecnicos.Include(x => x.TipoTecnico)
             .AsNoTracking()
                 .Where(criterio)
                 .ToListAsync();
@@ -67,8 +72,9 @@ namespace RegistroTecnico1.Service;
 
         public async Task<bool> NombreExiste(string nombreTecnico)
         {
+            await using var contexto = await DbFactory.CreateDbContextAsync();
             var nombreTecnicoNormalizado = nombreTecnico.Trim().ToLower();
-            return await _context.Tecnicos
+            return await contexto.Tecnicos
                 .AnyAsync(t => t.NombresTecnico.Trim().ToLower() == nombreTecnicoNormalizado);
         }
 

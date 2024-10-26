@@ -14,4 +14,7 @@ public class Clientes
     [Required(ErrorMessage ="Por favor, ingrese el numero de WhatsApp")]
     [RegularExpression(@"^\d+$" , ErrorMessage ="Solo se permiten Numeros")]
     public string WhatsApp { get; set; }
+
+    [Required(ErrorMessage = "Campo Obligatorio")]
+    public DateTime Fecha { get; set; } = DateTime.Now;
 }

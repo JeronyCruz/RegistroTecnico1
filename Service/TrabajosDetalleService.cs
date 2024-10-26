@@ -5,18 +5,13 @@ using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
 
-public class TrabajosDetalleService
+public class TrabajosDetalleService(IDbContextFactory<Context> DbFactory)
 {
-	private readonly Context _context;
-
-	public TrabajosDetalleService(Context context)
-	{
-		_context = context;
-	}
 
     public async Task<List<Articulos>> Listar(Expression<Func<Articulos, bool>> criterio)
     {
-        return await _context.Articulos
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Articulos
 			.AsNoTracking()
 			.Where(criterio)
 			.ToListAsync();

@@ -19,4 +19,8 @@ namespace RegistroTecnico1.Models;
         [ForeignKey("TipoTecnico")]
         public int Id { get; set; }
         public TiposTecnicos? TipoTecnico { get; set; }
-    }
+
+
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        public DateTime Fecha { get; set; } = DateTime.Now;
+}

@@ -9,7 +9,6 @@
 
 <div class="container">
 	<div class="card shadow-lg">
-
 		<div class="card-header">
 			<h5 class="card-title text-center ">Registro de Trabajo</h5>
 		</div>
@@ -19,22 +18,36 @@
 					<label for="filtrarPor"> Filtrar por:</label>
 					<InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
 						<option value="ID">ID</option>
+						<option value="Fecha">Fecha</option>
+						<option value="Descripcion">Descripcion</option>
 					</InputSelect>
 				</div>
 
 				<div class="col-md-6 d-flex justify-content-center mt-4">
 					<div class="input-group">
-						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"></InputText>
-						<button @onclick="BuscarTecnicos" class="btn btn-primary bi bi-search "> Buscar</button>
+						<InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda" placeholder="@GetPlaceholder()"></InputText>
+						<button @onclick="BuscarTrabajos" class="btn btn-outline-primary bi bi-search"> Buscar</button>
 					</div>
 				</div>
 			</div>
 
+				<div class="row mb-3">
+					<div class="col-md-6">
+						<label for="FechaInicio">Fecha Inicio:</label>
+						<InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
+					</div>
+					<div class="col-md-6">
+						<label for="FechaFinal">Fecha Final:</label>
+						<div class="input-group">
+							<InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
+							<button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+						</div>
+					</div>
+				</div>
+
 			<div class="row mb-3">
 				<div class="col text-end">
-					<a href="/Trabajos/Create" class="btn btn-primary bi bi-plus-square mt-3">
-						Crear
-					</a>
+					<a href="/Trabajos/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
 				</div>
 			</div>
 
@@ -68,19 +81,12 @@
 							<td>@trabajo.Tecnico?.NombresTecnico</td>
 							<td>@trabajo.Descripcion</td>
 							<td>@trabajo.Monto.ToString("N2")</td>
-							<td>
-								<a href="/Trabajos/Details/@trabajo.TrabajoId" class="btn btn-primary bi bi-eye"></a>
-							</td>
-							<td>
-								<a href="/Trabajos/Edit/@trabajo.TrabajoId" class="btn btn-primary bi bi-pencil-square"></a>
-							</td>
-							<td>
-								<a href="/Trabajos/Delete/@trabajo.TrabajoId" class="btn btn-primary bi bi-trash"></a>
-							</td>
+							<td><a href="/Trabajos/Details/@trabajo.TrabajoId" class="btn btn-outline-success bi bi-eye"></a></td>
+							<td><a href="/Trabajos/Edit/@trabajo.TrabajoId" class="btn btn-outline-primary bi bi-pencil-square"></a></td>
+							<td><a href="/Trabajos/Delete/@trabajo.TrabajoId" class="btn btn-outline-danger bi bi-trash"></a></td>
 						</tr>
 					}
 				</tbody>
-
 			</table>
 		</div>
 		<div class="card-footer">
@@ -89,29 +95,59 @@
 	</div>
 </div>
 
-
 @code {
-    public List<Trabajos> Trabajo { get; set; } = new List<Trabajos>();
-    private string FiltroSeleccionado { get; set; } = "ID";
-    private string CriterioBusqueda { get; set; } = string.Empty;
+	public List<Trabajos> Trabajo { get; set; } = new List<Trabajos>();
+	private string FiltroSeleccionado { get; set; } = "ID";
+	private string CriterioBusqueda { get; set; } = string.Empty;
+	private DateTime? FechaInicio { get; set; }
+	private DateTime? FechaFinal { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        Trabajo = await trabajosService.Listar(a => true);
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		Trabajo = await trabajosService.Listar(a => true);
+	}
 
-    private async Task BuscarTecnicos()
-    {
-        switch (FiltroSeleccionado)
-        {
-            case "ID":
-                if (int.TryParse(CriterioBusqueda, out int id))
-                {
-                    Trabajo = await trabajosService.Listar(a => a.TrabajoId == id);
-                }
-                break;
+	private async Task BuscarTrabajos()
+	{
+		switch (FiltroSeleccionado)
+		{
+			case "ID":
+				if (int.TryParse(CriterioBusqueda, out int id))
+				{
+					Trabajo = await trabajosService.Listar(a => a.TrabajoId == id);
+				}
+				break;
 
-        }
-    }
+			case "Fecha":
+				if (FechaInicio.HasValue && FechaFinal.HasValue)
+				{
+					Trabajo = await trabajosService.Listar(a =>
+						a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+				}
+				break;
 
+			case "Descripcion":
+				Trabajo = await trabajosService.Listar(a =>
+					a.Prioridad.Descripcion.ToLower().Contains(CriterioBusqueda.ToLower()) && a.Fecha >= FechaInicio && a.Fecha <= FechaFinal);
+				break;
+		}
+	}
+
+	private async Task RefrescarDatos()
+	{
+		Trabajo = await trabajosService.Listar(a => true);
+		CriterioBusqueda = string.Empty;
+		FechaInicio = null;
+		FechaFinal = null;
+	}
+
+	private string GetPlaceholder()
+	{
+		return FiltroSeleccionado switch
+		{
+			"ID" => "Buscar por ID",
+			"Fecha" => "Buscar por Fecha",
+			_ => string.Empty,
+		};
+	}
 }

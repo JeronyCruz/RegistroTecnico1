@@ -10,4 +10,7 @@ public class TiposTecnicos
     [Required(ErrorMessage = "Por favor ingrese la descripccion del Tecnico")]
     [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Solo se permiten letras")]
     public string Descripcion { get; set; }
+
+    [Required(ErrorMessage = "Campo Obligatorio")]
+    public DateTime Fecha { get; set; } = DateTime.Now;
 }

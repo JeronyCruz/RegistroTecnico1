@@ -5,28 +5,30 @@ using System.Linq.Expressions;
 
 namespace RegistroTecnico1.Service;
 
-public class PrioridadesService(Context context)
+public class PrioridadesService(IDbContextFactory<Context> DbFactory)
 {
-    private readonly Context _context = context;
 
     public async Task<bool> Existe(int id)
     {
-        return await _context.Prioridades.AnyAsync(a => a.PrioridadId == id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Prioridades.AnyAsync(a => a.PrioridadId == id);
     }
 
     private async Task<bool> Insertar(Prioridades prioridades)
     {
-        _context.Prioridades.Add(prioridades);
-        return await _context.SaveChangesAsync() > 0;
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        contexto.Prioridades.Add(prioridades);
+        return await contexto.SaveChangesAsync() > 0;
     }
 
     private async Task<bool> Modificar(Prioridades prioridades)
     {
-        var existingPrioridades = await _context.Prioridades.FindAsync(prioridades.PrioridadId);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var existingPrioridades = await contexto.Prioridades.FindAsync(prioridades.PrioridadId);
         if(existingPrioridades != null)
         {
-            _context.Entry(existingPrioridades).CurrentValues.SetValues(prioridades);
-            return await _context.SaveChangesAsync() > 0;
+            contexto.Entry(existingPrioridades).CurrentValues.SetValues(prioridades);
+            return await contexto.SaveChangesAsync() > 0;
         }
         return false;
     }
@@ -41,11 +43,12 @@ public class PrioridadesService(Context context)
 
     public async Task<bool> Eliminar(int id)
     {
-        var prioridad = await _context.Prioridades.FindAsync(id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        var prioridad = await contexto.Prioridades.FindAsync(id);
         if(prioridad != null)
         {
-            _context.Prioridades.Remove(prioridad);
-            await _context.SaveChangesAsync();
+            contexto.Prioridades.Remove(prioridad);
+            await contexto.SaveChangesAsync();
             return true;
         }
         return false;
@@ -53,23 +56,34 @@ public class PrioridadesService(Context context)
 
     public async Task<Prioridades> Buscar(int id)
     {
-        return await _context.Prioridades.AsNoTracking().FirstOrDefaultAsync(p => p.PrioridadId == id);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Prioridades
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.PrioridadId == id);
     }
 
     public async Task<List<Prioridades>> Listar(Expression<Func<Prioridades, bool>> criterio)
     {
-        return await _context.Prioridades.AsNoTracking().Where(criterio).ToListAsync();
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Prioridades
+            .AsNoTracking()
+            .Where(criterio)
+            .ToListAsync();
     }
 
     public async Task<bool> DescripcionExiste(string descripcion)
     {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         var descripcionNormalizado = descripcion.Trim().ToLower();
-        return await _context.Prioridades.AnyAsync(t => t.Descripcion.Trim().ToLower() == descripcionNormalizado);
+        return await contexto.Prioridades
+            .AnyAsync(t => t.Descripcion.Trim().ToLower() == descripcionNormalizado);
     }
 
     public async Task<bool> TiempoExiste(int tiempo)
     {
-        return await _context.Prioridades.AnyAsync(t => t.Tiempo == tiempo);
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.Prioridades
+            .AnyAsync(t => t.Tiempo == tiempo);
     }
 
 
