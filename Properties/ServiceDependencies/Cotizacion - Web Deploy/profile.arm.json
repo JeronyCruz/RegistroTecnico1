@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "RegistroTrabajosArticulos2",
+      "defaultValue": "Cotizacion",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }
